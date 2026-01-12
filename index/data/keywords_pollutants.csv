@@ -1,0 +1,22 @@
+type,term,label,id
+pollutant,CO2 Equivalent,CO2e, 98
+pollutant,Total Energy Consumption,TEC,91
+pollutant,Total Gaseous Hydrocarbons (TGH),TGH, 1
+pollutant,Methane (CH4),CH4,5
+pollutant,Atmospheric CO2,Atmosp. CO2, 90
+pollutant,Sulfur Dioxides (SO2),SO2,31
+pollutant,Oxides of Nitrogen (NOx),NOx,3
+pollutant,Nitrous Oxide (N2O),N2O,6
+pollutant,Carbon Monoxide (CO),CO,2
+pollutant,Volatile Organic Compounds,VOC,87
+pollutant,Non-Methane Hydrocarbons,NMH,79
+pollutant,Primary Exhaust PM2.5 - Total, PM2.5, 110
+pollutant,Primary PM2.5 - Tirewear Particulate, PM2.5 - Tirewear,117
+pollutant,Primary PM2.5 - Brakeware Particulate, PM2.5 - Brakewear, 116
+pollutant,Elemental Carbon,Elem. C, 112
+pollutant,Sulfate Particulate,Sulfate, 115
+pollutant,Composite - NonECPM, NonECPMs, 118
+pollutant,H20 (aerosol),H2O, 119
+pollutant,Primary Exhaust PM10 - Total, PM10, 100
+pollutant,Primary PM10 - Breakware Particulate,PM10 - Breakware,106
+pollutant,Primary PM10 - Tirewear Particulate,PM10 - Tirewear, 107
