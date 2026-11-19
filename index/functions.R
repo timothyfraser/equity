@@ -1304,7 +1304,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
   
   data = stat_overall %>%
     filter(dist == .dist, pollutant == .pollutant, year == .year) %>%
-    pivot_longer(cols = -c("region", "year", "pollutant", "dist"), names_to = "type", values_to = "value")
+    pivot_longer(cols = c("total", "income", "race", "edu", "age"), names_to = "type", values_to = "value")
   
   bands = data %>%
     group_by(region, pollutant, year, dist) %>%
@@ -1790,8 +1790,10 @@ get_corr = function(data_regions = read_rds("data/regions_ny_data.rds"),
     ungroup()
 }
 
-get_corr(.pollutant = 110) %>%
-  summarize(r = cor(emissions, race, use = "pairwise.complete.obs"))
+if (interactive()) {
+  get_corr(.pollutant = 110) %>%
+    summarize(r = cor(emissions, race, use = "pairwise.complete.obs"))
+}
 
 get_sensitivity_distance1 = function(
     sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"),
