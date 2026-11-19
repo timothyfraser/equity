@@ -1,0 +1,44 @@
+CAT bulk emissions provenance
+manifest: MANIFEST-e2ccfae4.tsv
+downloaded (UTC): 2026-11-19 22:06:54
+object URLs:
+  https://api.cat-apps.com/objects/year/2020.parquet
+  https://api.cat-apps.com/objects/year/2025.parquet
+  https://api.cat-apps.com/objects/year/2022.parquet
+test/emissions_all_pollutants.{csv,rds} rows: 1282
+test/emissions_2022_exact.rds rows: 418
+rows per year x pollutant (all_pollutants):
+  2020 pollutant 2: 62 rows
+  2020 pollutant 3: 62 rows
+  2020 pollutant 31: 62 rows
+  2020 pollutant 33: 1 rows
+  2020 pollutant 98: 62 rows
+  2020 pollutant 100: 62 rows
+  2020 pollutant 106: 62 rows
+  2020 pollutant 107: 62 rows
+  2020 pollutant 110: 62 rows
+  2020 pollutant 116: 62 rows
+  2020 pollutant 117: 62 rows
+  2025 pollutant 2: 62 rows
+  2025 pollutant 3: 62 rows
+  2025 pollutant 31: 62 rows
+  2025 pollutant 33: 41 rows
+  2025 pollutant 98: 62 rows
+  2025 pollutant 100: 62 rows
+  2025 pollutant 106: 62 rows
+  2025 pollutant 107: 62 rows
+  2025 pollutant 110: 62 rows
+  2025 pollutant 116: 62 rows
+  2025 pollutant 117: 62 rows
+rows per year x pollutant (2022 exact):
+  2022 pollutant 2: 38 rows
+  2022 pollutant 3: 38 rows
+  2022 pollutant 31: 38 rows
+  2022 pollutant 33: 38 rows
+  2022 pollutant 98: 38 rows
+  2022 pollutant 100: 38 rows
+  2022 pollutant 106: 38 rows
+  2022 pollutant 107: 38 rows
+  2022 pollutant 110: 38 rows
+  2022 pollutant 116: 38 rows
+  2022 pollutant 117: 38 rows
