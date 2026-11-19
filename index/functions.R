@@ -1277,7 +1277,8 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
     ) +
     # geom_point(data = joined,
     #          mapping = aes(x = reorder(region, indicator2), y = indicator2)) +
-    scale_y_continuous(limits = c(xmin,1), oob = scales::squish, expand = expansion(c(0,0)),
+    # Right-hand expansion leaves room for value labels now that corrected scores sit near 1 (2026-11-19)
+    scale_y_continuous(limits = c(xmin,1), oob = scales::squish, expand = expansion(mult = c(0, 0.10)),
                        breaks = seq(from = xmin, to = 1, length.out = 5)) +
     coord_flip() +
     labs(x = NULL, y = paste0(
@@ -1757,7 +1758,8 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
     ) +
     scale_y_continuous(
       oob = scales::oob_squish, limits = c(xmin, 1),
-      expand = expansion(c(0,0.02))) +
+      # wider right margin so left-aligned labels near 1 are not clipped (2026-11-19)
+      expand = expansion(mult = c(0, 0.14))) +
     labs(y = "Race/Ethnicity Equity Index (0 to 1)")
   
   gg = ggpubr::ggarrange(
