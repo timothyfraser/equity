@@ -925,7 +925,12 @@ get_region_group_values = function(county_group_values, myvars, region = "region
     ) %>%
     # Calculate population-adjusted eshare, called epshare  
     mutate(epshare = eshare / pshare) %>%
-    mutate(epshare = if_else(is.nan(epshare) | is.infinite(epshare), true = 0, false = epshare)) %>%
+    # A group with zero population in the region is absent, not scored: NA (dropped by get_index()).
+    # A group that exists but has no emissions share keeps 0.
+    mutate(epshare = case_when(
+      pshare == 0 ~ NA_real_,
+      is.nan(epshare) | is.infinite(epshare) ~ 0,
+      TRUE ~ epshare)) %>%
     group_by(region) %>%
     mutate(epshare = epshare / sum(epshare, na.rm = TRUE))  %>%
     ungroup()
@@ -978,7 +983,22 @@ get_diffmax = function(n_groups){
 #' @examples
 #' get_index(x = c(0.25, 0.25, 0.25, 0.25))
 #' get_index(x = c(0.20, 0.20, 0.20, 0.20, 0.20))
-get_index = function(x){ n_x = length(x); 1 - sum( abs( x - 1/n_x ) ) * ( ( n_x - 2 ) / 3 )  }
+get_index_legacy = function(x){ n_x = length(x); 1 - sum( abs( x - 1/n_x ) ) * ( ( n_x - 2 ) / 3 )  }
+
+#' @name get_index
+#' @title Equal-group equity index over n group shares (corrected normaliser)
+#' @description Generalises Moro, Calacci, Dong & Pentland (2021, Nat Commun 12:4633,
+#'   doi 10.1038/s41467-021-24899-8), S = (2/3) * sum_q |tau_q - 1/4| over 4 quartiles, to n groups.
+#'   sum|x_i - 1/n| is convex on the simplex, so its max is at a corner: (1 - 1/n) + (n - 1)/n = 2(n - 1)/n;
+#'   the normaliser is its reciprocal n / (2(n - 1)) (= 2/3 at n = 4), so I is bounded in [0, 1].
+#' @param x numeric shares summing to 1; NA entries (groups absent from the region) are dropped.
+#' @return 1 = equal shares across groups, 0 = one group holds everything; NA_real_ if < 2 groups.
+get_index = function(x){
+  x = x[!is.na(x)]            # groups absent from the region are not scored
+  n_x = length(x)
+  if(n_x < 2){ return(NA_real_) }
+  1 - sum( abs( x - 1/n_x ) ) * ( n_x / (2 * (n_x - 1)) )
+}
 
 #' @name get_indicator
 #' @title Calculate indicator from a data.frame of region-group values
@@ -1011,6 +1031,10 @@ get_indicator = function(region_group_values, type = "race"){
       # By default, this means 1 = perfect homophily - which in this case means inequity
       # So we should flip it so that 1 = perfect equity (heterophily) and 0 = perfect inequity
       indicator2 = get_index(x = epshare),
+      # As published: old normaliser (n - 2)/3, absent groups scored as 0
+      indicator_legacy = get_index_legacy(x = replace(epshare, is.na(epshare), 0)),
+      # Population-weighted companion: 1 - Duncan & Duncan (1955) dissimilarity index
+      indicator_pw = 1 - 0.5 * sum(abs(eshare - pshare), na.rm = TRUE),
       
       type = type,
       .groups = "drop"
@@ -1544,57 +1568,60 @@ get_all = function(myregions,
 
 
 
-get_overall = function(myyear = 2022, pollutant = 98, dist = 1000){
+get_overall = function(myyear = 2022, pollutant = 98, dist = 1000,
+                       path_emissions = "test/emissions_all_pollutants.rds",
+                       outdir = "test",
+                       myregions = read_rds("data/regions_ny_data.rds")){
   
   # Testing values
   # myyear = 2022; pollutant = 2; dist = 1000
   
   # Run this script!
   data1 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
     index = "age",
     myvars =  c("age_under_18", "age_18_34", "age_35_64", "age_65_and_over"))
   
   data1 %>%
-    saveRDS(paste0("test/stat_age_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_age_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   
   data2 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     index = "income",
     myvars =  c("income_0_24999", "income_25000_49999", "income_50000_74999", "income_75000_99999",
                 "income_100000_124999", "income_125000_149999", "income_150000_199999", "income_200000_or_more" ))
   
   data2 %>%
-    saveRDS(paste0("test/stat_income_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_income_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   data3 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     index = "edu",
     myvars =  c("edu_less_than_hs", "edu_hs_grad", "edu_some_college_or_more", "edu_postgrad")
   ) 
   
   data3 %>%
-    saveRDS(paste0("test/stat_edu_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_edu_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   data4 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     index = "race",
     myvars =  c(
       "White_alone_Not_Hispanic_or_Latino_Population",
@@ -1612,7 +1639,7 @@ get_overall = function(myyear = 2022, pollutant = 98, dist = 1000){
   )
   
   data4 %>%
-    saveRDS(paste0("test/stat_race_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_race_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   total = bind_rows(
     data1$indicators,
@@ -1621,7 +1648,10 @@ get_overall = function(myyear = 2022, pollutant = 98, dist = 1000){
     data4$indicators
   ) %>%
     group_by(region) %>%
-    summarize(indicator2 = mean(indicator2, na.rm = TRUE), .groups = "drop") %>%
+    summarize(indicator2 = mean(indicator2, na.rm = TRUE),
+              indicator_legacy = mean(indicator_legacy, na.rm = TRUE),
+              indicator_pw = mean(indicator_pw, na.rm = TRUE),
+              .groups = "drop") %>%
     mutate(type = "total")
   
   edu_vars = 
@@ -1636,6 +1666,22 @@ get_overall = function(myyear = 2022, pollutant = 98, dist = 1000){
            dist = dist,
            year = myyear) %>%
     tidyr::pivot_wider(id_cols = c(year, pollutant, dist, region), names_from = type, values_from = indicator2)
+  # Companion scores beside the paper's index: <type>_legacy (as published) and <type>_pw (population-weighted)
+  companions = bind_rows(
+      data1$indicators,
+      data2$indicators,
+      data3$indicators,
+      data4$indicators,
+      total
+    ) %>%
+    mutate(pollutant = pollutant,
+           dist = dist,
+           year = myyear) %>%
+    tidyr::pivot_wider(id_cols = c(year, pollutant, dist, region), names_from = type,
+                       values_from = c(indicator_legacy, indicator_pw),
+                       names_glue = "{type}_{sub('^indicator_', '', .value)}")
+  output = output %>%
+    left_join(by = c("year", "pollutant", "dist", "region"), y = companions)
   return(output)
 }
 
