@@ -1,109 +1,101 @@
-<!-- README.md (or any GitHub-rendered Markdown file) -->
+# equity: exposure to transportation emissions across American communities
 
-<h1>
-  <code style="font-size: 200%; font-weight: bold;">equity_index</code>
-  <img src="https://github.coecis.cornell.edu/CAT/equity/assets/19536/74379b17-f711-4d4f-8ed5-73290f0afd46"
-       width="260" align="right" alt="Equity Index logo">
-</h1>
+![R 4.3+](https://img.shields.io/badge/R-4.3%2B-276DC3?logo=r&logoColor=white)
+[![data: CAT public API](https://img.shields.io/badge/data-CAT%20public%20API-0b7285)](https://api.cat-apps.com/objects/LATEST)
+![paper: in preparation](https://img.shields.io/badge/paper-in%20preparation-orange)
+[![reproducible research](https://img.shields.io/badge/reproducible-research-brightgreen)](https://github.com/timothyfraser/equity)
 
+This repository holds the code that computes **population-adjusted exposure equity indices** for the paper
+*Measuring Burden and Disparity of Exposure to Transportation Emissions in American Communities*.
+It combines county-level transportation emissions from the Cornell CAT public object store, demographics from the
+American Community Survey (ACS), and road-network buffers from TIGER/Line, then summarizes how evenly the burden of
+exposure is shared across race and ethnicity, household income, educational attainment, and age.
+The worked example in `index/` covers New York State; the code is written to extend to other states.
 
-<ul>
-  <li><strong>Lead Developers</strong>: Timothy Fraser</li>
-  <li><strong>Contributors</strong>: Yeonkyeong Gina Park, Yifei Li, Yuchen Tang, Oliver Gao</li>
-  <li><strong>Institution</strong>: Gao Labs @ Cornell University</li>
-  <li><strong>Description</strong>: A toolkit for measuring demographic disparities
-      in exposure to transportation emissions across New York State.</li>
-</ul>
+## Quick links
 
+- Paper: in preparation for submission (no public preprint yet).
+- Emissions data: [CAT object store, latest pointer](https://api.cat-apps.com/objects/LATEST) (one parquet file per year, e.g. [2020](https://api.cat-apps.com/objects/year/2020.parquet)).
+- Pipeline scripts: [`index/`](index/) and its [script table](index/README.md).
+- Index method: [`index/functions.R`](index/functions.R).
+- Instructions for coding agents: [`CLAUDE.md`](CLAUDE.md).
+- Research group: [Gao Labs, Cornell](https://gao.cee.cornell.edu/) and [GitHub organization](https://github.com/Gao-Labs).
 
+## Table of contents
 
-## Welcome!
+1. [Quick start](#quick-start)
+2. [Data sources](#data-sources)
+3. [Method summary](#method-summary)
+4. [Repository layout](#repository-layout)
+5. [How to cite](#how-to-cite)
+6. [Contributors](#contributors)
+7. [Changelog](#changelog)
 
-Welcome to `equity_index`! This repository contains code and documentation to compute **population-adjusted exposure equity indices** for transportation-related air pollution. Developed by Gao Labs at Cornell, this framework helps environmental planners, policy analysts, and researchers identify disparities across:
+## Quick start
 
-- **Race and ethnicity**
-- **Household income**
-- **Educational attainment**
-- **Age demographics**
+You need R 4.3 or newer and a free [Census API key](https://api.census.gov/data/key_signup.html).
 
-These indices are calculated using:
-- **CATSERVER emissions estimates**
-- **American Community Survey (ACS) demographic data**
-- **Spatial buffers of road networks (1km exposure zones)**
-
-The methodology is fully documented in the following study:
-
-> Fraser, T., Park, Y.G., Li, Y., Tang, Y., & Gao, H.O. (2025). *Measuring the Burden of Emissions Exposure in American Neighborhoods.*
-
-
-## What is `equity_index` used for?
-
-- **Policy equity monitoring** — Compare how clean transportation investments impact disadvantaged groups.
-- **Regional diagnostics** — Identify counties or metro areas with high exposure disparity.
-- **Academic research** — Supplement environmental justice frameworks with quantitative metrics.
-- **Data science workflows** — Integrate emissions and ACS data in a reproducible way.
-
-## How to use `equity_index`
-
-You can use our outputs to support **statewide equity metrics**, generate **Justice40-style maps**, or prioritize **transport investments**.  
-Run the code to generate your own equity scores in R, or extend the scripts for cross-state analysis.  
-Our modular `.R` scripts support:
-
-- ACS census downloads
-- Spatial buffer generation (`sf`)
-- Equity index computation
-- Optional map visualization
-
-### Script Descriptions
-
-- `make_data.R`: Downloads ACS demographic data (e.g., race, income, education, age) and stores it locally for processing.
-- `make_shapes.R`: Performs spatial visualization by creating shapefiles for map outputs.
-- `run_ny.R`: Chains the entire analysis workflow (data loading → equity index calculation → visualization → summary output), making it easy to conduct full-batch analysis for all counties in New York.
-- `Functions.R`: Contains reusable functions for data processing, equity index computation, and statistical summarization; works like a utility library.
-- `api_proxy.sh`: Sets up a proxy for the CATAPI server locally, useful for debugging or connecting to cloud-based data endpoints during development.
-
-See `make_data.R`, `make_shapes.R`, `run_ny.R`, and other scripts for full workflows.
-
-
-
-## Setup
-
-To use `equity_index`, you will need an active RStudio coding environment.
-
-Install required R packages:
-
-```r
-install.packages(c("tidycensus", "sf", "dplyr", "tigris", "ggplot2", "tidyr", "stringr"))
+```bash
+bash setup.sh                                   # installs R and every package the code calls (Ubuntu 24.04)
+export CENSUS_API_KEY=your-census-api-key-here  # placeholder: paste your own key; never commit it
+cd index && Rscript make_emissions.R && Rscript run_ny.R
 ```
 
-## Register your Census API key:
+`make_data.R` (census) and `make_shapes.R` (roads, tracts, buffers) are the other two workflow steps; see the
+[script table](index/README.md) for the order and what each one writes.
 
-```r
-library(tidycensus)
-census_api_key("YOUR_API_KEY", install = TRUE)
-```
+## Data sources
 
-## Run the pipeline
+| Data | Source | How the code reads it | Key needed |
+|---|---|---|---|
+| Transportation emissions, every US county, one file per year | [CAT public object store](https://api.cat-apps.com/objects/LATEST) (`https://api.cat-apps.com/objects/year/<YYYY>.parquet`) | `index/cat_bulk.R`, called by `index/make_emissions.R` | No |
+| Demographics: race and ethnicity, income, education, age | [ACS 5-year, 2022](https://www.census.gov/data/developers/data-sets/acs-5year.html) | [`censusapi`](https://cran.r-project.org/package=censusapi) in `index/make_data.R` | Yes, `CENSUS_API_KEY` environment variable |
+| Roads and census tracts | [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) | [`tigris`](https://cran.r-project.org/package=tigris) in `index/make_shapes.R` | No |
 
-These three scripts represent the core workflow of the `equity_index` tool:
+## Method summary
 
-```r
-# Step 1: Download and process ACS demographic data
-source("make_data.R")
+1. **Buffer.** Roads are buffered by **0.3 km (300 m)** to represent the exposure zone around each road.
+2. **Area weighting.** Each census tract is intersected with the buffers, and demographic counts are apportioned by the share of tract area that falls inside the buffer.
+3. **Emissions weights.** County emissions from CAT are allocated to buffered areas, so that each area carries a share of its county's emissions.
+4. **Index.** For each demographic group, the index compares the group's share of emissions exposure with an equal split, and `get_indicator` / `get_overall` in [`index/functions.R`](index/functions.R) summarize it. A value of 1 means the burden is shared evenly across groups; lower values mean it is concentrated on fewer groups. A population-weighted companion measure is also computed (see the [changelog](#changelog)).
 
-# Step 2: Generate spatial shapefiles for mapping
-source("make_shapes.R")
+The exact definitions live in the code and the paper; this summary is deliberately short.
 
-# Step 3: Run full pipeline (load data → compute equity index → visualize → summarize results)
-source("run_ny.R")
-```
+## Repository layout
 
-# Citation
-If you use this code or framework, please cite:
+| Path | What it is |
+|---|---|
+| [`index/`](index/) | The pipeline the paper uses: `make_data.R`, `make_shapes.R`, `make_emissions.R`, `run_ny.R`, plus the library `functions.R` and the loader `cat_bulk.R`. |
+| [`index/test/`](index/test/) | Derived outputs (rds, figures) written by the pipeline; safe to regenerate. |
+| `index/published/` | Local, gitignored snapshot of the as-published outputs; not in the repository. |
+| [`demo/`](demo/) | Early prototypes, not used by the paper. |
+| [`setup.sh`](setup.sh) | Installs R and the required packages on Ubuntu 24.04. |
+| [`CLAUDE.md`](CLAUDE.md) | Instructions for coding agents working in this repository. |
+| [`index/api_proxy.sh`](index/api_proxy.sh) | Retired: the old Cloud Run proxy for emissions. Kept for history. |
+| [`equity.Rproj`](equity.Rproj) | RStudio project file. |
 
-Fraser, T., Park, Y.G., Li, Y., Tang, Y., & Gao, H.O. (2025). Measuring the Burden of Emissions Exposure in American Neighborhoods.
+## How to cite
 
-# Links
-GitHub Organization: https://github.com/Gao-Labs
+If you use this code, please cite:
 
-Research Group Website: https://gao.cee.cornell.edu/
+Fraser, T., Park, Y. G., Li, Y., Tang, Y., & Gao, H. O. *Measuring Burden and Disparity of Exposure to Transportation Emissions in American Communities.* In preparation for submission. Code: https://github.com/timothyfraser/equity
+
+## Contributors
+
+- Timothy Fraser (lead developer)
+- Yeonkyeong Gina Park
+- Yifei Li
+- Yuchen Tang
+- H. Oliver Gao
+
+Institution: Gao Labs, Cornell University.
+
+## Changelog
+
+- **2026-11-19**
+  - Emissions now come from the public CAT object store through the new loader `index/cat_bulk.R` and the updated `index/make_emissions.R`; the old `api_proxy.sh` workflow is retired.
+  - The README now states the 0.3 km buffer used in the paper (it previously said 1 km) and no longer links to a login-gated host.
+  - The index normaliser in `index/functions.R` is corrected: the equal-group index uses `n / (2 (n - 1))`. The previous version is kept as `get_index_legacy`, and a population-weighted companion measure is added.
+  - Added `setup.sh` and `CLAUDE.md`.
+
+License: not yet chosen.

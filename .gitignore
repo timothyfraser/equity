@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 .env
+index/published/
+index/secret/.env
+*.Rcheck
