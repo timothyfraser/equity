@@ -1,5 +1,6 @@
 # equity: exposure to transportation emissions across American communities
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![R 4.3+](https://img.shields.io/badge/R-4.3%2B-276DC3?logo=r&logoColor=white)
 [![data: CAT public API](https://img.shields.io/badge/data-CAT%20public%20API-0b7285)](https://api.cat-apps.com/objects/LATEST)
 ![paper: in preparation](https://img.shields.io/badge/paper-in%20preparation-orange)
@@ -98,4 +99,4 @@ Institution: Gao Labs, Cornell University.
   - The index normaliser in `index/functions.R` is corrected: the equal-group index uses `n / (2 (n - 1))`. The previous version is kept as `get_index_legacy`, and a population-weighted companion measure is added.
   - Added `setup.sh` and `CLAUDE.md`.
 
-License: not yet chosen.
+License: [MIT](LICENSE).
