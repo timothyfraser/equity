@@ -1356,7 +1356,9 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
 #' @name get_lines
 #' @description
 #' Visualization function for viewing the range of index scores by region
-get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 300, .pollutant = 110, .year = 2022){
+get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 300, .pollutant = 110, .year = 2022, sort_by = "race"){
+  # sort_by: index that orders the region axis, worst at the top (Tim, 2026-11-20: Figure 4 sorted by race/ethnicity).
+  # "total" gives the earlier order.
 
   # Testing Values
   # stat_overall = read_rds("test/stat_overall.rds"); .dist = 300; .pollutant = 110; .year = 2022
@@ -1371,6 +1373,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
               ymax = max(value, na.rm = TRUE),
               size = ymax - ymin,
               total = value[type == "total"],
+              sort_value = value[type == sort_by],
               .groups = "drop")
   
   
@@ -1387,19 +1390,19 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
   gg1 = ggplot() +
     geom_col(
       data = data %>% filter(type == "race"),
-      mapping = aes(x = reorder(region, -total), y = value, fill = type),
+      mapping = aes(x = reorder(region, -sort_value), y = value, fill = type),
       color = "white", 
       fill = "lightgrey",
       width = 0.25, alpha = 0.5 #position = position_nudge(x = -0.25)
     ) +
     geom_linerange(
       data = bands,
-      mapping = aes(x = reorder(region, -total), ymin = ymin, ymax = ymax),
+      mapping = aes(x = reorder(region, -sort_value), ymin = ymin, ymax = ymax),
       linewidth = 5, color = "grey"
     ) +
     geom_point(
       data = data,
-      mapping = aes(x = reorder(region, -total), y = value, fill = type),
+      mapping = aes(x = reorder(region, -sort_value), y = value, fill = type),
       color = "white", size = 7, shape = 21, stroke = 1
     ) +
     scale_fill_viridis(
@@ -1418,7 +1421,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
           panel.grid.minor = element_blank(),
           panel.grid.major.y = element_blank(),
           legend.position = "bottom",       
-          plot.margin = unit(x = c(0,0,0,0), units = "lines") 
+          plot.margin = unit(x = c(0,0.5,0,1), units = "lines")  # left room so long region names are not clipped 
           
     ) +
     labs(
