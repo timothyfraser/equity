@@ -4,7 +4,7 @@ meta:
   method: docs/ROADTYPE_METHOD.md
   revision: 3
   repo: timothyfraser/equity (branch dev)
-  status: national run done on 220 MPOs (2026-11-20); PLAN_VIZ_AND_CAT.md proposed, waiting on Tim (Q1-Q5)
+  status: national figure done on 220 MPOs (2026-11-20); waiting on CAT runs (61 counties) and Q4
   plans:
   - .contract/national/PLAN_NATIONAL.md
   - .contract/national/PLAN_VIZ_AND_CAT.md
@@ -36,14 +36,25 @@ decisions:
     two tile-grid maps and two index-vs-emissions scatters with fitted curves. Full ranking stays as a supplementary table.'
   ND14: 'Run the missing CAT counties on Cloud MOVES, all orders at once (Tim, 2026-11-20). Blocked on a sign-in token for
     the private API: see PLAN_VIZ_AND_CAT.md section 1.1.'
+  ND15: Scatter x = emissions per capita, log scale labelled in original units (kg per resident); one model index ~ log(rate).
+    New York keeps its total-emissions figure (Tim, 2026-11-20).
+  ND16: Tile map is one cohesive US-shaped block; no state labels on tiles; not sized by population (Tim, 2026-11-20).
+  ND17: Map title "<Index> equity index per metropolitan planning organization"; subtitle "One tile per MPO, arranged nearest
+    its location."; legend titled with the index name.
+  ND18: 'Scatters: clear titles, no subtitle, y-axis titles; annotation with Greek beta, SE, p exact to 0.001 or "p < 0.001";
+    no GAM, no second model.'
+  ND19: Race and income share one 0.70-1.00 scale in maps and scatters.
+  ND20: Most and least equal MPO outlined in black on each map with a leader line to "<name>, <state> (index)"; ringed in
+    the matching scatter.
+  ND21: 'Replication data rule: no raw CAT emissions in GitHub; store produced values (indices, MPO totals) plus query URLs
+    and manifest; note that CAT values may change slightly over time.'
+  ND22: 'Paper section "Scaling up": 2-3 paragraphs at the end of Results, written after the CAT runs land.'
+  ND23: 'CAT orders placed by Tim''s local CAT session from .contract/national/CAT_ORDERS_HANDOFF.md: 61 counties (37 with
+    only a 2020 run + 24 NY), year 2022, no Puerto Rico.'
 gates:
   G1: Removed by ND11 (no road-type variant).
 open_questions:
-  Q1: CAT sign-in route (secure form token / CATDASHBOARD session / broker scopes)
-  Q2: County sets to order (A+B recommended)
-  Q3: Scatter x-axis (per capita recommended)
-  Q4: Small-group null simulation V-5
-  Q5: Paper section now or after CAT runs
+  Q4: Run the small-group chance check (V-5)? Explained in plain terms in the handoff.
 tasks:
 - id: N-000
   title: Tim rulings
@@ -268,61 +279,61 @@ tasks:
 - id: C-0
   title: Access and scope for CAT orders
   tier: Tim
-  status: proposed
+  status: 'done: ND23 (orders via Tim''s local CAT session)'
   depends: []
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-0
 - id: C-1
   title: Order script (dry run default, capped, ledger)
   tier: S
-  status: proposed
+  status: with Tim's CAT session (hand-off sent)
   depends:
   - C-0
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-1
 - id: C-2
   title: Watch and publish orders
   tier: S
-  status: proposed
+  status: with Tim's CAT session
   depends:
   - C-1
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-2
 - id: C-3
   title: Objects rebuilt and new manifest
   tier: catdashboard
-  status: proposed
+  status: with Tim's CAT session
   depends:
   - C-2
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-3
 - id: C-4
   title: 'Pick up new runs: national rerun and NY exact 2022'
   tier: S
-  status: proposed
+  status: waiting on a new CAT manifest
   depends:
   - C-3
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-4
 - id: V-1
   title: MPO wide table
   tier: S
-  status: proposed
+  status: done (receipt V-1_V-4.md)
   depends: []
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-1
 - id: V-2
   title: Tile grid
   tier: S
-  status: proposed
+  status: done (receipts V-2.md, V-2b.md, V-2c.md)
   depends:
   - V-1
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-2
 - id: V-4
   title: Curve estimates and results_national.json
   tier: O/S
-  status: proposed
+  status: done (receipt V-1_V-4.md)
   depends:
   - V-1
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-4
 - id: V-3
   title: Four-panel figure
   tier: S
-  status: proposed
+  status: done (receipt V-3.md; fixes in V-2c commit)
   depends:
   - V-2
   - V-4
@@ -330,15 +341,21 @@ tasks:
 - id: V-5
   title: Small-group null simulation (needs Tim)
   tier: O/S
-  status: proposed
+  status: waiting on Tim (Q4 not ruled)
   depends:
   - V-1
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-5
 - id: V-6
   title: Paper section, edit proposals only
   tier: O
-  status: proposed
+  status: waiting on C-4 (ND22)
   depends:
   - V-3
   - V-4
   definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-6
+- id: R-1
+  title: Replication data rule (ND21)
+  tier: S
+  status: done (receipt R-1.md)
+  depends: []
+  definition_of_done: PLAN_VIZ_AND_CAT.md Revision 2, R-1
