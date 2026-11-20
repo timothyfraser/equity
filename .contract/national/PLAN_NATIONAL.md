@@ -194,3 +194,38 @@ Agent time about 3-4 hours plus the background geometry run. Realistic: two days
 - Reuse `index/functions.R` (corrected index, absent-group rule, piecewise emissions interpolation), `index/cat_bulk.R` (`retrieve_emissions_bulk`), `index/make_results.R` (results JSON pattern), `paper_equity/.contract/r0/preview/apply_edits.py` (proposal preview and apply).
 - CAT objects: `https://api.cat-apps.com/objects/LATEST`, `year/<YYYY>.parquet` (`by = 16`), `detail/<geoid>.parquet` (all `by` codes, including 15 = road type).
 - The NY small-group robustness numbers quoted in 3.4 came from an ad hoc run; N-008 (and T-011b for the paper) must regenerate them through `make_results.R`.
+
+## 9. Rulings received 2026-11-20 and what they add
+
+- **Q1 Data access:** Tim adds `www2.census.gov`, `geodata.bts.gov` and `services.arcgis.com` in the environment's Settings (Network access → Allowed domains). The session's own `update_environment` call was rejected twice by the environments service.
+- **Q3 Road types: yes.** It applies to New York too, so the paper's numbers are rerun once more.
+- **Q4: multi-county MPOs only** in the ranked chart. Single-county MPOs are still computed and listed in the CSV table, but not charted.
+- Q2 (tract rule) and Q5 (robustness threshold) take the recommended defaults unless Tim says otherwise: interior point; groups of at least 1,000 people.
+
+**Finding:** the cached New York roads (`index/test/shapes_roads.rds`) are dissolved to one feature per county (62 rows, columns `geoid, geometry`), with no MTFCC road class. Road-type weighting therefore needs a fresh TIGER download for New York too, and waits on Q1 like the national run.
+
+### N-013 Road-type emissions weighting (O design, S implementation) — new
+
+- Owns:
+  - `index/functions.R` (new functions only: `get_roads_by_class`, `get_area_roads_by_class`, `get_county_group_values_roadtype`);
+  - `index/make_roadtype.R`;
+  - `index/test/roads_by_class.rds`, `index/test/area_roads300_by_class.rds`;
+  - `index/tests/test_roadtype.R`.
+- **Design (Opus writes it into `docs/ROADTYPE_METHOD.md` first):**
+  1. Download TIGER 2022 primary and secondary roads per state with MTFCC kept. S1100 = primary (limited-access) and S1200 = secondary.
+  2. Classify each road segment as rural or urban using the 2020 Census urban-area polygons, which also come from TIGER.
+  3. Map to MOVES road types: S1100 urban → 4 (urban restricted); S1100 rural → 2 (rural restricted); S1200 urban → 5 (urban unrestricted); S1200 rural → 3 (rural unrestricted).
+  4. Per county, take CAT `detail/<geoid>.parquet` rows with `by = 15` for pollutant 110. Interpolate each road type to 2022 with the D16 rule.
+  5. Buffer each class separately, intersect with tracts, and count the exposed residents per tract and class.
+  6. Compute the emissions rate per exposed resident per county and class: class emissions ÷ class exposed residents. This is Eq. 7 applied by class.
+  7. A group's emissions are the sum over classes of rate × exposed residents.
+  8. A resident inside two classes' buffers: count them once per class, so overlap means double exposure. Say so in Methods.
+  9. Everything downstream (Eqs. 9-10, index) is unchanged.
+- **Regression:** with all four classes collapsed into one, `get_county_group_values_roadtype` must equal `get_county_group_values` to 1e-9 on New York.
+- **Accept:**
+  - `tests/test_roadtype.R` passes, including the collapsed-class regression.
+  - results.json gains variant `rerun_roadtype` for New York.
+  - RERUN_DIFF.md shows `rerun` against `rerun_roadtype`.
+  - Tim decides whether `rerun_roadtype` replaces `rerun` as the paper's headline. That is a gate, because it changes the paper's numbers a third time.
+- Depends: N-001 (TIGER), N-003.
+- Feeds N-006 and N-008 (the national run uses the same functions).
