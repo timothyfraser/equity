@@ -47,12 +47,47 @@ get_mpo_tracts = function(mpo, year = 2022){
     filter(ALAND > 0) %>%
     select(geoid = GEOID, area_land = ALAND, geometry) %>%
     mutate(geoid_county = str_sub(geoid, 1, 5)) %>%
-    filter(geoid_county %in% cand)
+    # keep every CT tract: an old CT county spans several planning regions (see remap_ct_counties)
+    filter(geoid_county %in% cand | str_sub(geoid, 1, 2) == "09")
   pts = tracts %>% st_transform(5070) %>% st_point_on_surface()
   inside = lengths(st_intersects(pts, mpo_5070)) > 0
   tracts$in_unit = inside
+  tracts = remap_ct_counties(tracts, pts)
   members = unique(tracts$geoid_county[tracts$in_unit])
   tracts %>% filter(geoid_county %in% members)
+}
+
+#' Connecticut: ACS and TIGER 2022 use planning regions (091xx); CAT uses the eight old
+#' counties (09001-09015). Reassign each CT tract's geoid_county to the old county holding
+#' its interior point (TIGER 2020 cartographic counties). Tract geoids are unchanged.
+remap_ct_counties = function(tracts, pts){
+  is_ct = str_sub(tracts$geoid, 1, 2) == "09"
+  if(!any(is_ct)) return(tracts)
+  old = tigris::counties(state = "09", cb = TRUE, year = 2020) %>% select(old = GEOID, geometry) %>% st_transform(5070)
+  hit = st_join(pts[is_ct, ] %>% select(geoid), old, join = st_within) %>% st_drop_geometry()
+  stopifnot(!anyNA(hit$old), !anyDuplicated(hit$geoid))
+  tracts$geoid_county[is_ct] = hit$old[match(tracts$geoid[is_ct], hit$geoid)]
+  tracts
+}
+
+#' County emissions for `myyear`, with how each value was obtained.
+#' method: exact (CAT run in that year) | interpolated (piecewise between nearest years) |
+#' nearest (no CAT year on one side; carried from the nearest year, only if extrapolate = "nearest") | missing.
+get_emissions_year = function(county_emissions, myyear = 2022, .pollutant = 110, extrapolate = c("none", "nearest")){
+  extrapolate = match.arg(extrapolate)
+  ce = county_emissions %>% filter(pollutant == .pollutant) %>%
+    mutate(geoid = str_pad(geoid, width = 5, side = "left", pad = "0"))
+  interp = get_emissions_interpolated(county_emissions = ce, year = myyear) %>%
+    mutate(geoid = str_pad(geoid, width = 5, side = "left", pad = "0")) %>% select(geoid, emissions)
+  info = ce %>% group_by(geoid) %>%
+    summarize(exact = any(year == myyear), years = paste(sort(unique(year)), collapse = ","),
+              nearest_year = year[which.min(abs(year - myyear))],
+              nearest_value = emissions[which.min(abs(year - myyear))], .groups = "drop")
+  info %>% left_join(interp, by = "geoid") %>%
+    mutate(method = case_when(exact ~ "exact", !is.na(emissions) ~ "interpolated",
+                              extrapolate == "nearest" ~ "nearest", TRUE ~ "missing"),
+           emissions = if_else(method == "nearest", nearest_value, emissions)) %>%
+    select(geoid, emissions, method, years, nearest_year)
 }
 
 #' Group values for a unit of tracts (an MPO), extending get_county_group_values().
@@ -65,11 +100,10 @@ get_mpo_tracts = function(mpo, year = 2022){
 #' for a partial county, `emissions`, `affected_total` and `pop_total` are the in-unit amounts.
 get_unit_group_values = function(exposure, census_tracts, county_emissions, census_counties = NULL,
                                  unit_tracts, vars, myyear = 2022, .pollutant = 110,
-                                 pop_source = c("tracts", "counties")){
+                                 pop_source = c("tracts", "counties"), extrapolate = c("none", "nearest")){
   pop_source = match.arg(pop_source)
-  county_emissions = county_emissions %>% filter(pollutant == .pollutant) %>%
-    get_emissions_interpolated(year = myyear) %>%
-    mutate(geoid = str_pad(geoid, width = 5, side = "left", pad = "0"))
+  county_emissions = get_emissions_year(county_emissions, myyear = myyear, .pollutant = .pollutant,
+                                        extrapolate = match.arg(extrapolate))
 
   data = census_tracts %>% select(any_of(c("geoid", vars)))
   tracts2 = exposure %>% as_tibble() %>%
@@ -85,6 +119,12 @@ get_unit_group_values = function(exposure, census_tracts, county_emissions, cens
     summarize(affected_county = sum(affected, na.rm = TRUE), .groups = "drop") %>%
     left_join(by = c("geoid_county" = "geoid"), y = county_emissions %>% select(geoid, emissions_county = emissions)) %>%
     mutate(emissions_rate = emissions_county / affected_county)
+  # A county with no 2022 emissions, or with no exposed residents, cannot be scored: drop it and say so
+  # (left in, it gives NA or NaN and poisons the whole unit).
+  dropped = rate %>% filter(is.na(emissions_county) | !(affected_county > 0)) %>%
+    mutate(reason = if_else(is.na(emissions_county), "no_emissions_for_year", "no_exposed_residents"))
+  tracts2 = tracts2 %>% filter(!geoid_county %in% dropped$geoid_county)
+  rate = rate %>% filter(!geoid_county %in% dropped$geoid_county)
 
   unit = tracts2 %>% filter(in_unit)
   affected_g = unit %>% group_by(geoid_county, group) %>%
@@ -111,7 +151,9 @@ get_unit_group_values = function(exposure, census_tracts, county_emissions, cens
            share_county_affected = affected_total / affected_county) %>%
     left_join(by = c("geoid_county", "group"), y = pop) %>%
     select(geoid_county, emissions, emissions_rate, affected_total, pop_total, group, affected,
-           emissions_group, pop, emissions_county, affected_county, share_county_affected)
+           emissions_group, pop, emissions_county, affected_county, share_county_affected) %>%
+    structure(dropped = dropped %>% select(geoid_county, reason),
+              emissions_method = county_emissions %>% filter(geoid %in% unique(tracts2$geoid_county)))
 }
 
 DIMENSIONS = list(

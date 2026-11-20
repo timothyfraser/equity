@@ -48,3 +48,29 @@ for id in 36197300 37198001 21197300; do Rscript national/pilot/run_pilot_mpo.R 
 Rscript national/pilot/p1_compare_cache.R 36197300
 Rscript national/pilot/p4_compare.R
 ```
+
+# P5 edge cases (2026-11-20)
+
+| MPO | Edge case | Result |
+|---|---|---|
+| Capital Region COG (CT, 09197501) | ACS/TIGER 2022 use planning regions, CAT uses old counties | **Pass.** Tracts are reassigned to old counties by interior point (TIGER 2020 counties); all CT tracts are loaded first, so the whole-county rate uses the whole old county. Members: Hartford (218 of 235 tracts) and Tolland (31 of 32). 20 s. |
+| Richmond Area MPO (VA, 51197401) | Counties with no CAT run after 2020 | **Works, but needs a ruling.** Richmond city (51760) and Chesterfield (51041) have only 2020, so there is no 2022 value to interpolate. Dropping them (flagged) removes about 590,000 residents and gives race 0.853; carrying 2020 forward gives race 0.899. |
+| New York Metropolitan Transportation Council (36198201) | Largest MPO: 10 counties, 3,330 tracts | **Pass.** 119 s (12 s per county). |
+| Winchester-Frederick County MPO (VA, 51200302) | Tiny: 2 counties, 17 tracts | **Pass.** Race 0.798 but population-weighted 0.986, which is the small-group effect at its strongest (9 groups present). |
+
+Synthetic tests (`national/pilot/test_pilot.R`, 8 of 8 pass): a county with no exposed residents is dropped and flagged, not left as `NaN`; a county with only 2020 data is dropped under `none` and carried under `nearest`; shares still sum to 1 after a drop. P0 still reproduces the paper to 3.3e-16 after these changes.
+
+## Two findings that need Tim
+
+1. **37 counties have no CAT run after 2020** (`none` drops them; `nearest` carries 2020). They include Richmond city, Chesterfield, Virginia Beach and Portsmouth in Virginia, and counties in West Virginia, South Dakota and New Mexico. Options: carry 2020 forward and flag it; drop them and flag the MPO; or ask CAT for runs for these counties.
+2. **The ten race groups leave out "some other race" and "two or more races"** (ACS B03002_008/009 non-Hispanic, _018/_019 Hispanic). Share of residents covered:
+
+| Unit | Race groups cover |
+|---|---|
+| Paper region: New York City | 75.7% |
+| Paper region: Hudson Valley | 82.3% |
+| Paper region: Long Island | 85.2% |
+| Other paper regions | 92.4-94.9% |
+| Pilot MPOs | 78.4% (NYMTC) to 93.1% (Louisville) |
+
+The Bronx is the extreme case: the groups cover 822,891 of 1,443,229 residents (57%). This is in the published paper's method, not new to the national extension, and the uncovered residents are mostly Hispanic. Adding the four groups (14 groups) would change the paper's race numbers, so it needs a ruling.
