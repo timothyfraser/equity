@@ -4,7 +4,10 @@ meta:
   method: docs/ROADTYPE_METHOD.md
   revision: 3
   repo: timothyfraser/equity (branch dev)
-  status: proposed (revision 3 + ND11, 2026-11-20); all questions ruled; waiting on Tim go for Wave 1
+  status: national run done on 220 MPOs (2026-11-20); PLAN_VIZ_AND_CAT.md proposed, waiting on Tim (Q1-Q5)
+  plans:
+  - .contract/national/PLAN_NATIONAL.md
+  - .contract/national/PLAN_VIZ_AND_CAT.md
 decisions:
   ND1: 'National section ranks MPOs; emissions weighting kept (Tim, 2026-11-20: ''we''re not going to do it at the county
     level and cancel out the emissions term'')'
@@ -27,9 +30,20 @@ decisions:
     urban restricted, urban unrestricted, rural restricted, and rural unrestricted roads ... I would skip doing the road type
     split''). Supersedes ND4, ND8, ND9 and gate G1; the national ranking and New York keep the county emissions rate (Eq.
     7) on by=16 totals. N-013..N-016 cancelled.'
+  ND12: 'Equal-group index is the national headline; population-weighted is only the reviewer-facing companion; the size caveat
+    goes in the text (Tim, 2026-11-20: ''Equal group matters. That is the point of this method.'').'
+  ND13: 'Ranked bar chart retired (Tim, 2026-11-20: ''totally unreasonable and unreadable''); replaced by a four-panel figure,
+    two tile-grid maps and two index-vs-emissions scatters with fitted curves. Full ranking stays as a supplementary table.'
+  ND14: 'Run the missing CAT counties on Cloud MOVES, all orders at once (Tim, 2026-11-20). Blocked on a sign-in token for
+    the private API: see PLAN_VIZ_AND_CAT.md section 1.1.'
 gates:
   G1: Removed by ND11 (no road-type variant).
-open_questions: {}
+open_questions:
+  Q1: CAT sign-in route (secure form token / CATDASHBOARD session / broker scopes)
+  Q2: County sets to order (A+B recommended)
+  Q3: Scatter x-axis (per capita recommended)
+  Q4: Small-group null simulation V-5
+  Q5: Paper section now or after CAT runs
 tasks:
 - id: N-000
   title: Tim rulings
@@ -205,7 +219,7 @@ tasks:
   title: Ranked MPO chart and table
   wave: 5
   tier: Sonnet
-  status: proposed
+  status: superseded by V-1..V-3 (ND13)
   depends:
   - N-008
   owns:
@@ -251,3 +265,80 @@ tasks:
   - README.md (national section)
   - national/README.md
   definition_of_done: Fresh clone plus the release archive rebuilds results_national.json; rebuild steps documented
+- id: C-0
+  title: Access and scope for CAT orders
+  tier: Tim
+  status: proposed
+  depends: []
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-0
+- id: C-1
+  title: Order script (dry run default, capped, ledger)
+  tier: S
+  status: proposed
+  depends:
+  - C-0
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-1
+- id: C-2
+  title: Watch and publish orders
+  tier: S
+  status: proposed
+  depends:
+  - C-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-2
+- id: C-3
+  title: Objects rebuilt and new manifest
+  tier: catdashboard
+  status: proposed
+  depends:
+  - C-2
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-3
+- id: C-4
+  title: 'Pick up new runs: national rerun and NY exact 2022'
+  tier: S
+  status: proposed
+  depends:
+  - C-3
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-4
+- id: V-1
+  title: MPO wide table
+  tier: S
+  status: proposed
+  depends: []
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-1
+- id: V-2
+  title: Tile grid
+  tier: S
+  status: proposed
+  depends:
+  - V-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-2
+- id: V-4
+  title: Curve estimates and results_national.json
+  tier: O/S
+  status: proposed
+  depends:
+  - V-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-4
+- id: V-3
+  title: Four-panel figure
+  tier: S
+  status: proposed
+  depends:
+  - V-2
+  - V-4
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-3
+- id: V-5
+  title: Small-group null simulation (needs Tim)
+  tier: O/S
+  status: proposed
+  depends:
+  - V-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-5
+- id: V-6
+  title: Paper section, edit proposals only
+  tier: O
+  status: proposed
+  depends:
+  - V-3
+  - V-4
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-6
