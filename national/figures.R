@@ -16,7 +16,7 @@ nm = c(race = "Race/ethnicity", income = "Income")
 lo = floor(min(d$race, d$income) * 20) / 20; lo = min(lo, 0.70)   # shared scale, 0.70-1.00 unless data fall below
 ext = function(v, w) js$extremes[[v]][[w]]
 ext_tbl = function(v) bind_rows(lapply(c("min", "max"), function(w) tibble(
-  mpo_id = ext(v, w)$mpo_id$value, name = ext(v, w)$mpo_name$value, val = ext(v, w)$value$value)))
+  mpo_id = ext(v, w)$mpo_id$value, name = ext(v, w)$mpo_name$value, state = ext(v, w)$state$value, val = ext(v, w)$value$value)))
 base_theme = function() theme(plot.title = element_text(face = "bold", size = 7, color = ink, hjust = 0),
   plot.subtitle = element_text(color = muted, size = 6.5), text = element_text(color = ink),
   plot.margin = margin(4, 4, 4, 4))
@@ -28,16 +28,17 @@ tile_map = function(v, sub = NULL){
   xr = range(tiles$col); mid = mean(xr); pad = 0.8
   e = e |> mutate(side = if_else(col < mid, "L", "R"),
                   lx = if_else(side == "L", xr[1] - 0.5 - pad, xr[2] + 0.5 + pad),
-                  lab = paste0(wrap_name(name), " (", sprintf("%.3f", val), ")"))
+                  lab = paste0(wrap_name(paste0(name, ", ", state)), " (", sprintf("%.3f", val), ")"))
   # separate labels vertically if both on one side
   if (e$side[1] == e$side[2] && abs(e$row[1] - e$row[2]) < 4){
     o = order(e$row); e$ly = e$row; e$ly[o[1]] = e$row[o[1]] - 2.5; e$ly[o[2]] = e$row[o[2]] + 2.5
   } else e$ly = e$row
   ggplot() +
-    geom_tile(data = blocked, aes(col, row), fill = "white", color = "#8b949e", linewidth = 0.3, width = 1, height = 1) +
     geom_tile(data = filter(tl, !is.na(.data[[v]])), aes(col, row, fill = .data[[v]]), color = "white", linewidth = 0.3, width = 1, height = 1) +
+    geom_tile(data = blocked, aes(col, row), fill = "white", color = "#8b949e", linewidth = 0.35, width = 0.82, height = 0.82) +
     geom_tile(data = e, aes(col, row), fill = NA, color = "black", linewidth = 0.6, width = 1, height = 1) +
-    geom_segment(data = e, aes(x = if_else(side == "L", col - 0.5, col + 0.5), xend = lx, y = row, yend = ly), linewidth = 0.25, color = "black") +
+    geom_segment(data = e, aes(x = if_else(side == "L", col - 0.5, col + 0.5), xend = lx, y = row, yend = ly), linewidth = 0.9, color = "white") +
+    geom_segment(data = e, aes(x = if_else(side == "L", col - 0.5, col + 0.5), xend = lx, y = row, yend = ly), linewidth = 0.3, color = "black") +
     geom_text(data = e, aes(x = lx, y = ly, label = lab, hjust = if_else(side == "L", 1.05, -0.05)), size = 1.9, color = ink, lineheight = 0.9) +
     scale_fill_gradient(low = hue[[v]], high = pale[[v]], limits = c(lo, 1), name = paste(nm[[v]], "equity index"),
                         guide = guide_colorbar(barwidth = 7, barheight = 0.4, ticks = FALSE, title.position = "top")) +

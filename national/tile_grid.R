@@ -1,27 +1,34 @@
 # tile_grid.R: one cohesive, US-shaped block of square tiles, one tile per multi-county MPO (task V-2; ND16).
 # A tile is an MPO, not a state; tiles touch; no population sizing. Plan: .contract/national/PLAN_VIZ_AND_CAT.md.
 #
-# Method
+# Method (V-2b)
 #   1. Tiles = LEDGER MPOs with status done/blocked_cat whose centroid lies in the lower-48 + DC outline.
-#   2. Mask = lower-48 + DC (tigris cb states 2022), EPSG:5070. Square cells; the cell size is the one whose count of
-#      cells with centre inside the outline is the smallest count >= N tiles.
-#   3. Each MPO gets a target position (in cell units). Plain = its centroid. The shipped design blends the centroid
-#      with a density-equalised ("rank") position: MPOs are split into grid rows by north-south rank so each row gets
-#      exactly as many MPOs as the mask has cells in that row, then laid out west-to-east by rank along that row.
-#      This pulls the dense East outward and lets the sparse West fill the empty interior.
-#   4. clue::solve_LSAP minimises total squared target-to-cell distance. Surplus cells: dummy rows with cost 0 on
-#      boundary cells (fewer than 4 in-mask 4-neighbours) and a large constant elsewhere, then dropped.
+#   2. Density warp. A uniform mask gives the sparse West as many cells per km2 as the dense East, so eastern MPOs
+#      are pushed inland. One separable monotone warp is applied to the outline, the state polygons AND the
+#      centroids alike: x' = (1 - w) x_norm + w Fx(x), y' = (1 - w) y_norm + w Fy(y), where x_norm is x rescaled to
+#      [0, 1] over the outline bbox and Fx is a Gaussian-kernel CDF of the centroid x values rescaled to map
+#      [xmin, xmax] onto [0, 1] (same for y). The outline is densified to 10 km first so every vertex is warped by the
+#      same functions; x' and y' are mapped back onto the original bbox, so the warped outline keeps its aspect.
+#   3. Mask = the warped outline. Square cells; for each grid origin offset the cell size is the one whose count of
+#      cells with centre inside the warped outline is the smallest count >= N (lake cells filled, largest
+#      4-connected component kept).
+#   4. clue::solve_LSAP minimises total squared centroid-to-cell distance (warped space). Surplus cells: dummy rows
+#      with cost 0 on boundary cells (fewer than 4 in-mask 4-neighbours) and a large constant elsewhere, then dropped.
+#   5. Candidates w x origin are scored by state containment (share of MPOs whose cell centre lies in their own
+#      warped state), subject to one block, zero holes and order preservation >= 0.90 both ways.
 # Deterministic: no randomness; same input, same output.
 suppressPackageStartupMessages({library(dplyr); library(readr); library(sf); library(ggplot2); library(purrr); library(patchwork)})
 root = Sys.getenv("EQUITY_ROOT", "/home/user/equity"); setwd(root)
 options(tigris_use_cache = TRUE)
 
 # ---- inputs -------------------------------------------------------------------------------------------------------
-get_mask = function(){
-  st = tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE)
-  st |> filter(!STUSPS %in% c("AK", "HI", "PR", "VI", "GU", "MP", "AS")) |>
-    st_transform(5070) |> st_make_valid() |> st_union() |> st_make_valid()
+get_states = function(){
+  tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE) |>
+    filter(!STUSPS %in% c("AK", "HI", "PR", "VI", "GU", "MP", "AS")) |>
+    st_transform(5070) |> st_make_valid() |> select(state = STUSPS) |> arrange(state)
 }
+
+get_mask = function(states) states |> st_union() |> st_make_valid()
 
 get_centroids = function(ids, mask){
   map_dfr(ids, function(id){
@@ -42,13 +49,41 @@ get_centroids = function(ids, mask){
   })
 }
 
+# ---- density warp -------------------------------------------------------------------------------------------------
+# monotone map of [lo, hi] onto [0, 1]: Gaussian-kernel CDF of v (bandwidth = bw_mult * bw.nrd0), rescaled at the ends
+kernel_cdf = function(v, lo, hi, bw_mult = 1){
+  h = bw_mult * bw.nrd0(v)
+  f = function(x) vapply(x, function(z) mean(pnorm((z - v) / h)), numeric(1))
+  f_lo = f(lo); f_hi = f(hi)
+  function(x) (f(x) - f_lo) / (f_hi - f_lo)
+}
+
+# warp functions for weight w; bb = outline bbox; cen = centroid tibble (cx, cy). Output in metres over the same bbox.
+make_warp = function(cen, bb, w){
+  W = bb[["xmax"]] - bb[["xmin"]]; H = bb[["ymax"]] - bb[["ymin"]]
+  Fx = kernel_cdf(cen$cx, bb[["xmin"]], bb[["xmax"]]); Fy = kernel_cdf(cen$cy, bb[["ymin"]], bb[["ymax"]])
+  list(x = function(x) bb[["xmin"]] + W * ((1 - w) * (x - bb[["xmin"]]) / W + w * Fx(x)),
+       y = function(y) bb[["ymin"]] + H * ((1 - w) * (y - bb[["ymin"]]) / H + w * Fy(y)))
+}
+
+# apply a warp to every vertex of an sfc (densified beforehand so the warp acts on a fine outline)
+warp_sfc = function(g, wp){
+  f = function(m){ m[, 1] = wp$x(m[, 1]); m[, 2] = wp$y(m[, 2]); m }
+  out = lapply(g, function(p) structure(rapply(unclass(p), f, classes = "matrix", how = "replace"), class = class(p)))
+  st_make_valid(st_sfc(out, crs = st_crs(g)))
+}
+
 # ---- grid ---------------------------------------------------------------------------------------------------------
-# cells whose centre lies inside the mask, for a given cell size (origin = mask bbox min corner)
-mask_cells = function(mask, size){
-  bb = st_bbox(mask)
-  cells = expand.grid(col = seq_len(ceiling((bb$xmax - bb$xmin) / size)), row = seq_len(ceiling((bb$ymax - bb$ymin) / size))) |>
-    as_tibble() |> mutate(x = bb$xmin + (col - 0.5) * size, y = bb$ymin + (row - 0.5) * size)
-  inside = st_intersects(st_as_sf(cells, coords = c("x", "y"), crs = 5070), mask, sparse = FALSE)[, 1]
+# cells whose centre lies inside the mask, for a cell size and an origin offset (fractions of a cell, ox and oy)
+cell_origin = function(mask, size, ox = 0, oy = 0){
+  bb = st_bbox(mask); c(x0 = bb[["xmin"]] - ox * size, y0 = bb[["ymin"]] - oy * size)
+}
+
+mask_cells = function(mask, size, ox = 0, oy = 0){
+  bb = st_bbox(mask); o = cell_origin(mask, size, ox, oy)
+  cells = expand.grid(col = seq_len(ceiling((bb$xmax - o[["x0"]]) / size)), row = seq_len(ceiling((bb$ymax - o[["y0"]]) / size))) |>
+    as_tibble() |> mutate(x = o[["x0"]] + (col - 0.5) * size, y = o[["y0"]] + (row - 0.5) * size)
+  inside = lengths(st_intersects(st_as_sf(cells, coords = c("x", "y"), crs = st_crs(mask)), mask)) > 0
   keep = inside | enclosed(cells$col, cells$row, inside)   # a lake cell ringed by land is part of the block
   cells = cells[keep, ]
   cells[largest_component(cells$col, cells$row), ]          # an island cell cut off by a 4-step gap is dropped
@@ -81,14 +116,12 @@ enclosed = function(col, row, occ){
   paste(col, row) %in% hole
 }
 
-# smallest in-mask cell count >= n, searched over cell sizes on a 1 km lattice; ties go to the larger cell
-pick_size = function(mask, n, sizes = seq(60e3, 400e3, by = 5e3)){
-  bb = st_bbox(mask); area = as.numeric(st_area(mask))
-  guess = sqrt(area / n)
-  coarse = tibble(size = sizes, k = map_int(sizes, ~ nrow(mask_cells(mask, .x))))
-  fine_sizes = seq(round(guess * 0.85 / 1e3) * 1e3, round(guess * 1.1 / 1e3) * 1e3, by = 1e3)
-  fine = tibble(size = fine_sizes, k = map_int(fine_sizes, ~ nrow(mask_cells(mask, .x))))
-  bind_rows(coarse, fine) |> distinct(size, .keep_all = TRUE) |> filter(k >= n) |> arrange(k, desc(size)) |> slice(1)
+# smallest in-mask cell count >= n, searched on a 1 km lattice around sqrt(area / n); ties go to the larger cell
+pick_size = function(mask, n, ox = 0, oy = 0){
+  guess = sqrt(as.numeric(st_area(mask)) / n)
+  sizes = seq(round(guess * 0.88 / 1e3) * 1e3, round(guess * 1.08 / 1e3) * 1e3, by = 1e3)
+  tibble(size = sizes, k = map_int(sizes, ~ nrow(mask_cells(mask, .x, ox, oy)))) |>
+    filter(k >= n) |> arrange(k, desc(size)) |> slice(1)
 }
 
 n_in_mask_neighbours = function(cells){
@@ -97,52 +130,39 @@ n_in_mask_neighbours = function(cells){
     (paste(cells$col, cells$row + 1) %in% key) + (paste(cells$col, cells$row - 1) %in% key)
 }
 
-# density-equalised target: row capacities from the mask, rows filled by north-south rank, columns by west-east rank
-rank_targets = function(cen, cells){
-  a = rank_layout(cen, cells)
-  b = rank_layout(cen |> rename(gx = gy, gy = gx), cells |> rename(col = row, row = col)) |> rename(tcol = trow, trow = tcol)
-  a |> select(mpo_id, tcol_a = tcol, trow_a = trow) |> left_join(b |> select(mpo_id, tcol_b = tcol, trow_b = trow), by = "mpo_id") |>
-    transmute(mpo_id, tcol = (tcol_a + tcol_b) / 2, trow = (trow_a + trow_b) / 2)
-}
-
-# one separable rank layout: rows filled by `gy` rank to the mask's row capacities, then each row by `gx` rank
-rank_layout = function(cen, cells){
-  cap = cells |> count(row) |> arrange(row)                  # cells per grid row, south to north
-  n = nrow(cen); k = nrow(cells)
-  # scale capacities to n tiles (surplus k - n removed from rows proportionally, largest remainders)
-  quota = cap$n * n / k; base = floor(quota); extra = n - sum(base)
-  base[order(-(quota - base), cap$row)[seq_len(extra)]] = base[order(-(quota - base), cap$row)[seq_len(extra)]] + 1
-  cen = cen |> arrange(gy, gx, mpo_id) |> mutate(trow = rep(cap$row, base))
-  cen |> group_by(trow) |> arrange(gx, gy, mpo_id, .by_group = TRUE) |>
-    mutate(tcol = {cs = sort(cells$col[cells$row == trow[1]]); m = n()
-                   cs[pmax(1, pmin(length(cs), round((seq_len(m) - 0.5) / m * length(cs) + 0.5)))]}) |>
-    ungroup()
-}
-
 # ---- the function -------------------------------------------------------------------------------------------------
-# cen: tibble mpo_id, cx, cy (EPSG:5070 metres); mask: sfc polygon (EPSG:5070); alpha: 0 = plain geographic targets,
-# 1 = fully density-equalised targets; big: dummy cost off the boundary.
-get_tile_grid = function(cen, mask, alpha = 0.5, size = NULL, big = 1e6){
-  n = nrow(cen)
-  if (is.null(size)) size = pick_size(mask, n)$size
-  bb = st_bbox(mask)
-  cells = mask_cells(mask, size) |> arrange(row, col)
+# cen: tibble mpo_id, cx, cy (EPSG:5070 metres, unwarped) plus wx, wy (warped); mask: warped outline (sfc);
+# big: dummy cost off the boundary.
+get_tile_grid = function(cen, mask, size, ox = 0, oy = 0, big = 1e6, wstates = NULL, lambda = 0){
+  n = nrow(cen); o = cell_origin(mask, size, ox, oy)
+  cells = mask_cells(mask, size, ox, oy) |> arrange(row, col)
   k = nrow(cells); stopifnot(k >= n)
-  cen = cen |> arrange(mpo_id) |> mutate(gx = (cx - bb$xmin) / size + 0.5, gy = (cy - bb$ymin) / size + 0.5)
-  rk = rank_targets(cen, cells) |> select(mpo_id, tcol, trow)
-  cen = cen |> left_join(rk, by = "mpo_id") |> mutate(tx = (1 - alpha) * gx + alpha * tcol, ty = (1 - alpha) * gy + alpha * trow)
-  cost = outer(cen$tx, cells$col, "-")^2 + outer(cen$ty, cells$row, "-")^2
+  cen = cen |> arrange(mpo_id) |> mutate(gx = (wx - o[["x0"]]) / size + 0.5, gy = (wy - o[["y0"]]) / size + 0.5)
+  cost = outer(cen$gx, cells$col, "-")^2 + outer(cen$gy, cells$row, "-")^2
+  # state penalty (V-2c): extra cost lambda when the cell centre is not inside the MPO's own warped state
+  if (lambda > 0 && !is.null(wstates)){
+    hit = st_intersects(st_as_sf(cells, coords = c("x", "y"), crs = st_crs(wstates)), wstates)
+    cell_state = vapply(hit, function(i) if (length(i)) wstates$state[i[1]] else NA_character_, character(1))
+    cost = cost + lambda * outer(cen$state, cell_state, function(a, b) as.numeric(is.na(b) | a != b))
+  }
   if (k > n){
     edge = n_in_mask_neighbours(cells) < 4
-    dummy = matrix(ifelse(edge, 0, big), nrow = k - n, ncol = k, byrow = TRUE)
-    cost = rbind(cost, dummy)
+    cost = rbind(cost, matrix(ifelse(edge, 0, big), nrow = k - n, ncol = k, byrow = TRUE))
   }
   a = as.integer(clue::solve_LSAP(cost))[seq_len(n)]
-  cen |> mutate(col = cells$col[a], row = cells$row[a],
+  cen |> mutate(col = cells$col[a], row = cells$row[a], px = cells$x[a], py = cells$y[a],
                 disp_cells = sqrt((gx - col)^2 + (gy - row)^2)) |>
-    select(mpo_id, col, row, cx, cy, disp_cells) |>
-    structure(size = size, cells = cells)
+    select(mpo_id, state, col, row, cx, cy, px, py, disp_cells) |>
+    structure(size = size, origin = o, cells = cells)
 }
+
+# TRUE where the tile's cell centre lies inside the MPO's own (warped) state polygon
+state_ok = function(tg, wstates){
+  pts = st_as_sf(tg, coords = c("px", "py"), crs = st_crs(wstates))
+  hit = st_intersects(pts, wstates)
+  map2_lgl(hit, tg$state, ~ tg_in(.x, .y, wstates$state))
+}
+tg_in = function(idx, st, names) st %in% names[idx]
 
 # ---- acceptance metrics ------------------------------------------------------------------------------------------
 grid_checks = function(tg){
@@ -180,38 +200,66 @@ grid_checks = function(tg){
 if (sys.nframe() == 0L){
   led = read_csv("national/LEDGER.csv", show_col_types = FALSE, col_types = cols(mpo_id = "c", .default = "c")) |>
     filter(status %in% c("done", "blocked_cat"), state != "PR")
-  mask = get_mask()
+  states = get_states(); mask = get_mask(states)
   cen = get_centroids(led$mpo_id, mask)
   inside = st_intersects(st_as_sf(cen, coords = c("cx", "cy"), crs = 5070), mask, sparse = FALSE)[, 1]
   if (any(!inside)) message("dropped (centroid outside lower-48 + DC): ", paste(cen$mpo_id[!inside], collapse = ", "))
-  cen = cen[inside, ]
-  sz = pick_size(mask, nrow(cen)); message("tiles: ", nrow(cen), "; cell size: ", sz$size / 1e3, " km; in-mask cells: ", sz$k)
+  cen = cen[inside, ] |> left_join(led |> select(mpo_id, state), by = "mpo_id")
+  bb = st_bbox(mask)
+  # simplify (2 km) then densify (10 km) once; every candidate warps these same vertices
+  mask_d = mask |> st_simplify(dTolerance = 2e3) |> st_segmentize(10e3)
+  states_d = states |> st_simplify(dTolerance = 2e3) |> st_segmentize(10e3)
 
-  # compare designs: plain geographic (alpha 0) against density-equalised blends
-  alphas = c(0, 0.25, 0.5, 0.75, 1)
-  runs = map(alphas, ~ get_tile_grid(cen, mask, alpha = .x, size = sz$size))
-  cmp = map2_dfr(alphas, runs, ~ grid_checks(.y) |> mutate(alpha = .x, .before = 1))
-  print(cmp, width = Inf)
+  # V-2b searched w in {0, .25, .4, .55, .7} (lambda 0); best w were .55 and .7. V-2c adds the state penalty lambda.
+  # lambda > 0 tested 2026-11-20 (receipt V-2c): containment rose to 0.44 at lambda 8, but the NYC metro tile moved
+  # into New England, so the shipped grid uses lambda = 0 (V-2b layout). Set lambdas = c(0, 2, 4, 8) to rerun the test.
+  ws = c(0.55, 0.7); offs = c(0, 1/3, 2/3); lambdas = c(0)
+  grid = expand.grid(oy = offs, ox = offs, w = ws, lambda = lambdas) |> as_tibble() |> select(w, lambda, ox, oy)
+  runs = pmap(grid, function(w, lambda, ox, oy){
+    wp = make_warp(cen, bb, w)
+    wmask = warp_sfc(mask_d, wp); wst = st_sf(state = states_d$state, geometry = warp_sfc(st_geometry(states_d), wp))
+    cw = cen |> mutate(wx = wp$x(cx), wy = wp$y(cy))
+    sz = pick_size(wmask, nrow(cw), ox, oy)
+    tg = get_tile_grid(cw, wmask, sz$size, ox, oy, wstates = wst, lambda = lambda)
+    tg$state_ok = state_ok(tg, wst)
+    list(tg = tg, wmask = wmask, wst = wst, size = sz$size, k = sz$k)
+  })
+  cmp = map2_dfr(seq_len(nrow(grid)), runs, function(i, r){
+    tg = r$tg
+    grid[i, ] |> mutate(size_km = r$size / 1e3, cells = r$k, state_share = mean(tg$state_ok),
+                        n_FL = sum(tg$state == "FL"), FL_ok = sum(tg$state_ok[tg$state == "FL"]),
+                        NY_ok = sum(tg$state_ok[tg$state == "NY"]), n_NY = sum(tg$state == "NY")) |>
+      bind_cols(grid_checks(tg) |> select(-n))
+  })
+  print(cmp, n = Inf, width = Inf)
   write_csv(cmp, file.path(Sys.getenv("TILE_CMP_DIR", tempdir()), "tile_grid_compare.csv"))
 
-  alpha_ship = as.numeric(Sys.getenv("TILE_ALPHA", "0"))
-  tg = runs[[match(alpha_ship, alphas)]]
+  best = cmp |> mutate(i = row_number()) |>
+    filter(components == 1, enclosed_empty == 0, ew_strict >= 0.9, ns_strict >= 0.9) |>
+    arrange(desc(state_share), disp_mean, lambda, w, ox, oy) |> slice(1)
+  stopifnot(nrow(best) == 1)
+  r = runs[[best$i]]; tg = r$tg
+  message(sprintf("chosen: w = %.2f, lambda = %g, ox = %.3f, oy = %.3f, cell %g km, state share %.3f", best$w, best$lambda, best$ox, best$oy, best$size_km, best$state_share))
   dir.create("national/tables", showWarnings = FALSE); dir.create("national/fig", showWarnings = FALSE)
-  tg |> arrange(mpo_id) |> mutate(cx = round(cx, 1), cy = round(cy, 1), disp_cells = round(disp_cells, 4)) |>
+  tg |> arrange(mpo_id) |> mutate(cx = round(cx, 1), cy = round(cy, 1), disp_cells = round(disp_cells, 4), w = best$w, lambda = best$lambda) |>
+    select(mpo_id, col, row, cx, cy, disp_cells, w, lambda, state_ok) |>
     write_csv("national/tables/mpo_tiles.csv")
 
-  # check figure: left the outline with centroids, right the tile block (NY MPOs darker)
-  ny = led$mpo_id[led$state == "NY"]
+  # check figure: left the outline with centroids, right the tile block over the warped state lines (NY darker)
   ink = "#1f2328"; muted = "#59636e"
-  pts = cen |> mutate(ny = mpo_id %in% ny)
+  pts = cen |> mutate(ny = state == "NY")
   left = ggplot() + geom_sf(data = mask, fill = "#f2f3f5", color = muted, linewidth = 0.25) +
     geom_point(data = pts, aes(cx, cy, color = ny), size = 0.9) + scale_color_manual(values = c(`FALSE` = "#8a9099", `TRUE` = ink), guide = "none") +
     coord_sf(crs = 5070, datum = NA) + labs(title = "MPO centroids", x = NULL, y = NULL) + theme_void(base_size = 8) +
     theme(plot.title = element_text(face = "bold", color = ink))
-  til = tg |> mutate(ny = mpo_id %in% ny)
-  right = ggplot(til, aes(col, row)) + geom_tile(aes(fill = ny), color = "white", linewidth = 0.4 / ggplot2::.pt) +
-    scale_fill_manual(values = c(`FALSE` = "#d4d7dc", `TRUE` = "#59636e"), guide = "none") + coord_equal() +
-    labs(title = sprintf("Tile grid (%d MPOs; dark = New York)", nrow(til))) + theme_void(base_size = 8) +
-    theme(plot.title = element_text(face = "bold", color = ink))
-  ggsave("national/fig/tile_grid_check.png", left | right, width = 10, height = 3.8, dpi = 200, bg = "white")
+  o = attr(tg, "origin"); s = r$size
+  to_cells = function(g) st_set_crs((st_set_crs(g, NA) - c(o[["x0"]], o[["y0"]])) / s + c(0.5, 0.5), NA)
+  wst_cells = st_sf(geometry = to_cells(st_geometry(r$wst)))
+  til = tg |> mutate(ny = state == "NY")
+  right = ggplot() + geom_sf(data = wst_cells, fill = NA, color = "#9aa0a8", linewidth = 0.2) +
+    geom_tile(data = til, aes(col, row, fill = ny), color = "white", linewidth = 0.4 / ggplot2::.pt, alpha = 0.8) +
+    scale_fill_manual(values = c(`FALSE` = "#c9cdd3", `TRUE` = "#3d444d"), guide = "none") + coord_sf(datum = NA) +
+    labs(title = sprintf("Tile grid (%d MPOs; w = %.2f; dark = New York; lines = warped states)", nrow(til), best$w), x = NULL, y = NULL) +
+    theme_void(base_size = 8) + theme(plot.title = element_text(face = "bold", color = ink))
+  ggsave("national/fig/tile_grid_check.png", left | right, width = 11, height = 4.2, dpi = 200, bg = "white")
 }
