@@ -1,231 +1,212 @@
 # PLAN — National section: equity index for every U.S. MPO
 
-Status: **PROPOSED (revision 2, 2026-11-20), waiting for Tim. Nothing implemented.**
-Supersedes revision 1 (county-first design, rejected by Tim).
-Scouts: `scouts/NAT_S1_TIMING.md`, `scouts/NAT_S2_REGIONS.md`.
+Status: **PROPOSED (revision 3, 2026-11-20). Nothing implemented. Data access is open; work can start once Tim answers section 7.**
+Supersedes revision 2. Road-type method: `docs/ROADTYPE_METHOD.md`. Scouts: `scouts/NAT_S1_TIMING.md`, `scouts/NAT_S2_REGIONS.md`.
 
-## 0. Tim's direction (verbatim, 2026-11-20)
+## 0. Tim's rulings (2026-11-20)
 
 - "The whole point of this was to use the emissions data, so no, we're not going to do it at the county level and cancel out the emissions term."
-- "repeating this at the national level ... the purpose there would be to show, hey, which MPOs have the highest equity versus inequity. It would be like a giant bar chart."
-- "I don't think the point would be to compare urban versus rural in that section ... I would use the existing MPO boundaries."
-- Earlier the same day: the national result goes into the Journal of Transport Geography paper ("Add to this paper"), and the hosts should be allowed.
+- Purpose: "show which MPOs have the highest equity versus inequity ... like a giant bar chart." Not an urban-versus-rural comparison.
+- Use the existing MPO boundaries (BTS NTAD layer).
+- Road-type weighting from CAT `by = 15`: **yes**, and applied to New York too. A gate (G1) decides whether it replaces the paper's headline.
+- Ranked chart: **multi-county MPOs only.** Single-county MPOs are computed and listed in the table.
+- Equal-group index is the headline: "There is no reason that a Black person or a Native American person should be exposed to more or less air pollution, regardless of how many people there are." Population-weighted and small-group robustness (groups ≥ 1,000) sit beside it.
+- Goes into the Journal of Transport Geography paper.
+- Defaults taken without objection: tracts join an MPO by interior point; robustness threshold 1,000 people.
 
-## 1. Design in one paragraph
+## 1. Design
 
-Each MPO is treated like one of New York's regions. Its census tracts are assigned to the MPO. Its member counties (whole or partial) contribute CAT emissions through the paper's own equations (Eqs. 5-10):
-- each county's emissions rate per exposed resident (Eq. 7) applies to the MPO tracts in that county;
-- group burden shares are summed across the MPO's counties (Eq. 9);
-- the equity index (Eq. 1, corrected normaliser) is computed per MPO.
+Each MPO is treated like one of New York's regions, with the paper's own equations.
 
-The national output is one ranked chart of about 400 MPOs, plus a table. It uses the same code path as the New York paper, so New York's MPOs double as a consistency check against the state results.
+- A tract belongs to the MPO that contains its interior point.
+- Every county touched by an MPO is processed whole. Its emissions rate per exposed resident (Eq. 7) uses all its tracts.
+- The MPO sums emissions only over its own tracts (Eq. 8), so a partial county gives the MPO the part of its emissions that the MPO's exposed residents account for.
+- Emissions are split over four road classes inside each county (`docs/ROADTYPE_METHOD.md`), so the emissions term no longer cancels inside a county.
+- Group shares are summed across the MPO's counties (Eqs. 9-10); the index is Eq. 1.
+- Population shares for an MPO are sums over its tracts, not county totals.
+- Year: D16 rule (piecewise linear between the nearest of 2020-2025). Counties with one usable year take that year and are flagged.
+- Connecticut: tracts map to the eight old counties (CAT's geography) through a fixed tract crosswalk. Alaska and South Dakota renames: fixed crosswalk. Puerto Rico: out.
+
+Two methods are computed for every MPO: `county_rate` (the paper today) and `roadtype`. The chart shows `roadtype`.
 
 ## 2. What we measured (2026-11-20)
 
 | Input | Status | Evidence |
 |---|---|---|
-| MPO boundaries | **Not in any of Tim's repos.** catdashboard has an "mpo" user type and two hand-made NYC groups (`platform/web/src/data/cube/groups.ts`), no boundaries; movesai `optim/cmaq.csv` names MPOs on CMAQ projects but has no geography; no public GitHub mirror found | orchestrator grep of catdashboard main, dev, cursor/visualizer, feature/tim-project-beta; movesai; research-mcp; `api.github.com` search |
-| Official MPO source | BTS National Transportation Atlas Database, "Metropolitan Planning Organizations" layer (geodata.bts.gov / ArcGIS hub) | **blocked** (proxy 403), NAT-S2 |
-| TIGER roads, tracts, counties | **blocked** (`www2.census.gov` 403) | NAT-S1 |
-| Allowing the hosts from this session | `update_environment` call **rejected by the environments service** (nothing changed) | orchestrator, 2026-11-20 |
-| CAT emissions, county totals | ready: `year/2020.parquet` 3,146 counties, `year/2025.parquet` 3,100; 2021-2024 about 740-770 each | orchestrator |
-| CAT emissions by road type | ready per county in `detail/<geoid>.parquet` (`by = 15`: road types 2 rural restricted, 3 rural unrestricted, 4 urban restricted, 5 urban unrestricted). Example Albany 2020 PM2.5: 1.2 / 2.0 / 19.6 / 18.3 tons. Detail files are 1.5-4 MB each (about 3-8 GB for all counties) | orchestrator |
-| ACS 2022 5-year | ready: `CENSUS_API_KEY` works, about 2 s per state call | NAT-S1 |
-| Geometry cost | about 70-80 s per county with the current code (NY cached shapes); code runs in lon/lat on the sphere (no `st_transform`), likely slower than an equal-area projection | NAT-S1, orchestrator |
-| Interpolation coverage (D16) | 3,068 counties have at least 2 of 2020-2025; 45 lack 2025 (VA, WV, SD, NM); 38 have one year | orchestrator |
+| Hosts | **Open.** `www2.census.gov`, `geodata.bts.gov`, `services.arcgis.com` return 200 | orchestrator, after Tim's Settings change |
+| MPO boundaries | BTS NTAD FeatureServer, 411 polygons, WGS84, item modified 2026-04-03. Fields `OBJECTID, AREA, MPO_ID` (8-char text), `MPO_NAME, STATE, Shape__Area, Shape__Length`. Not in any of Tim's repos | orchestrator |
+| TIGER 2022 | `PRISECROADS/` and `UAC/` (`tl_2022_us_uac20.zip`) listings return 200 | planner |
+| CAT county totals | `year/2020.parquet` 3,146 counties, `year/2025.parquet` 3,100; 2021-2024 about 740-770 each | orchestrator |
+| CAT by road type | `detail/<geoid>.parquet`, `by = 15`, 4.2 MB for Albany. Columns `by, year, geoid, pollutant, sourcetype, fueltype, regclass, roadtype, emissions, vmt, ...` | planner |
+| **Road-type split differs by year** | Albany PM2.5, road types 2/3/4/5/off-network: 2020 = 1.2/2.0/19.6/18.3/absent (total 41.1); 2022 = 9.1/10.7/9.9/14.8/10.7 (55.1); 2025 = 5.6/7.0/6.5/10.1/10.0 (39.2). 2015 looks like 2020. Rural share jumps from 8% to 36% | planner |
+| Cached NY roads | `index/test/shapes_roads.rds` is one dissolved feature per county, no MTFCC. New York needs a fresh download | orchestrator |
+| ACS 2022 5-year | `CENSUS_API_KEY` works, about 2 s per state call | NAT-S1 |
+| Geometry cost | about 70-80 s per county with current code (lon/lat, no projection) | NAT-S1 |
+| D16 coverage | 3,068 counties have at least 2 of 2020-2025; 45 lack 2025 (VA, WV, SD, NM); 38 have one year | orchestrator |
+| NY small-group check (ad hoc) | Mohawk Valley race index 0.819 all groups; 0.870 groups ≥ 1,000; 0.882 groups ≥ 5,000; lowest in all three | orchestrator |
 
-## 3. Method details to settle
-
-1. **Assigning tracts to MPOs.** Recommended: a tract belongs to an MPO if its interior point (`st_point_on_surface`) lies inside the MPO polygon. Each tract then sits in exactly one MPO or none, and partial counties are handled naturally: Eq. 7's county rate applies only to the county's MPO tracts. Alternative: area-weighted partial tracts (more exact, more geometry).
-2. **County emissions for partial counties.** Eq. 8 already allocates a county's emissions in proportion to exposed residents, so an MPO receives the share of county emissions that its tracts' exposed residents represent. No new assumption is needed.
-3. **Single-county MPOs (needs Tim).** When an MPO lies inside one county, every exposed resident shares that county's rate, so the emissions weight is constant across its tracts. Its index then reflects who lives near major roads, not how much those roads emit. Two options:
-   - **(a) Report as is,** and flag single-county MPOs in the chart.
-   - **(b) Road-type weighting (recommended).** Split each county's emissions over road classes using CAT's `by = 15` table. Match TIGER road classes: MTFCC S1100 primary ≈ restricted access; S1200 secondary ≈ unrestricted; urban vs rural from the census urban-area flag. Give each tract's exposed residents the emissions rate of the road classes in its buffer. Emissions then vary within counties, which uses more of CAT and answers CEUS Reviewer 1's "quiet rural state road vs congested interstate" point. It costs the detail downloads, one road-class join per buffer, and a short methods paragraph. It also changes the New York numbers if applied there, so the paper must pick one method for both.
-4. **Weighting of groups (Tim, 2026-11-20).** The equal-group index stays the headline. Justification (Tim): "There is no reason that a Black person or a Native American person should be exposed to more or less air pollution, regardless of how many people there are." Report the population-weighted score beside it.
-   - Add a small-group robustness check: drop groups under 1,000 people in a unit.
-   - In New York this check keeps Mohawk Valley lowest on race (0.819 all groups; 0.870 groups ≥ 1,000; 0.882 groups ≥ 5,000; orchestrator run 2026-11-20). Those numbers must move into `results.json` before the paper cites them.
-   - Nationally, many MPOs have very small groups, so the robustness column matters more there.
-5. **Emissions year.** D16 rule nationally (piecewise between nearest of 2020-2025). Counties without 2025 or with one year: nearest available year, flagged.
-6. **Geography mismatches.**
-   - Connecticut: ACS 2022 and TIGER 2022 use planning regions; CAT uses the old counties. Assign CT tracts to the old counties through tract-to-2020-county codes, so tracts carry their CAT county's rate.
-   - Alaska and South Dakota code renames: fixed crosswalk.
-   - Puerto Rico: out of scope.
-
-## 4. Cost
+## 3. Cost
 
 | Item | Estimate |
 |---|---|
-| Counties touched by MPOs | about 1,000-1,300 (unknown until boundaries arrive) |
-| Geometry at 300 m, current code | about 20-30 CPU-hours (1,100 counties × 70-80 s); 5-8 h wall on 4 CPUs |
-| With an equal-area projection (N-002) | expected several times faster; to be measured |
-| Census pull | under 5 minutes for 51 states |
-| CAT detail files (only if 3b) | about 1-4 GB for MPO counties; downloaded once, cached outside git |
-| Final outputs committed to git | under 10 MB (MPO × group tallies, indices, crosswalk) |
-| Intermediates (TIGER, buffers, overlaps) | gitignored `cache/`; one release archive at submission |
+| Counties touched by MPOs | about 1,000-1,300 (known after N-004) |
+| Geometry, 300 m, five buffers per county (4 classes + union) | 20-30 CPU-hours for the union alone with current code; N-002 measures the planar engine. Budget 8-16 h wall on 4 CPUs |
+| CAT detail files | 1.5-4 MB each, about 3-5 GB for MPO counties; cached, never committed |
+| Committed outputs | under 10 MB |
+
+## 4. Rules for every task
+
+- Repo `timothyfraser/equity`, branch `dev`. One 15-minute unit each unless marked background. Disjoint `owns`. Files plus a receipt in `.contract/national/receipts/<id>.md`; the orchestrator commits.
+- Model tier: **O** Opus, **S** Sonnet. Planning units may use Fable (ND7).
+- Never hand-type a number. Keep superseded functions under `_legacy`. Parse check after every R edit.
+- Downloads go to `cache/` (gitignored). Every download records URL, date and sha256 in `data/national/SOURCES.csv`.
+- New York's `results.json` variants other than the new one stay byte-identical: `jq -S . results.json | sha256sum` on the existing variants before and after.
 
 ## 5. Tasks
 
-Model tier: **O** = Opus, **S** = Sonnet. 15-minute units, disjoint `owns`, files plus a receipt, orchestrator commits. Repo `timothyfraser/equity`, branch `dev`. The NY regression gate (N-003) keeps the paper's NY numbers byte-identical unless Tim picks option 3b.
+### Wave 0 — done or Tim
+- **N-000 Rulings.** Section 0. Open items: section 7.
+- **N-001 Data access.** **Done.**
 
-**N-000 Rulings (Tim).** Section 7. Blocks everything.
-
-**N-001 Data access (Tim).**
-- Add these hosts to the environment in claude.ai Settings (the session's own request was rejected): `www2.census.gov` (TIGER), `geodata.bts.gov` and `services.arcgis.com` (BTS NTAD MPO layer, served through ArcGIS).
-- Or download on your own machine and commit to `data/national/raw/` (raw files are gitignored if over 50 MB; commit a checksum file instead):
-  - the BTS NTAD "Metropolitan Planning Organizations" layer as GeoPackage or shapefile, recording the download date and URL;
-  - TIGER 2022 tracts and primary-secondary roads (per state, about 1-3 GB).
-- Accept: from this container, `curl -sI https://www2.census.gov/geo/tiger/TIGER2022/PRISECROADS/` returns 200 and the MPO layer is readable with `sf::st_read`; or the files exist in `data/national/raw/` with checksums.
-
-**N-002 Geometry engine benchmark (O then S).**
-- Owns `national/bench/`.
-- For three MPOs of different sizes (one single-county, one about 5 counties, one 10+ counties, picked from the layer), time the current code (s2, lon/lat) against an EPSG:5070 planar variant: buffer roads once per county, then intersect with tracts.
-- Accept: tract overlap shares agree within 0.5 percentage points for 99% of tracts; seconds per county for both; choice recorded in `national/bench/BENCH.md`.
-- Depends N-001.
-
-**N-003 State-aware library with NY regression gate (S).**
-- Owns `index/functions.R`, only these functions: `get_state`, `get_shapes_*`, `get_area_roads`, `get_county_group_values`, `get_all`, `get_overall`. Also owns `index/tests/test_national_refactor.R`.
-- Add arguments for state FIPS, CRS, cache dir and a tract-to-unit table.
-- Remove the `path_shapes_buffers` global side effect (NAT-S1 bug 7).
-- Add per-county checkpoints in `get_area_roads`.
-- Accept: `Rscript index/tests/test_index.R` passes, and `make_results.R` reproduces `results.json` byte-identically (sha256 of `jq -S .` before and after).
-- Depends N-002.
+### Wave 1 — parallel, no dependencies
 
 **N-004 MPO crosswalk (S).**
-- Owns `national/make_mpo_xwalk.R`, `data/national/mpo_tracts.parquet` (tract geoid, county geoid, mpo_id, mpo_name, state(s)) and `data/national/mpo_counties.csv` (mpo_id, county geoid, share of county tracts).
-- Assign tracts by interior point (or the rule Tim picks).
-- Accept: every tract is in at most one MPO; MPO count equals the layer's; counties-per-MPO distribution reported; NY MPOs listed with their counties for Tim to eyeball.
-- Depends N-001, N-000.
+- Owns `national/make_mpo_xwalk.R`, `data/national/mpo.gpkg`, `data/national/mpo_tracts.parquet`, `data/national/mpo_counties.csv`, `data/national/fips_crosswalk.csv`, `data/national/SOURCES.csv`.
+- In: `https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_Metropolitan_Planning_Organizations/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson` (one request); TIGER 2022 tracts for 50 states + DC (`tigris::tracts(state, year = 2022)`, cached in `cache/tiger/tracts/`).
+- Do: tract interior point (`st_point_on_surface`, EPSG:5070) in MPO polygon. A point inside two MPOs goes to the MPO covering more of the tract's area; count these. Map CT tracts to old counties and apply AK/SD renames; write the crosswalk.
+- Out `mpo_tracts.parquet`: `geoid` (chr 11), `geoid_county` (chr 5, CAT geography), `state_fips`, `mpo_id` (chr 8, NA outside any MPO), `mpo_name`. One row per tract in every MPO county (members and non-members).
+- Out `mpo_counties.csv`: `mpo_id, mpo_name, states, geoid_county, n_tracts_in_mpo, n_tracts_county, n_counties, multi_county` (TRUE when the MPO has tracts in 2+ counties).
+- Accept: 411 features read; each tract in at most one MPO; MPOs with zero tracts listed; counts of multi-county and single-county MPOs; whether `STATE` lists several states for multi-state MPOs; New York MPOs with their counties printed in the receipt.
 
-**N-005 Census pull for MPO states (S).**
+**N-005 Census pull (S).**
 - Owns `national/make_census.R`, `data/national/census_tracts.parquet`, `data/national/census_counties.parquet`.
-- `retrieve_census2` over all states containing MPO tracts, ACS 2022 5-year, tract and county, including `_M` margin-of-error columns.
-- Accept: NY rows equal `index/test/census_tracts.rds` exactly; tract count reported.
-- Depends N-000.
+- Do: `retrieve_census2` for 50 states + DC, ACS 2022 5-year, tract and county, same columns as `index/test/census_tracts.rds` plus `_M` columns.
+- Accept: New York rows equal `index/test/census_tracts.rds` and `census_counties.rds` exactly (`all.equal`); row counts per state in the receipt.
 
-**N-006 Emissions for MPO counties (S).**
-- Owns `national/make_emissions_national.R`, `data/national/emissions_2020_2025.parquet` and `data/national/fips_crosswalk.csv`. If 3b is chosen, also owns `data/national/emissions_roadtype_2022.parquet`.
-- Use `retrieve_emissions_bulk` for all MPO counties, 2020-2025, pollutant 110 (plus the 11 sensitivity pollutants), then `get_emissions_interpolated` (D16). If 3b, also read `detail/<geoid>.parquet` with `by = 15`, interpolated the same way.
-- Accept: every MPO county has a 2022 value or a flag; NY values equal the NY run.
-- Depends N-000.
+**N-006 County emission totals (S).**
+- Owns `national/make_emissions_national.R`, `data/national/emissions_2020_2025.parquet`.
+- Do: `retrieve_emissions_bulk` for all counties, 2020-2025, the 11 pollutants. No interpolation here.
+- Out: `geoid, pollutant, year, emissions`.
+- Accept: New York rows equal `index/test/emissions_all_pollutants.rds` for shared keys; count of counties by number of available years.
 
-**N-007 Geometry run for MPO counties (S, background).**
-- Owns `national/run_geometry.R`, `cache/`, `data/national/area_roads_300.parquet`.
-- Run per state, 3 parallel workers, checkpointed and resumable under `nohup`.
-- Accept: overlap shares for every MPO tract; NY tracts equal `index/test/area_roads300.rds` within the N-002 tolerance; wall time per state logged.
-- Depends N-002, N-003, N-004, N-005.
+**N-002 Geometry engine benchmark (O design, S run).**
+- Owns `national/bench/`.
+- Do: on three New York county sets (Hamilton; Albany + Rensselaer + Schenectady + Saratoga; the five NYC boroughs), time current code (lon/lat) against EPSG:5070 planar with roads buffered once per county.
+- Accept: `national/bench/BENCH.md` gives seconds per county for both, share of tracts whose overlap share agrees within 0.5 points (need 99%), and one chosen engine with its `crs` and `sf_use_s2` setting.
 
-**N-008 MPO indices (S).**
+**N-014 Road-type vintage audit (S). New.**
+- Owns `national/audit_roadtype.R`, `data/national/roadtype_audit.csv`, `.contract/national/scouts/NAT_S3_ROADTYPE.md`.
+- Do: download `detail/<geoid>.parquet` for the 62 New York counties plus 150 random other counties (seed 1) to `cache/cat_detail/`. Keep `by == 15`, pollutant 110, years 2020-2025.
+- Out: `geoid, year, rt1..rt5, total16, sum_2to5, has_rt1`.
+- Accept: the scout file reports, per year, the share of counties with an off-network row, the share where road types 2-5 sum to the county total, the median rural share, and the median absolute change in each class's weight between 2020 and 2025. It ends with one sentence: are the splits comparable across years or not.
+
+### Wave 2 — serial, both edit `index/functions.R`
+
+**N-003 State-aware library (S).** Depends N-002.
+- Owns `index/functions.R` (only `get_state`, `get_shapes_counties`, `get_shapes_tracts`, `get_shapes_roads`, `get_shapes_buffers`, `get_area_roads`; old bodies kept as `_legacy`), `index/tests/test_national_refactor.R`.
+- Do: accept geoids from several states (loop by state); add `crs` and `cache_dir` arguments with the N-002 engine as an option and current behaviour as default; remove the `path_shapes_buffers` global write; per-county checkpoints in `get_area_roads`.
+- Accept: `Rscript index/tests/test_index.R` and `test_national_refactor.R` pass; `Rscript index/make_results.R` leaves `results.json` byte-identical (`jq -S . | sha256sum`).
+
+**N-013 Road-type functions and New York run (O review, S build).** Depends N-003, N-014, Q1.
+- Spec, signatures, schemas, tests and acceptance: `docs/ROADTYPE_METHOD.md`, "For agents".
+- Owns `index/functions.R` (new functions only: `get_roads_by_class`, `get_area_roads_by_class`, `get_roadtype_weights`, `get_county_group_values_roadtype`), `index/make_roadtype.R`, `index/tests/test_roadtype.R`, `index/test/roads_by_class.rds`, `index/test/area_roads300_by_class.rds`, `index/test/emissions_roadtype.rds`, `index/test/roadtype_flags.csv`.
+- Accept: `cd index && Rscript make_roadtype.R && Rscript tests/test_roadtype.R && Rscript tests/test_index.R` all pass, including the collapsed-class regression at 1e-9.
+
+### Wave 3 — parallel
+
+**N-015 New York `rerun_roadtype` variant and gate G1 (S). New.** Depends N-013.
+- Owns `index/make_results.R` (one new variant), `index/runs/variant_A_roadtype/`, `paper_equity/.contract/r0/RERUN_DIFF_ROADTYPE.md`.
+- Do: add variant `rerun_roadtype` (same inputs as `rerun`, road-type weighting). Table of `rerun` against `rerun_roadtype` per region and dimension, rank changes, and the lowest region on race.
+- Accept: existing variants byte-identical; new variant validates against the results schema.
+- **G1 (Tim):** does `rerun_roadtype` replace `rerun` as the paper's headline?
+
+**N-016 Detail downloads and class weights, national (S). New.** Depends N-004, N-013.
+- Owns `national/make_roadtype_national.R`, `data/national/emissions_roadtype.parquet`, `data/national/roadtype_flags.csv`.
+- Do: download detail files for every county in `mpo_counties.csv` (4 parallel, resumable, `cache/cat_detail/`); keep `by == 15`, pollutant 110, 2020-2025; run `get_roadtype_weights`.
+- Out `emissions_roadtype.parquet`: `geoid, class, w, emissions_class, rt_flag`.
+- Accept: one row per county and class; `w` sums to 1 per county; flag counts; New York rows equal the N-013 values.
+
+**N-007 Geometry run (S, background).** Depends N-003, N-004, N-013.
+- Owns `national/run_geometry.R`, `data/national/area_roads_300_by_class.parquet`, `national/logs/`.
+- Do: for every county in `mpo_counties.csv`, by state, 3 workers under `nohup`, resumable: `get_roads_by_class` then `get_area_roads_by_class(dist = 300)` with the N-002 engine.
+- Out: `geoid, geoid_county, class ("all","2","3","4","5"), area_total, area_roads`.
+- Accept: every tract of every MPO county present with class `all`; New York rows equal `index/test/area_roads300_by_class.rds` within the N-002 tolerance; seconds per state logged; counties that failed listed (must be zero).
+
+### Wave 4
+
+**N-008 MPO indices (S).** Depends N-005, N-006, N-007, N-016.
 - Owns `national/make_mpo_index.R`, `data/national/index_mpo.parquet`, `.contract/national/results_national.json`.
-- For each MPO and dimension, compute:
-  - the equal-group index (headline);
-  - the population-weighted index;
-  - the robustness index on groups ≥ 1,000;
-  - counties, tracts, population, single-county flag, interpolation flags.
-- If 3b, compute the road-type-weighted version too.
-- Accept: values in [0,1]; the JSON validates against `revisions/templates/results.schema.json`; a regression on NY MPOs computed two ways (MPO run vs NY state run restricted to the same counties) agrees to 1e-9.
-- Depends N-006, N-007.
+- Do: `get_county_group_values_roadtype(unit = mpo_tracts)` for the four dimensions, twice (`classes = "all"` for `county_rate`; four classes for `roadtype`), then `get_region_group_values(region = "unit_id")` and `get_indicator`.
+- Out, one row per `mpo_id × method × dimension` (dimension in race, income, edu, age, overall): `index_equal`, `index_pw`, `index_equal_min1000`, `n_groups`, `n_groups_min1000`, `n_counties`, `multi_county`, `n_tracts`, `pop`, `flags`.
+- Accept: indices in [0,1] or NA with a reason; JSON validates against `revisions/templates/results.schema.json`; for New York MPOs made of whole counties, the MPO result equals the same code run with those counties as a region, to 1e-9; threshold 0 reproduces `index_equal`.
 
-**N-009 The chart and table (S, `dataviz` skill).**
+### Wave 5 — parallel
+
+**N-009 Chart and table (S, `dataviz` skill).** Depends N-008.
 - Owns `national/figures.R`, `national/fig/mpo_rank.png`, `national/fig/mpo_rank_race.png`, `national/tables/mpo_index.csv`.
-- One ranked chart of all MPOs (overall index, about 400 bars or dots, ordered, coloured by population class), and a race-only version.
-- Label the top and bottom 15; flag single-county MPOs and interpolation fallbacks.
-- Use a zoomed axis (D13 style) with the start value stated.
-- Accept: regenerates from `results_national.json` only; readable at the journal's full-page width (check at 2× scale).
-- Depends N-008.
+- Do: ranked chart of multi-county MPOs, `roadtype` method, equal-group index; markers for the population-weighted and ≥ 1,000 values on the same row; top and bottom 15 labelled; New York MPOs highlighted; zoomed axis with the start value stated. Race-only version. The CSV holds all MPOs, both methods.
+- Accept: rebuilds from `results_national.json` alone; legible at full-page journal width (checked at 2×).
 
-**N-010 Sensitivity (S).**
-- Owns `national/sensitivity.R`.
-- Rank correlation of MPO indices across 300 m vs 100 m and 500 m for a sample of 30 MPOs, and across emissions-year variants.
-- Accept: Spearman ρ reported.
-- Depends N-008.
+**N-010 Sensitivity (S).** Depends N-008.
+- Owns `national/sensitivity.R`, `national/tables/sensitivity.csv`.
+- Do: Spearman ρ of MPO ranks between `roadtype` and `county_rate`; equal-group against ≥ 1,000; and 100 m and 500 m for 30 sampled MPOs (seed 1).
+- Accept: ρ values written to `results_national.json` under `sensitivity`.
 
-**N-011 Paper section (O, edit proposals only).**
+**N-011 Paper section (O, edit proposals only).** Depends N-008, N-009, G1.
 - Owns `paper_equity/.contract/r0/edits/T-015.md`.
-- A new short subsection, "National comparison of MPOs" (Results), plus a Methods paragraph on MPO assignment (and road-type weighting if 3b), the figure and caption, and one or two Discussion sentences.
-- This is an approved exception to the no-new-paragraph rule, because Tim asked for the section. Everywhere else the rule still holds.
-- Numbers are `{{results_national:...}}` placeholders.
-- Accept: proposals preview cleanly with the T-010a pipeline; net words reported.
-- Depends N-008, N-009.
+- Do: Results subsection "National comparison of MPOs"; Methods paragraph on MPO assignment and road-type weighting (Eqs. 2c-8c from `docs/ROADTYPE_METHOD.md`); figure and caption; one or two Discussion sentences; the limits listed in the method doc. Numbers are `{{results_national:...}}` placeholders. Approved exception to the no-new-paragraph rule.
+- Accept: previews cleanly with the T-010a pipeline; net words reported.
 
-**N-012 Release and docs (S).**
+**N-012 Release and docs (S).** Depends N-009.
 - Owns `README.md` (national section), `national/README.md`.
-- Release archive of intermediates; rebuild-from-scratch instructions.
-- Accept: a fresh clone plus the release asset rebuilds `results_national.json`.
-- Depends N-009.
+- Accept: fresh clone plus the release archive of intermediates rebuilds `results_national.json`.
 
-## 6. Order and timing
+## 6. Order
 
 ```
-N-000, N-001 (Tim) ─► N-002 ─► N-003 ─┐
-                      N-004 ─────────┤
-                      N-005 ─────────┼─► N-007 (5-8 h background) ─► N-008 ─► N-009 ─► N-011 ─► (Tim) ─► apply
-                      N-006 ─────────┘                                 └─► N-010
+Wave 1: N-004  N-005  N-006  N-002  N-014
+Wave 2: N-003 ─► N-013                      (Q1 answered before N-013)
+Wave 3: N-015 ─► G1 (Tim)    N-016    N-007 (background, 8-16 h)
+Wave 4: N-008
+Wave 5: N-009  N-010  N-011 (after G1)  N-012
 ```
 
-Agent time about 3-4 hours plus the background geometry run. Realistic: two days from the moment the data are reachable. This delays the JTG submission by that much.
+About 4-5 agent-hours plus the background run. Two to three days. The JTG submission waits for it.
 
 ## 7. Questions for Tim
 
-1. **Q1 Data access.** Add `www2.census.gov`, `geodata.bts.gov` and `services.arcgis.com` in Settings, or download the MPO layer and TIGER files yourself?
-2. **Q2 Tract-to-MPO rule.** Tract interior point inside the MPO (recommended), or area-weighted partial tracts?
-3. **Q3 Emissions within counties.**
-   - **(b) Road-type weighting from CAT `by = 15` (recommended).** Uses more of CAT, and gives single-county MPOs a real emissions signal. If chosen, apply it to New York too and rerun the paper's numbers.
-   - **(a) County rates as in the current paper.** Flag single-county MPOs.
-4. **Q4 Which MPOs.** All of them (about 400), or only multi-county MPOs?
-5. **Q5 Robustness column.** Groups ≥ 1,000 people (recommended) or another threshold?
-6. **Q6 Timing.** Hold the JTG submission for the national section (about two days once data are reachable), as chosen, or submit New York now and send the national section later?
+1. **Q1 Which year's road-type split?** The split changes sharply between CAT years (section 2).
+   - **(a) 2020 split for every county (recommended).** Available for 3,146 counties, looks like local road data, one consistent basis. Levels still follow D16.
+   - (b) D16 per road type, as first planned. Mixes two kinds of run; New York's 38 exact-2022 counties get a different split from the other 24.
+   - (c) Wait for the N-014 audit, then decide.
+2. **Q2 Off-network emissions** (starts, idling; about a quarter of PM2.5 where reported).
+   - **(a) Spread over the four road classes in proportion (recommended).** County total unchanged.
+   - (b) Drop them; on-road only. Changes the county totals and the New York numbers again.
+3. **Q3 Chart headline with very small groups.** With ten race groups, a small MPO's equal-group score is driven by groups of a few dozen people.
+   - **(a) Chart ranks by the equal-group index, with the ≥ 1,000 value as a second marker on each row (recommended).**
+   - (b) Chart ranks by the ≥ 1,000 version; all-groups in the table.
 
 ## 8. Risks
 
 | Risk | Effect | Mitigation |
 |---|---|---|
-| Hosts stay blocked | Nothing geometric can run here | Tim downloads (N-001 alternative) |
-| MPO layer vintage and edits | MPO lists change over time | Record layer date; cite NTAD version |
-| Partial tracts at MPO edges | Small assignment error | Interior-point rule; report share of MPO population in edge tracts |
-| Single-county MPOs | Emissions weight is constant inside them | Q3 option b, or flag |
-| Small groups | Noisy equal-group scores | Robustness column; ACS MOE pulled for a later bootstrap |
-| Compute overrun | Longer wait | Planar engine (N-002), checkpoints, 300 m only nationally |
-| Road-type mapping (3b) | TIGER MTFCC does not equal MOVES road type exactly | Documented mapping; sensitivity with option a |
+| Road-type split not comparable across years | Class weights are an artefact of which run a year came from | N-014, Q1 |
+| TIGER primary/secondary roads carry all unrestricted-road emissions | Local-street emissions land on people near state routes | State it in Methods; N-010 compares against `county_rate` |
+| Census urban areas differ from MOVES urban boundaries | Emissions in a class with no matching road | Merge rule; flags reported |
+| A class with very few exposed residents | A handful of tracts carry a large share of county emissions | Diagnostic in N-013 and N-016; reported, not altered |
+| Small groups | Noisy equal-group scores | ≥ 1,000 column; Q3 |
+| Partial tracts at MPO edges | Small assignment error | Interior-point rule; count reported |
+| NTAD layer changes | MPO list drifts | Layer date and sha256 in `SOURCES.csv` |
+| Compute overrun | Longer wait | Planar engine, checkpoints, 300 m only |
+| New York numbers change a third time (G1) | Paper edits redone | Gate before any paper edit; both variants kept |
 
 ---
 
 ## For agents
 
-- Reuse `index/functions.R` (corrected index, absent-group rule, piecewise emissions interpolation), `index/cat_bulk.R` (`retrieve_emissions_bulk`), `index/make_results.R` (results JSON pattern), `paper_equity/.contract/r0/preview/apply_edits.py` (proposal preview and apply).
-- CAT objects: `https://api.cat-apps.com/objects/LATEST`, `year/<YYYY>.parquet` (`by = 16`), `detail/<geoid>.parquet` (all `by` codes, including 15 = road type).
-- The NY small-group robustness numbers quoted in 3.4 came from an ad hoc run; N-008 (and T-011b for the paper) must regenerate them through `make_results.R`.
-
-## 9. Rulings received 2026-11-20 and what they add
-
-- **Q1 Data access:** Tim adds `www2.census.gov`, `geodata.bts.gov` and `services.arcgis.com` in the environment's Settings (Network access → Allowed domains). The session's own `update_environment` call was rejected twice by the environments service.
-- **Q3 Road types: yes.** It applies to New York too, so the paper's numbers are rerun once more.
-- **Q4: multi-county MPOs only** in the ranked chart. Single-county MPOs are still computed and listed in the CSV table, but not charted.
-- Q2 (tract rule) and Q5 (robustness threshold) take the recommended defaults unless Tim says otherwise: interior point; groups of at least 1,000 people.
-
-**Finding:** the cached New York roads (`index/test/shapes_roads.rds`) are dissolved to one feature per county (62 rows, columns `geoid, geometry`), with no MTFCC road class. Road-type weighting therefore needs a fresh TIGER download for New York too, and waits on Q1 like the national run.
-
-### N-013 Road-type emissions weighting (O design, S implementation) — new
-
-- Owns:
-  - `index/functions.R` (new functions only: `get_roads_by_class`, `get_area_roads_by_class`, `get_county_group_values_roadtype`);
-  - `index/make_roadtype.R`;
-  - `index/test/roads_by_class.rds`, `index/test/area_roads300_by_class.rds`;
-  - `index/tests/test_roadtype.R`.
-- **Design (Opus writes it into `docs/ROADTYPE_METHOD.md` first):**
-  1. Download TIGER 2022 primary and secondary roads per state with MTFCC kept. S1100 = primary (limited-access) and S1200 = secondary.
-  2. Classify each road segment as rural or urban using the 2020 Census urban-area polygons, which also come from TIGER.
-  3. Map to MOVES road types: S1100 urban → 4 (urban restricted); S1100 rural → 2 (rural restricted); S1200 urban → 5 (urban unrestricted); S1200 rural → 3 (rural unrestricted).
-  4. Per county, take CAT `detail/<geoid>.parquet` rows with `by = 15` for pollutant 110. Interpolate each road type to 2022 with the D16 rule.
-  5. Buffer each class separately, intersect with tracts, and count the exposed residents per tract and class.
-  6. Compute the emissions rate per exposed resident per county and class: class emissions ÷ class exposed residents. This is Eq. 7 applied by class.
-  7. A group's emissions are the sum over classes of rate × exposed residents.
-  8. A resident inside two classes' buffers: count them once per class, so overlap means double exposure. Say so in Methods.
-  9. Everything downstream (Eqs. 9-10, index) is unchanged.
-- **Regression:** with all four classes collapsed into one, `get_county_group_values_roadtype` must equal `get_county_group_values` to 1e-9 on New York.
-- **Accept:**
-  - `tests/test_roadtype.R` passes, including the collapsed-class regression.
-  - results.json gains variant `rerun_roadtype` for New York.
-  - RERUN_DIFF.md shows `rerun` against `rerun_roadtype`.
-  - Tim decides whether `rerun_roadtype` replaces `rerun` as the paper's headline. That is a gate, because it changes the paper's numbers a third time.
-- Depends: N-001 (TIGER), N-003.
-- Feeds N-006 and N-008 (the national run uses the same functions).
+- Reuse `index/functions.R` (`get_index`, `get_indicator`, `get_region_group_values`, `get_emissions_interpolated`), `index/cat_bulk.R` (`retrieve_emissions_bulk`), `index/make_results.R` (variant and JSON pattern), `paper_equity/.contract/r0/preview/apply_edits.py`.
+- CAT objects: `https://api.cat-apps.com/objects/` + `LATEST`, `year/<YYYY>.parquet` (`by = 16`), `detail/<geoid>.parquet` (`by = 15` has `roadtype` 1-5; 1 is absent in some years).
+- `get_region_group_values` computes `eshare = sum(emissions_group) / sum(emissions)`. For MPO units `emissions` must be the unit's allocated emissions, not the county total (method doc).
+- `get_county_group_values` yields `NaN` for a county with no exposed residents. The road-type function drops and flags it.
+- The NY small-group numbers in section 2 are ad hoc; N-008 and paper task T-011b regenerate them through code.
+- `CONTRACT.yaml` in this folder carries `depends`, `owns` and `definition_of_done` per task and wins on any difference.
