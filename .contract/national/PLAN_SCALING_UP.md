@@ -123,3 +123,32 @@ Applying T-014 to the manuscript; the new Methods subsubsection (Q2); any change
 - **Q3:** no multiplicity adjustment ("I don't think adj is necessary"). The headline is the raw count with p0 < 0.05. U-1 drops `p0_bh` and the BH count from its outputs; U-5 reports the raw count only.
 - **Q4:** hold zero-estimate cells at 0 in the ACS draws (U-2), stated as a limitation.
 - **Q5:** not asked; proceeding on the recommendation (permutation test and ACS intervals for the ten New York regions too, U-3) unless Tim says otherwise.
+
+## 8. Revision 2 (Tim's review of the T-014 preview, 2026-11-20). Tim approved the preview once these are handled.
+
+Rulings:
+- **ND33 On-the-line case.** Each map also highlights one "on-the-line" MPO: the MPO emblematic of the scatter's trend line, close to the line and in the middle of the clump. Rule (deterministic): among MPOs whose log emissions per resident AND whose index both lie within their interquartile ranges, and that are not an extreme, take the one with the smallest absolute OLS residual (ties: larger population). Highlight it on the map (outlined, leader line, label "<name>, <state> (index)") and ring it in its scatter, styled distinctly from the extremes.
+- **ND34 Layout.** Maps in a left column (race above income), scatters in a right column (race above income); the map column takes about 62% of the width.
+- **ND35 Single-county wording.** Methods, not Results: the index compares burden across the counties of a region, because each county has its own emissions rate; inside one county every exposed resident bears the same rate, so the method needs groups of counties, and to scale up we use multi-county MPOs. Puerto Rico exclusion and the equal-group focus also move to Methods. Results report results only.
+- **ND36 New York permutation results move to Results.** In the existing New York results: "In New York, the observed index was more uneven than any of our 1,000 random allocations (p = 0.001)", and Mohawk Valley's chance expectation reported where the race index is discussed. Nothing in Methods reports findings.
+- **ND37 Drop statistics not introduced in Methods** (Spearman rho, the size-gradient sentences, "intervals sit mostly below the point estimate").
+- **ND38 ACS sentence** rephrased as: for the median MPO, sampling error moves its index within a 95% range of 0.060 on race, 0.019 on income, ... (values from results).
+- **ND39 Report shares below thresholds:** share of MPOs with an index below 0.95 and below 0.90, for race and income.
+- **ND40 Place names:** "in Virginia's Staunton-Augusta-Waynesboro MPO", "in Rhode Island's State Planning Council".
+- **ND41 Numbers:** three decimals everywhere (p as "p = 0.044" or "p < 0.001"; CI bounds three decimals; a bound that rounds to zero shows one significant figure, e.g. -0.0003, matching the figure).
+- **ND42 Citations must be real and verified:** the BTS NTAD MPO layer and Carrington and Troske (1997) (plus Patefield 1981 if the r2dtable algorithm is cited), found and checked by the agent, added to `bibliography.bib`; no TODO keys left.
+- **ND43 Figure placement:** the national figure appears before the "Scaling Up" subsection heading (`\FloatBarrier` from `placeins`, already loaded).
+- **NY CAT status (measured 2026-11-20, MANIFEST-6b77a4af):** none of the 23 New York county detail files holds a 2022 run; 12 gained a 2023 run. Reported to Tim with the check command.
+
+Tasks:
+
+**W-1 Results contract extension (S).** Owns `national/models.R`, the U-3 section of `index/make_results.R`, regenerated `national/results_national.json` and `paper_equity/.contract/r0/results.json`.
+- `national/models.R` adds: `typical.<index>` (race, income) by the ND33 rule = `{mpo_id, mpo_name, state, state_name, value, fitted, residual, emissions_rate_kg}`; `extremes.<index>.{min,max}.state_name`; `distribution.<index>.{median, share_lt_095, share_lt_090, n_lt_095, n_lt_090}` for race, income, edu, age, overall; `coverage.total` (rows in LEDGER.csv). State names from `datasets::state.name`/`state.abb` plus "District of Columbia".
+- `make_results.R` U-3 section: also copy `typical`, `distribution`; add leaves `national.permutation.B` and `national.acs.B` (from each source JSON's `_meta$B`).
+- Accept: `Rscript national/models.R` and `cd index && Rscript make_results.R` run; the new paths exist in `paper_equity/.contract/r0/results.json`; all older keys byte-identical except `_meta`.
+
+**W-2 Figure (S, dataviz).** Depends W-1. Owns `national/figures.R`, `national/fig/mpo_national.png`. ND33 + ND34; keep square tiles, state labels, extremes, titles, CI annotation. Accept: viewed at full size and 2x crops; on-the-line case highlighted on both maps and ringed in both scatters; map column about 62% of width; no label overlaps.
+
+**W-3 Text, citations, numbers (O).** Owns `paper_equity/.contract/r0/edits/T-014.md` (rewrite), `paper_equity/.contract/r0/preview/apply_edits.py` (the shared renderer's number format only, ND41), `paper_equity/bibliography.bib` (new verified entries only), `paper_equity/.contract/r0/preview/t014/`, `paper_equity/.contract/r0/build/T-014_changes_yellow.pdf`. ND35-ND43. Accept: preview compiles with 0 errors, 0 undefined citations, 0 unresolved placeholders; each new bib entry verified against a primary source (DOI resolves via crossref, or the BTS item page) with the evidence in the receipt; the Results subsection contains results only.
+
+**W-4 Apply (orchestrator).** After W-2 and W-3 pass: `rerender.py --target` (numbers under the new format), `apply_t014.py --target`, copy the figure into `paper_equity/fig/`, compile, commit.
