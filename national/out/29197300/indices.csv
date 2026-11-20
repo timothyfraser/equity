@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-East-West Gateway Council of Government,2,0.9999742300623892,0.9906411239779325,0.9906411239779325,0.9931900856374231,age,4,1,1,29197300,East-West Gateway Council of Government,4,2593033
-East-West Gateway Council of Government,2,0.9996252946571051,0.9583282591127544,0.8541489068946407,0.9659919407003777,income,8,1,1,29197300,East-West Gateway Council of Government,4,2593033
-East-West Gateway Council of Government,2,0.9995132415414433,0.9696329397707081,0.9696329397707081,0.9731960240649198,edu,4,1,1,29197300,East-West Gateway Council of Government,4,2593033
-East-West Gateway Council of Government,2,0.9999903800550668,0.9472894605248121,0.6084359924700327,0.9950034057193957,race,14,1,1,29197300,East-West Gateway Council of Government,4,2593033
-East-West Gateway Council of Government,NA,NA,0.9664729458465517,0.8557147407783285,0.9818453640305291,overall,NA,NA,NA,29197300,East-West Gateway Council of Government,4,2593033
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+East-West Gateway Council of Government,2,0.9999742300623892,0.9906411239779325,0.9906411239779325,0.9931900856374231,age,4,1,1,29197300,East-West Gateway Council of Government,4,2593033,334.02,1.2881440382748696e-4
+East-West Gateway Council of Government,2,0.9996252946571051,0.9583282591127544,0.8541489068946407,0.9659919407003777,income,8,1,1,29197300,East-West Gateway Council of Government,4,2593033,334.02,1.2881440382748696e-4
+East-West Gateway Council of Government,2,0.9995132415414433,0.9696329397707081,0.9696329397707081,0.9731960240649198,edu,4,1,1,29197300,East-West Gateway Council of Government,4,2593033,334.02,1.2881440382748696e-4
+East-West Gateway Council of Government,2,0.9999903800550668,0.9472894605248121,0.6084359924700327,0.9950034057193957,race,14,1,1,29197300,East-West Gateway Council of Government,4,2593033,334.02,1.2881440382748696e-4
+East-West Gateway Council of Government,NA,NA,0.9664729458465517,0.8557147407783285,0.9818453640305291,overall,NA,NA,NA,29197300,East-West Gateway Council of Government,4,2593033,334.02,1.2881440382748696e-4

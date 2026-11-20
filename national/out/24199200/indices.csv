@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Baltimore Regional Transportation Board,2,0.9999907232685491,0.9945818904888216,0.9945818904888216,0.9965817518727909,age,4,1,1,24199200,Baltimore Regional Transportation Board,2,2813568
-Baltimore Regional Transportation Board,2,0.9999396142036768,0.9844533178386992,0.9455866124354471,0.9865881996982367,income,8,1,1,24199200,Baltimore Regional Transportation Board,2,2813568
-Baltimore Regional Transportation Board,2,0.9999935821394664,0.9965577990750254,0.9965577990750254,0.9970979480254905,edu,4,1,1,24199200,Baltimore Regional Transportation Board,2,2813568
-Baltimore Regional Transportation Board,2,0.9995592567603915,0.9607238108405141,0.7082340233866762,0.9739895302508567,race,14,1,1,24199200,Baltimore Regional Transportation Board,2,2813568
-Baltimore Regional Transportation Board,NA,NA,0.984079204560765,0.9112400813464926,0.9885643574618437,overall,NA,NA,NA,24199200,Baltimore Regional Transportation Board,2,2813568
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Baltimore Regional Transportation Board,2,0.9999907232685491,0.9945818904888216,0.9945818904888216,0.9965817518727909,age,4,1,1,24199200,Baltimore Regional Transportation Board,2,2813568,311.3698332036736,1.1066724998424548e-4
+Baltimore Regional Transportation Board,2,0.9999396142036768,0.9844533178386992,0.9455866124354471,0.9865881996982367,income,8,1,1,24199200,Baltimore Regional Transportation Board,2,2813568,311.3698332036736,1.1066724998424548e-4
+Baltimore Regional Transportation Board,2,0.9999935821394664,0.9965577990750254,0.9965577990750254,0.9970979480254905,edu,4,1,1,24199200,Baltimore Regional Transportation Board,2,2813568,311.3698332036736,1.1066724998424548e-4
+Baltimore Regional Transportation Board,2,0.9995592567603915,0.9607238108405141,0.7082340233866762,0.9739895302508567,race,14,1,1,24199200,Baltimore Regional Transportation Board,2,2813568,311.3698332036736,1.1066724998424548e-4
+Baltimore Regional Transportation Board,NA,NA,0.984079204560765,0.9112400813464926,0.9885643574618437,overall,NA,NA,NA,24199200,Baltimore Regional Transportation Board,2,2813568,311.3698332036736,1.1066724998424548e-4

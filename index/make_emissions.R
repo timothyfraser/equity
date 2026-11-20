@@ -35,6 +35,11 @@ main |> filter(year %in% c(2020, 2025)) |>
   mutate(geoid = str_pad(geoid, width = 5, side = "left", pad = "0")) |>
   saveRDS("test/emissions_2020_2025_endpoints.rds")
 
+# Pollutant 98 (CO2e), 2020 and 2025 only: the small sample that make_data.R reads with glimpse()
+main |> filter(pollutant == 98, year %in% c(2020, 2025)) |>
+  mutate(geoid = str_pad(geoid, width = 5, side = "left", pad = "0")) |>
+  saveRDS("test/emissions.rds")
+
 # Year 2022 exactly as published (incomplete: some counties missing); used only for cross-checks
 exact22 = retrieve_emissions_bulk(
   geoid = geoids, year = 2022, pollutant = pollutants,

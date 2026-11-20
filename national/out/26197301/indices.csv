@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Tri-County Regional Planning Commission,2,0.9998534265063708,0.9809015931941824,0.9809015931941824,0.9857769428365193,age,4,1,1,26197301,Tri-County Regional Planning Commission,3,470861
-Tri-County Regional Planning Commission,2,0.9996660940459324,0.9623648617383745,0.868277016084311,0.970608626312944,income,8,1,1,26197301,Tri-County Regional Planning Commission,3,470861
-Tri-County Regional Planning Commission,2,0.9998919275173158,0.9781438017113806,0.9781438017113806,0.9880675605142887,edu,4,1,1,26197301,Tri-County Regional Planning Commission,3,470861
-Tri-County Regional Planning Commission,2,0.9998926049481914,0.9364772715042484,0.14081601880773786,0.9845861958031005,race,13,1,1,26197301,Tri-County Regional Planning Commission,3,470861
-Tri-County Regional Planning Commission,NA,NA,0.9644718820370465,0.742034607449403,0.9822598313667131,overall,NA,NA,NA,26197301,Tri-County Regional Planning Commission,3,470861
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Tri-County Regional Planning Commission,2,0.9998534265063708,0.9809015931941824,0.9809015931941824,0.9857769428365193,age,4,1,1,26197301,Tri-County Regional Planning Commission,3,470861,67.97999999999999,1.443738173261323e-4
+Tri-County Regional Planning Commission,2,0.9996660940459324,0.9623648617383745,0.868277016084311,0.970608626312944,income,8,1,1,26197301,Tri-County Regional Planning Commission,3,470861,67.97999999999999,1.443738173261323e-4
+Tri-County Regional Planning Commission,2,0.9998919275173158,0.9781438017113806,0.9781438017113806,0.9880675605142887,edu,4,1,1,26197301,Tri-County Regional Planning Commission,3,470861,67.97999999999999,1.443738173261323e-4
+Tri-County Regional Planning Commission,2,0.9998926049481914,0.9364772715042484,0.14081601880773786,0.9845861958031005,race,13,1,1,26197301,Tri-County Regional Planning Commission,3,470861,67.97999999999999,1.443738173261323e-4
+Tri-County Regional Planning Commission,NA,NA,0.9644718820370465,0.742034607449403,0.9822598313667131,overall,NA,NA,NA,26197301,Tri-County Regional Planning Commission,3,470861,67.97999999999999,1.443738173261323e-4

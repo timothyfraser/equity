@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Akron Metropolitan Area Transportation Study,2,0.9997077711256395,0.9707753433795021,0.9707753433795021,0.9795512615735777,age,4,1,1,39196201,Akron Metropolitan Area Transportation Study,6,720447
-Akron Metropolitan Area Transportation Study,2,0.9992450426892099,0.9557103305198653,0.8449861568195284,0.9581124432805489,income,8,0.9999999999999999,1,39196201,Akron Metropolitan Area Transportation Study,6,720447
-Akron Metropolitan Area Transportation Study,2,0.9995583258471841,0.9630318705585916,0.9630318705585916,0.9753994359957622,edu,4,1,1,39196201,Akron Metropolitan Area Transportation Study,6,720447
-Akron Metropolitan Area Transportation Study,2,0.9992628374097994,0.9567054388347165,0.678383259915037,0.9698746404554504,race,14,1,1,39196201,Akron Metropolitan Area Transportation Study,6,720447
-Akron Metropolitan Area Transportation Study,NA,NA,0.9615557458231689,0.8642941576681648,0.9707344453263348,overall,NA,NA,NA,39196201,Akron Metropolitan Area Transportation Study,6,720447
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Akron Metropolitan Area Transportation Study,2,0.9997077711256395,0.9707753433795021,0.9707753433795021,0.9795512615735777,age,4,1,1,39196201,Akron Metropolitan Area Transportation Study,6,720447,83.51612246421602,1.1592264589097606e-4
+Akron Metropolitan Area Transportation Study,2,0.9992450426892099,0.9557103305198653,0.8449861568195284,0.9581124432805489,income,8,0.9999999999999999,1,39196201,Akron Metropolitan Area Transportation Study,6,720447,83.51612246421602,1.1592264589097606e-4
+Akron Metropolitan Area Transportation Study,2,0.9995583258471841,0.9630318705585916,0.9630318705585916,0.9753994359957622,edu,4,1,1,39196201,Akron Metropolitan Area Transportation Study,6,720447,83.51612246421602,1.1592264589097606e-4
+Akron Metropolitan Area Transportation Study,2,0.9992628374097994,0.9567054388347165,0.678383259915037,0.9698746404554504,race,14,1,1,39196201,Akron Metropolitan Area Transportation Study,6,720447,83.51612246421602,1.1592264589097606e-4
+Akron Metropolitan Area Transportation Study,NA,NA,0.9615557458231689,0.8642941576681648,0.9707344453263348,overall,NA,NA,NA,39196201,Akron Metropolitan Area Transportation Study,6,720447,83.51612246421602,1.1592264589097606e-4

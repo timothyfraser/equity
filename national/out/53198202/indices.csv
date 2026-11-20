@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Cowlitz-Wahkiakum Council of Governments,2,0.9998538738031976,0.9778563661403745,0.9778563661403745,0.9859602958755499,age,4,1.0000000000000002,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442
-Cowlitz-Wahkiakum Council of Governments,2,0.9993923029207995,0.9262071524838742,0.7417250336935596,0.9567344427256098,income,8,1,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442
-Cowlitz-Wahkiakum Council of Governments,2,0.9995032377508524,0.9424427958558719,0.9424427958558719,0.9729101963289327,edu,4,1,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442
-Cowlitz-Wahkiakum Council of Governments,2,0.9998972838578128,0.8928878221551748,-0.05826658172554566,0.9825645504786197,race,13,1,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442
-Cowlitz-Wahkiakum Council of Governments,NA,NA,0.9348485341588239,0.650939403491065,0.974542371352178,overall,NA,NA,NA,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Cowlitz-Wahkiakum Council of Governments,2,0.9998538738031976,0.9778563661403745,0.9778563661403745,0.9859602958755499,age,4,1.0000000000000002,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442,23.521900794457572,3.487722901820464e-4
+Cowlitz-Wahkiakum Council of Governments,2,0.9993923029207995,0.9262071524838742,0.7417250336935596,0.9567344427256098,income,8,1,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442,23.521900794457572,3.487722901820464e-4
+Cowlitz-Wahkiakum Council of Governments,2,0.9995032377508524,0.9424427958558719,0.9424427958558719,0.9729101963289327,edu,4,1,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442,23.521900794457572,3.487722901820464e-4
+Cowlitz-Wahkiakum Council of Governments,2,0.9998972838578128,0.8928878221551748,-0.05826658172554566,0.9825645504786197,race,13,1,1,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442,23.521900794457572,3.487722901820464e-4
+Cowlitz-Wahkiakum Council of Governments,NA,NA,0.9348485341588239,0.650939403491065,0.974542371352178,overall,NA,NA,NA,53198202,Cowlitz-Wahkiakum Council of Governments,7,67442,23.521900794457572,3.487722901820464e-4

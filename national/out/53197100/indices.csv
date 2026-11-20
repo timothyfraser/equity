@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Benton-Franklin Council of Governments,2,0.9999067084602999,0.9883690205905317,0.9883690205905317,0.9893301709141411,age,4,1,1,53197100,Benton-Franklin Council of Governments,4,304252
-Benton-Franklin Council of Governments,2,0.9994105681917664,0.95253307208272,0.8338657522895199,0.9590152628404521,income,8,0.9999999999999999,1,53197100,Benton-Franklin Council of Governments,4,304252
-Benton-Franklin Council of Governments,2,0.9995117891413687,0.965352956136118,0.965352956136118,0.9732698517163543,edu,4,1,1,53197100,Benton-Franklin Council of Governments,4,304252
-Benton-Franklin Council of Governments,2,0.999133540949445,0.9091038673499219,0.3247715860279907,0.9590231551024336,race,14,1,1,53197100,Benton-Franklin Council of Governments,4,304252
-Benton-Franklin Council of Governments,NA,NA,0.9538397290398228,0.77808982876104,0.9701596101433453,overall,NA,NA,NA,53197100,Benton-Franklin Council of Governments,4,304252
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Benton-Franklin Council of Governments,2,0.9999067084602999,0.9883690205905317,0.9883690205905317,0.9893301709141411,age,4,1,1,53197100,Benton-Franklin Council of Governments,4,304252,47.8,1.5710660899517505e-4
+Benton-Franklin Council of Governments,2,0.9994105681917664,0.95253307208272,0.8338657522895199,0.9590152628404521,income,8,0.9999999999999999,1,53197100,Benton-Franklin Council of Governments,4,304252,47.8,1.5710660899517505e-4
+Benton-Franklin Council of Governments,2,0.9995117891413687,0.965352956136118,0.965352956136118,0.9732698517163543,edu,4,1,1,53197100,Benton-Franklin Council of Governments,4,304252,47.8,1.5710660899517505e-4
+Benton-Franklin Council of Governments,2,0.999133540949445,0.9091038673499219,0.3247715860279907,0.9590231551024336,race,14,1,1,53197100,Benton-Franklin Council of Governments,4,304252,47.8,1.5710660899517505e-4
+Benton-Franklin Council of Governments,NA,NA,0.9538397290398228,0.77808982876104,0.9701596101433453,overall,NA,NA,NA,53197100,Benton-Franklin Council of Governments,4,304252,47.8,1.5710660899517505e-4

@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-North Jersey Transportation Planning Authority,2,0.99994411709632,0.986677748799073,0.986677748799073,0.9915385630663011,age,4,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565
-North Jersey Transportation Planning Authority,2,0.9996220710649583,0.9779575375328835,0.9228513813650923,0.9743128032765036,income,8,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565
-North Jersey Transportation Planning Authority,2,0.9997302742278563,0.9789479038267599,0.9789479038267599,0.9799299500045796,edu,4,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565
-North Jersey Transportation Planning Authority,2,0.9999249029287278,0.9638061645656523,0.7311315082019887,0.9864754289400228,race,14,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565
-North Jersey Transportation Planning Authority,NA,NA,0.9768473386810922,0.9049021355482285,0.9830641863218518,overall,NA,NA,NA,34198200,North Jersey Transportation Planning Authority,1,6986565
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+North Jersey Transportation Planning Authority,2,0.99994411709632,0.986677748799073,0.986677748799073,0.9915385630663011,age,4,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565,655.9993306644365,9.389440027602068e-5
+North Jersey Transportation Planning Authority,2,0.9996220710649583,0.9779575375328835,0.9228513813650923,0.9743128032765036,income,8,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565,655.9993306644365,9.389440027602068e-5
+North Jersey Transportation Planning Authority,2,0.9997302742278563,0.9789479038267599,0.9789479038267599,0.9799299500045796,edu,4,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565,655.9993306644365,9.389440027602068e-5
+North Jersey Transportation Planning Authority,2,0.9999249029287278,0.9638061645656523,0.7311315082019887,0.9864754289400228,race,14,1,1,34198200,North Jersey Transportation Planning Authority,1,6986565,655.9993306644365,9.389440027602068e-5
+North Jersey Transportation Planning Authority,NA,NA,0.9768473386810922,0.9049021355482285,0.9830641863218518,overall,NA,NA,NA,34198200,North Jersey Transportation Planning Authority,1,6986565,655.9993306644365,9.389440027602068e-5

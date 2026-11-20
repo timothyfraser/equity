@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Capital Region Transportation Planning Agency,2,0.9999400167583756,0.9885574486974243,0.9885574486974243,0.9916888578711456,age,4,1,1,12197706,Capital Region Transportation Planning Agency,6,386064
-Capital Region Transportation Planning Agency,2,0.9990745331149943,0.9335237054577409,0.7673329691020933,0.9484773895694445,income,8,1,1,12197706,Capital Region Transportation Planning Agency,6,386064
-Capital Region Transportation Planning Agency,2,0.9983670726471233,0.9208498238624474,0.9208498238624474,0.9498547095934871,edu,4,1,1,12197706,Capital Region Transportation Planning Agency,6,386064
-Capital Region Transportation Planning Agency,2,0.9963798900686434,0.8730516475841817,0.0569550963396358,0.9300753606490111,race,14,0.9999999999999999,1,12197706,Capital Region Transportation Planning Agency,6,386064
-Capital Region Transportation Planning Agency,NA,NA,0.9289956564004486,0.6834238345004002,0.955024079420772,overall,NA,NA,NA,12197706,Capital Region Transportation Planning Agency,6,386064
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Capital Region Transportation Planning Agency,2,0.9999400167583756,0.9885574486974243,0.9885574486974243,0.9916888578711456,age,4,1,1,12197706,Capital Region Transportation Planning Agency,6,386064,63.10666666666667,1.6346167129456946e-4
+Capital Region Transportation Planning Agency,2,0.9990745331149943,0.9335237054577409,0.7673329691020933,0.9484773895694445,income,8,1,1,12197706,Capital Region Transportation Planning Agency,6,386064,63.10666666666667,1.6346167129456946e-4
+Capital Region Transportation Planning Agency,2,0.9983670726471233,0.9208498238624474,0.9208498238624474,0.9498547095934871,edu,4,1,1,12197706,Capital Region Transportation Planning Agency,6,386064,63.10666666666667,1.6346167129456946e-4
+Capital Region Transportation Planning Agency,2,0.9963798900686434,0.8730516475841817,0.0569550963396358,0.9300753606490111,race,14,0.9999999999999999,1,12197706,Capital Region Transportation Planning Agency,6,386064,63.10666666666667,1.6346167129456946e-4
+Capital Region Transportation Planning Agency,NA,NA,0.9289956564004486,0.6834238345004002,0.955024079420772,overall,NA,NA,NA,12197706,Capital Region Transportation Planning Agency,6,386064,63.10666666666667,1.6346167129456946e-4

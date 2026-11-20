@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Augusta Regional Transportation Study (ARTS),2,0.9999328728103016,0.9830838763463481,0.9830838763463481,0.9900814285398796,age,4,1,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269
-Augusta Regional Transportation Study (ARTS),2,0.9983988937212183,0.9209892594416226,0.7234624080456789,0.9338216788045955,income,8,1,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269
-Augusta Regional Transportation Study (ARTS),2,0.9986818800640629,0.9306848005912358,0.9306848005912358,0.955420108766734,edu,4,1,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269
-Augusta Regional Transportation Study (ARTS),2,0.9993103577599007,0.910501778854649,0.33515607149167836,0.9663685955302146,race,14,0.9999999999999999,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269
-Augusta Regional Transportation Study (ARTS),NA,NA,0.9363149288084639,0.7430967891187352,0.961422952910356,overall,NA,NA,NA,13197000,Augusta Regional Transportation Study (ARTS),5,480269
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Augusta Regional Transportation Study (ARTS),2,0.9999328728103016,0.9830838763463481,0.9830838763463481,0.9900814285398796,age,4,1,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269,77.58024771211595,1.6153498916672936e-4
+Augusta Regional Transportation Study (ARTS),2,0.9983988937212183,0.9209892594416226,0.7234624080456789,0.9338216788045955,income,8,1,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269,77.58024771211595,1.6153498916672936e-4
+Augusta Regional Transportation Study (ARTS),2,0.9986818800640629,0.9306848005912358,0.9306848005912358,0.955420108766734,edu,4,1,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269,77.58024771211595,1.6153498916672936e-4
+Augusta Regional Transportation Study (ARTS),2,0.9993103577599007,0.910501778854649,0.33515607149167836,0.9663685955302146,race,14,0.9999999999999999,1,13197000,Augusta Regional Transportation Study (ARTS),5,480269,77.58024771211595,1.6153498916672936e-4
+Augusta Regional Transportation Study (ARTS),NA,NA,0.9363149288084639,0.7430967891187352,0.961422952910356,overall,NA,NA,NA,13197000,Augusta Regional Transportation Study (ARTS),5,480269,77.58024771211595,1.6153498916672936e-4

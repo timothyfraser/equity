@@ -48,6 +48,9 @@ mem = tracts %>% st_drop_geometry() %>% group_by(geoid_county) %>%
   left_join(em_method %>% select(geoid, years, emis_method = method), by = c("geoid_county" = "geoid")) %>%
   left_join(dropped, by = "geoid_county")
 
+# ND21: raw county emissions are not stored; keep the MPO-level total (county emissions x share of county in the MPO) and its per-resident rate
+emissions_mpo = sum(mem$emissions_county * mem$share_county_affected, na.rm = TRUE)
+pop_in_mpo = census_tracts %>% filter(geoid %in% unit_tracts) %>% summarize(across(all_of(DIMENSIONS$race), ~sum(.x, na.rm = TRUE))) %>% unlist() %>% sum()
 checks = tibble(
   check = c("one_polygon", "member_counties", "partial_counties", "tracts_in_unit", "no_member_dropped",
             "affected_le_pop", "eshare_sum_1", "pshare_sum_1", "indices_in_0_1"),
@@ -57,7 +60,7 @@ checks = tibble(
             all(abs(idx$eshare_sum[idx$type != "overall"] - 1) < 1e-9),
             all(abs(idx$pshare_sum[idx$type != "overall"] - 1) < 1e-9),
             all(idx$indicator2 >= 0 & idx$indicator2 <= 1)))
-write_csv(idx %>% mutate(mpo_id = mpo_id), file.path(out, "indices.csv"))
-write_csv(checks, file.path(out, "checks.csv")); write_csv(timing, file.path(out, "timing.csv")); write_csv(mem, file.path(out, "members.csv"))
+write_csv(idx %>% mutate(mpo_id = mpo_id, emissions_mpo = emissions_mpo, emissions_rate_mpo = emissions_mpo / pop_in_mpo), file.path(out, "indices.csv"))
+write_csv(checks, file.path(out, "checks.csv")); write_csv(timing, file.path(out, "timing.csv")); write_csv(mem %>% select(-emissions_county), file.path(out, "members.csv"))
 print(idx %>% select(type, indicator2, indicator_pw, n_groups), digits = 4); print(checks); print(mem, width = 200)
 cat("total seconds:", round(sum(timing$seconds)), " per member county:", round(sum(timing$seconds)/length(members), 1), "\n")

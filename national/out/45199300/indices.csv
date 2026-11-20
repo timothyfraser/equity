@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Anderson Area Transportation Study,2,0.999860716006778,0.9819361054544843,0.9819361054544843,0.9860263280129516,age,4,1,1,45199300,Anderson Area Transportation Study,5,165998
-Anderson Area Transportation Study,2,0.9993643695067173,0.951759512855794,0.831158294995279,0.9570411973759928,income,8,1,1,45199300,Anderson Area Transportation Study,5,165998
-Anderson Area Transportation Study,2,0.9992748989769541,0.9505012535526036,0.9505012535526036,0.9670607015231144,edu,4,0.9999999999999998,1,45199300,Anderson Area Transportation Study,5,165998
-Anderson Area Transportation Study,2,0.9976363296831091,0.9258183652067931,-0.22496766300527238,0.9469125625876232,race,12,1,1,45199300,Anderson Area Transportation Study,5,165998
-Anderson Area Transportation Study,NA,NA,0.9525038092674187,0.6346569977492736,0.9642601973749205,overall,NA,NA,NA,45199300,Anderson Area Transportation Study,5,165998
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Anderson Area Transportation Study,2,0.999860716006778,0.9819361054544843,0.9819361054544843,0.9860263280129516,age,4,1,1,45199300,Anderson Area Transportation Study,5,165998,37.05623232714348,2.2323300477803036e-4
+Anderson Area Transportation Study,2,0.9993643695067173,0.951759512855794,0.831158294995279,0.9570411973759928,income,8,1,1,45199300,Anderson Area Transportation Study,5,165998,37.05623232714348,2.2323300477803036e-4
+Anderson Area Transportation Study,2,0.9992748989769541,0.9505012535526036,0.9505012535526036,0.9670607015231144,edu,4,0.9999999999999998,1,45199300,Anderson Area Transportation Study,5,165998,37.05623232714348,2.2323300477803036e-4
+Anderson Area Transportation Study,2,0.9976363296831091,0.9258183652067931,-0.22496766300527238,0.9469125625876232,race,12,1,1,45199300,Anderson Area Transportation Study,5,165998,37.05623232714348,2.2323300477803036e-4
+Anderson Area Transportation Study,NA,NA,0.9525038092674187,0.6346569977492736,0.9642601973749205,overall,NA,NA,NA,45199300,Anderson Area Transportation Study,5,165998,37.05623232714348,2.2323300477803036e-4

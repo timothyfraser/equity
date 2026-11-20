@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Adirondack/Glens Falls Transportation Council,2,0.999897047108319,0.9827577764576697,0.9827577764576697,0.988642844986794,age,4,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364
-Adirondack/Glens Falls Transportation Council,2,0.9997180925216346,0.9571718861970804,0.8501016016897811,0.9712449284807229,income,8,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364
-Adirondack/Glens Falls Transportation Council,2,0.9999443230797848,0.9802670227146216,0.9802670227146216,0.9901984858433673,edu,4,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364
-Adirondack/Glens Falls Transportation Council,2,0.9999916139506119,0.9031647251005284,0.0015830504162920311,0.9955291861760792,race,13,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364
-Adirondack/Glens Falls Transportation Council,NA,NA,0.955840352617475,0.7036773628195911,0.9864038613717409,overall,NA,NA,NA,36198204,Adirondack/Glens Falls Transportation Council,8,143364
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Adirondack/Glens Falls Transportation Council,2,0.999897047108319,0.9827577764576697,0.9827577764576697,0.988642844986794,age,4,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364,27.168423075071694,1.8950659213660118e-4
+Adirondack/Glens Falls Transportation Council,2,0.9997180925216346,0.9571718861970804,0.8501016016897811,0.9712449284807229,income,8,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364,27.168423075071694,1.8950659213660118e-4
+Adirondack/Glens Falls Transportation Council,2,0.9999443230797848,0.9802670227146216,0.9802670227146216,0.9901984858433673,edu,4,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364,27.168423075071694,1.8950659213660118e-4
+Adirondack/Glens Falls Transportation Council,2,0.9999916139506119,0.9031647251005284,0.0015830504162920311,0.9955291861760792,race,13,1,1,36198204,Adirondack/Glens Falls Transportation Council,8,143364,27.168423075071694,1.8950659213660118e-4
+Adirondack/Glens Falls Transportation Council,NA,NA,0.955840352617475,0.7036773628195911,0.9864038613717409,overall,NA,NA,NA,36198204,Adirondack/Glens Falls Transportation Council,8,143364,27.168423075071694,1.8950659213660118e-4

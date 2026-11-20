@@ -16,7 +16,7 @@ The worked example in `index/` covers New York State; the code is written to ext
 ## Quick links
 
 - Paper: in preparation for submission (no public preprint yet).
-- Emissions data: [CAT object store, latest pointer](https://api.cat-apps.com/objects/LATEST) (one parquet file per year, e.g. [2020](https://api.cat-apps.com/objects/year/2020.parquet)).
+- Emissions data: [CAT object store, latest pointer](https://api.cat-apps.com/objects/LATEST) (one parquet file per year, e.g. [2020](https://api.cat-apps.com/objects/year/2020.parquet)). Raw emissions are not stored in this repo; see [`index/test/EMISSIONS_SOURCES.md`](index/test/EMISSIONS_SOURCES.md).
 - Pipeline scripts: [`index/`](index/) and its [script table](index/README.md).
 - Index method: [`index/functions.R`](index/functions.R).
 - Instructions for coding agents: [`CLAUDE.md`](CLAUDE.md).
@@ -49,7 +49,7 @@ cd index && Rscript make_emissions.R && Rscript run_ny.R
 
 | Data | Source | How the code reads it | Key needed |
 |---|---|---|---|
-| Transportation emissions, every US county, one file per year | [CAT public object store](https://api.cat-apps.com/objects/LATEST) (`https://api.cat-apps.com/objects/year/<YYYY>.parquet`) | `index/cat_bulk.R`, called by `index/make_emissions.R` | No |
+| Transportation emissions, every US county, one file per year | [CAT public object store](https://api.cat-apps.com/objects/LATEST) (`https://api.cat-apps.com/objects/year/<YYYY>.parquet`) | `index/cat_bulk.R`, called by `index/make_emissions.R`; not stored in this repo, rerun `cd index && Rscript make_emissions.R` (manifest `MANIFEST-e2ccfae4.tsv`; CAT is updated over time, so values pulled later may differ slightly from the ones behind the paper) | No |
 | Demographics: race and ethnicity, income, education, age | [ACS 5-year, 2022](https://www.census.gov/data/developers/data-sets/acs-5year.html) | [`censusapi`](https://cran.r-project.org/package=censusapi) in `index/make_data.R` | Yes, `CENSUS_API_KEY` environment variable |
 | Roads and census tracts | [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) | [`tigris`](https://cran.r-project.org/package=tigris) in `index/make_shapes.R` | No |
 

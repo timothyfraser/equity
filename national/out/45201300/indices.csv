@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Lowcountry Area Transportation Study,2,0.9979284254339048,0.930637133969024,0.930637133969024,0.9453054349621897,age,4,0.9999999999999999,1,45201300,Lowcountry Area Transportation Study,5,175893
-Lowcountry Area Transportation Study,2,0.9993818833091125,0.9519039755793566,0.831663914527748,0.9594312232802993,income,8,1,1,45201300,Lowcountry Area Transportation Study,5,175893
-Lowcountry Area Transportation Study,2,0.997479623000369,0.9169254986515878,0.9169254986515878,0.9393042380893339,edu,4,1,1,45201300,Lowcountry Area Transportation Study,5,175893
-Lowcountry Area Transportation Study,2,0.9954193809285413,0.7944609575995853,-0.8255190823415242,0.9236894570002283,race,13,1,1,45201300,Lowcountry Area Transportation Study,5,175893
-Lowcountry Area Transportation Study,NA,NA,0.8984818914498884,0.4634268662017089,0.9419325883330127,overall,NA,NA,NA,45201300,Lowcountry Area Transportation Study,5,175893
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Lowcountry Area Transportation Study,2,0.9979284254339048,0.930637133969024,0.930637133969024,0.9453054349621897,age,4,0.9999999999999999,1,45201300,Lowcountry Area Transportation Study,5,175893,26.50186407943278,1.506703739172837e-4
+Lowcountry Area Transportation Study,2,0.9993818833091125,0.9519039755793566,0.831663914527748,0.9594312232802993,income,8,1,1,45201300,Lowcountry Area Transportation Study,5,175893,26.50186407943278,1.506703739172837e-4
+Lowcountry Area Transportation Study,2,0.997479623000369,0.9169254986515878,0.9169254986515878,0.9393042380893339,edu,4,1,1,45201300,Lowcountry Area Transportation Study,5,175893,26.50186407943278,1.506703739172837e-4
+Lowcountry Area Transportation Study,2,0.9954193809285413,0.7944609575995853,-0.8255190823415242,0.9236894570002283,race,13,1,1,45201300,Lowcountry Area Transportation Study,5,175893,26.50186407943278,1.506703739172837e-4
+Lowcountry Area Transportation Study,NA,NA,0.8984818914498884,0.4634268662017089,0.9419325883330127,overall,NA,NA,NA,45201300,Lowcountry Area Transportation Study,5,175893,26.50186407943278,1.506703739172837e-4

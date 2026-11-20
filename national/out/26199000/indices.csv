@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Grand Valley Metropolitan Council,2,0.99819064880119035,0.9358268352244574,0.9358268352244574,0.9494968806919921,age,4,1,1,26199000,Grand Valley Metropolitan Council,3,770208
-Grand Valley Metropolitan Council,2,0.9991329219005359,0.9314381763200058,0.7600336171200203,0.9480542017889233,income,8,1,1,26199000,Grand Valley Metropolitan Council,3,770208
-Grand Valley Metropolitan Council,2,0.9999109663969518,0.968297968766472,0.968297968766472,0.988508457644282,edu,4,1,1,26199000,Grand Valley Metropolitan Council,3,770208
-Grand Valley Metropolitan Council,2,0.999672107955528,0.9196424452964477,0.40305816505932546,0.9759098751385934,race,14,1,1,26199000,Grand Valley Metropolitan Council,3,770208
-Grand Valley Metropolitan Council,NA,NA,0.9388013564018457,0.7668041465425688,0.9654923538159477,overall,NA,NA,NA,26199000,Grand Valley Metropolitan Council,3,770208
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Grand Valley Metropolitan Council,2,0.99819064880119035,0.9358268352244574,0.9358268352244574,0.9494968806919921,age,4,1,1,26199000,Grand Valley Metropolitan Council,3,770208,84.92164504568889,1.1025806671144534e-4
+Grand Valley Metropolitan Council,2,0.9991329219005359,0.9314381763200058,0.7600336171200203,0.9480542017889233,income,8,1,1,26199000,Grand Valley Metropolitan Council,3,770208,84.92164504568889,1.1025806671144534e-4
+Grand Valley Metropolitan Council,2,0.9999109663969518,0.968297968766472,0.968297968766472,0.988508457644282,edu,4,1,1,26199000,Grand Valley Metropolitan Council,3,770208,84.92164504568889,1.1025806671144534e-4
+Grand Valley Metropolitan Council,2,0.999672107955528,0.9196424452964477,0.40305816505932546,0.9759098751385934,race,14,1,1,26199000,Grand Valley Metropolitan Council,3,770208,84.92164504568889,1.1025806671144534e-4
+Grand Valley Metropolitan Council,NA,NA,0.9388013564018457,0.7668041465425688,0.9654923538159477,overall,NA,NA,NA,26199000,Grand Valley Metropolitan Council,3,770208,84.92164504568889,1.1025806671144534e-4

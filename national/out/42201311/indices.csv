@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Northeastern Pennsylvania Alliance (NEPA),2,0.9999111643644935,0.9870607561788443,0.9870607561788443,0.9889986345885649,age,4,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343
-Northeastern Pennsylvania Alliance (NEPA),2,0.9997023419480557,0.9703440843639622,0.8962042952738678,0.9731926809440831,income,8,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343
-Northeastern Pennsylvania Alliance (NEPA),2,0.9999478949462611,0.988954364341222,0.988954364341222,0.9916449238873482,edu,4,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343
-Northeastern Pennsylvania Alliance (NEPA),2,0.9999239473347936,0.8958532136847092,0.22633815880069674,0.9877862263673923,race,14,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343
-Northeastern Pennsylvania Alliance (NEPA),NA,NA,0.9605531046421845,0.7746393936486577,0.9854056164468471,overall,NA,NA,NA,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Northeastern Pennsylvania Alliance (NEPA),2,0.9999111643644935,0.9870607561788443,0.9870607561788443,0.9889986345885649,age,4,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343,71.52,1.642842540249872e-4
+Northeastern Pennsylvania Alliance (NEPA),2,0.9997023419480557,0.9703440843639622,0.8962042952738678,0.9731926809440831,income,8,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343,71.52,1.642842540249872e-4
+Northeastern Pennsylvania Alliance (NEPA),2,0.9999478949462611,0.988954364341222,0.988954364341222,0.9916449238873482,edu,4,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343,71.52,1.642842540249872e-4
+Northeastern Pennsylvania Alliance (NEPA),2,0.9999239473347936,0.8958532136847092,0.22633815880069674,0.9877862263673923,race,14,1,1,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343,71.52,1.642842540249872e-4
+Northeastern Pennsylvania Alliance (NEPA),NA,NA,0.9605531046421845,0.7746393936486577,0.9854056164468471,overall,NA,NA,NA,42201311,Northeastern Pennsylvania Alliance (NEPA),5,435343,71.52,1.642842540249872e-4

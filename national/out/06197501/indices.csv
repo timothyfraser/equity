@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Southern California Association of Governments,2,0.9999377897038523,0.9840566550666673,0.9840566550666673,0.9892160736846438,age,4,1,1,06197501,Southern California Association of Governments,0,18743554
-Southern California Association of Governments,2,0.9997570540186779,0.9743824270411472,0.9103384946440154,0.9757113555217994,income,8,1,1,06197501,Southern California Association of Governments,0,18743554
-Southern California Association of Governments,2,0.9996868728674081,0.9755091462514808,0.9755091462514808,0.9785590438071184,edu,4,1,1,06197501,Southern California Association of Governments,0,18743554
-Southern California Association of Governments,2,0.9996827194728737,0.9781270705699223,0.8375153813765654,0.9717412553578217,race,14,1,1,06197501,Southern California Association of Governments,0,18743554
-Southern California Association of Governments,NA,NA,0.9780188247323044,0.9268549193346822,0.9788069320928459,overall,NA,NA,NA,06197501,Southern California Association of Governments,0,18743554
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Southern California Association of Governments,2,0.9999377897038523,0.9840566550666673,0.9840566550666673,0.9892160736846438,age,4,1,1,06197501,Southern California Association of Governments,0,18743554,1920.8,1.0247789720135252e-4
+Southern California Association of Governments,2,0.9997570540186779,0.9743824270411472,0.9103384946440154,0.9757113555217994,income,8,1,1,06197501,Southern California Association of Governments,0,18743554,1920.8,1.0247789720135252e-4
+Southern California Association of Governments,2,0.9996868728674081,0.9755091462514808,0.9755091462514808,0.9785590438071184,edu,4,1,1,06197501,Southern California Association of Governments,0,18743554,1920.8,1.0247789720135252e-4
+Southern California Association of Governments,2,0.9996827194728737,0.9781270705699223,0.8375153813765654,0.9717412553578217,race,14,1,1,06197501,Southern California Association of Governments,0,18743554,1920.8,1.0247789720135252e-4
+Southern California Association of Governments,NA,NA,0.9780188247323044,0.9268549193346822,0.9788069320928459,overall,NA,NA,NA,06197501,Southern California Association of Governments,0,18743554,1920.8,1.0247789720135252e-4

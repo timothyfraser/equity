@@ -1,3 +1,3 @@
-geoid_county,n_tracts,n_in,emissions_county,affected_county,share_county_affected,pop_total,years,emis_method,reason
-48375,35,34,31.939999999999998,58757.33196755266,0.9936990159467708,111354,"2020,2025",interpolated,NA
-48381,33,31,25.159999999999997,31543.647164232712,0.9856020878670484,129174,"2020,2025",interpolated,NA
+geoid_county,n_tracts,n_in,affected_county,share_county_affected,pop_total,years,emis_method,reason
+48375,35,34,58757.33196755266,0.9936990159467708,111354,"2020,2025",interpolated,NA
+48381,33,31,31543.647164232712,0.9856020878670484,129174,"2020,2025",interpolated,NA

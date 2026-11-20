@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-St. Cloud Area Planning Organization,2,0.9990867513377673,0.9520867813447877,0.9520867813447877,0.9625216938455949,age,4,1.0000000000000002,1,27197000,St. Cloud Area Planning Organization,6,138691
-St. Cloud Area Planning Organization,2,0.9992621925485337,0.9236403029351955,0.7327410602731841,0.9494854842542808,income,8,1,1,27197000,St. Cloud Area Planning Organization,6,138691
-St. Cloud Area Planning Organization,2,0.9989469639577515,0.9318397520295976,0.9318397520295976,0.9598355663175498,edu,4,1,1,27197000,St. Cloud Area Planning Organization,6,138691
-St. Cloud Area Planning Organization,2,0.9986895846137981,0.8340019460155159,-0.4084213495202369,0.9570288796416015,race,13,1,1,27197000,St. Cloud Area Planning Organization,6,138691
-St. Cloud Area Planning Organization,NA,NA,0.9103921955812742,0.5520615610318331,0.9572179060147568,overall,NA,NA,NA,27197000,St. Cloud Area Planning Organization,6,138691
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+St. Cloud Area Planning Organization,2,0.9990867513377673,0.9520867813447877,0.9520867813447877,0.9625216938455949,age,4,1.0000000000000002,1,27197000,St. Cloud Area Planning Organization,6,138691,33.65800397075007,2.4268340390328193e-4
+St. Cloud Area Planning Organization,2,0.9992621925485337,0.9236403029351955,0.7327410602731841,0.9494854842542808,income,8,1,1,27197000,St. Cloud Area Planning Organization,6,138691,33.65800397075007,2.4268340390328193e-4
+St. Cloud Area Planning Organization,2,0.9989469639577515,0.9318397520295976,0.9318397520295976,0.9598355663175498,edu,4,1,1,27197000,St. Cloud Area Planning Organization,6,138691,33.65800397075007,2.4268340390328193e-4
+St. Cloud Area Planning Organization,2,0.9986895846137981,0.8340019460155159,-0.4084213495202369,0.9570288796416015,race,13,1,1,27197000,St. Cloud Area Planning Organization,6,138691,33.65800397075007,2.4268340390328193e-4
+St. Cloud Area Planning Organization,NA,NA,0.9103921955812742,0.5520615610318331,0.9572179060147568,overall,NA,NA,NA,27197000,St. Cloud Area Planning Organization,6,138691,33.65800397075007,2.4268340390328193e-4

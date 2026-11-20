@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Miami Valley Regional Planning Commission,2,0.9999780471320553,0.9921727851459748,0.9921727851459748,0.9948603020970137,age,4,1,1,39197302,Miami Valley Regional Planning Commission,6,859794
-Miami Valley Regional Planning Commission,2,0.9998001090854663,0.9690076635613962,0.8915268224648869,0.9759512869754928,income,8,1,1,39197302,Miami Valley Regional Planning Commission,6,859794
-Miami Valley Regional Planning Commission,2,0.9998172033737015,0.9738265604743896,0.9738265604743896,0.9844611754804216,edu,4,0.9999999999999999,1,39197302,Miami Valley Regional Planning Commission,6,859794
-Miami Valley Regional Planning Commission,2,0.9998380009024694,0.9474502496969645,0.6096304263203072,0.9847553857170215,race,14,0.9999999999999999,1,39197302,Miami Valley Regional Planning Commission,6,859794
-Miami Valley Regional Planning Commission,NA,NA,0.9706143147196813,0.8667891486013897,0.9850070375674874,overall,NA,NA,NA,39197302,Miami Valley Regional Planning Commission,6,859794
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Miami Valley Regional Planning Commission,2,0.9999780471320553,0.9921727851459748,0.9921727851459748,0.9948603020970137,age,4,1,1,39197302,Miami Valley Regional Planning Commission,6,859794,91.33896613326597,1.0623354679523929e-4
+Miami Valley Regional Planning Commission,2,0.9998001090854663,0.9690076635613962,0.8915268224648869,0.9759512869754928,income,8,1,1,39197302,Miami Valley Regional Planning Commission,6,859794,91.33896613326597,1.0623354679523929e-4
+Miami Valley Regional Planning Commission,2,0.9998172033737015,0.9738265604743896,0.9738265604743896,0.9844611754804216,edu,4,0.9999999999999999,1,39197302,Miami Valley Regional Planning Commission,6,859794,91.33896613326597,1.0623354679523929e-4
+Miami Valley Regional Planning Commission,2,0.9998380009024694,0.9474502496969645,0.6096304263203072,0.9847553857170215,race,14,0.9999999999999999,1,39197302,Miami Valley Regional Planning Commission,6,859794,91.33896613326597,1.0623354679523929e-4
+Miami Valley Regional Planning Commission,NA,NA,0.9706143147196813,0.8667891486013897,0.9850070375674874,overall,NA,NA,NA,39197302,Miami Valley Regional Planning Commission,6,859794,91.33896613326597,1.0623354679523929e-4

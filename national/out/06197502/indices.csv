@@ -1,6 +1,6 @@
-region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
-Association of Monterey Bay Area Governments,2,0.9996108595942157,0.9651055351299223,0.9651055351299223,0.9773556750734465,age,4,1,1,06197502,Association of Monterey Bay Area Governments,1,770933
-Association of Monterey Bay Area Governments,2,0.999123731927524,0.9573112563378785,0.8505893971825746,0.9560972927933394,income,8,1,1,06197502,Association of Monterey Bay Area Governments,1,770933
-Association of Monterey Bay Area Governments,2,0.9976887954620516,0.9291441633637383,0.9291441633637383,0.9450113934608121,edu,4,1,1,06197502,Association of Monterey Bay Area Governments,1,770933
-Association of Monterey Bay Area Governments,2,0.9964969099512017,0.9155109215968874,0.3723668461483063,0.9212773429821087,race,14,1,1,06197502,Association of Monterey Bay Area Governments,1,770933
-Association of Monterey Bay Area Governments,NA,NA,0.9417679691071066,0.7793014854561353,0.9499354260774266,overall,NA,NA,NA,06197502,Association of Monterey Bay Area Governments,1,770933
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Association of Monterey Bay Area Governments,2,0.9996108595942157,0.9651055351299223,0.9651055351299223,0.9773556750734465,age,4,1,1,06197502,Association of Monterey Bay Area Governments,1,770933,59.3,7.691978420952275e-5
+Association of Monterey Bay Area Governments,2,0.999123731927524,0.9573112563378785,0.8505893971825746,0.9560972927933394,income,8,1,1,06197502,Association of Monterey Bay Area Governments,1,770933,59.3,7.691978420952275e-5
+Association of Monterey Bay Area Governments,2,0.9976887954620516,0.9291441633637383,0.9291441633637383,0.9450113934608121,edu,4,1,1,06197502,Association of Monterey Bay Area Governments,1,770933,59.3,7.691978420952275e-5
+Association of Monterey Bay Area Governments,2,0.9964969099512017,0.9155109215968874,0.3723668461483063,0.9212773429821087,race,14,1,1,06197502,Association of Monterey Bay Area Governments,1,770933,59.3,7.691978420952275e-5
+Association of Monterey Bay Area Governments,NA,NA,0.9417679691071066,0.7793014854561353,0.9499354260774266,overall,NA,NA,NA,06197502,Association of Monterey Bay Area Governments,1,770933,59.3,7.691978420952275e-5

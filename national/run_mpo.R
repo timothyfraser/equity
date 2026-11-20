@@ -82,6 +82,9 @@ res = tryCatch({
     left_join(ugv %>% distinct(geoid_county, emissions_county, affected_county, share_county_affected, pop_total), by = "geoid_county") %>%
     left_join(em %>% select(geoid, years, emis_method = method), by = c("geoid_county" = "geoid")) %>%
     left_join(dropped, by = "geoid_county")
+  # ND21: raw county emissions are not stored; keep the MPO-level total (county emissions x share of county in the MPO) and its per-resident rate
+  emissions_mpo = sum(mem$emissions_county * mem$share_county_affected, na.rm = TRUE)
+  pop_in_mpo = sum(race_pop$pop)
   checks = tibble(
     check = c("one_polygon", "no_member_dropped", "eshare_sum_1", "pshare_sum_1", "indices_in_0_1"),
     pass = c(nrow(mpo) == 1, nrow(dropped) == 0,
@@ -90,8 +93,9 @@ res = tryCatch({
              all(idx$indicator2 >= 0 & idx$indicator2 <= 1)))
   write_csv(idx %>% mutate(mpo_id = mpo_id, mpo_name = mpo$mpo_name,
                            race_groups_lt_1000 = sum(race_pop$pop > 0 & race_pop$pop < 1000),
-                           pop_in_mpo = sum(race_pop$pop)), file.path(out, "indices.csv"))
-  write_csv(checks, file.path(out, "checks.csv")); write_csv(timing, file.path(out, "timing.csv")); write_csv(mem, file.path(out, "members.csv"))
+                           pop_in_mpo = pop_in_mpo,
+                           emissions_mpo = emissions_mpo, emissions_rate_mpo = emissions_mpo / pop_in_mpo), file.path(out, "indices.csv"))
+  write_csv(checks, file.path(out, "checks.csv")); write_csv(timing, file.path(out, "timing.csv")); write_csv(mem %>% select(-emissions_county), file.path(out, "members.csv"))
   status$dropped = map2(dropped$geoid_county, dropped$reason, ~list(geoid = .x, reason = .y))
   status$status = if(all(checks$pass)) "done" else "error"
   if(!all(checks$pass)) status$message = paste("failed checks:", paste(checks$check[!checks$pass], collapse = ", "))
