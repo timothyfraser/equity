@@ -137,3 +137,52 @@ Order: V-1 → V-2 and V-4 (parallel) → V-3 → V-5 (if approved) → V-6. Tra
 ## 5. Needs Tim's approval before it happens
 
 Placing any order (C-1 live), publishing any order (C-2), changing the manuscript (C-4 rerender, V-6), and adding the null simulation as a method (V-5).
+
+---
+
+# Revision 2 (Tim, 2026-11-20): rulings and the tasks as dispatched
+
+## R2.0 Rulings
+
+- **ND15. Scatter x-axis = emissions per capita on a log scale, labelled in original units** (not log values). One model only: `index ~ log(emissions per capita)`. New York keeps its current figure and total-emissions axis.
+- **ND16. Tile map is one cohesive, US-shaped block.** Tiles touch; no gaps for geography. No state abbreviations on tiles (they read as states; a tile is an MPO). Not sized by population.
+- **ND17. Map text.** Title "Race/ethnicity equity index per metropolitan planning organization" (and "Income equity index per ..."). Subtitle exactly "One tile per MPO, arranged nearest its location." Fill legend titled with the index name.
+- **ND18. Scatter text.** Clear titles, no subtitle, y-axis titles kept. Annotation: Greek β, its SE, and p exact to three decimals, or "p < 0.001". No GAM line, no second model.
+- **ND19. Shared scale.** Race and income share one index scale, 0.70 to 1.00, in both maps and both scatters.
+- **ND20. Label the extremes.** On each map the most and least equal MPO get a thin black outline and a leader line to a label giving the MPO name and its index (three decimals). The same two MPOs are ringed in the matching scatter.
+- **ND21. Replication data rule.** Do not store raw CAT emissions in GitHub when they can be pulled from CAT public without a key. Store only values the analysis produces (indices, MPO totals) plus the exact query URLs and the CAT manifest name, and say that values may change slightly as CAT is updated.
+- **ND22. Paper section "Scaling up":** two or three paragraphs at the end of Results, written after the CAT runs land (Q5 as recommended).
+- **CAT orders:** Tim's local CAT session places them (Q1 option b). Counties: the 37 in `CAT_2022_RUN_REQUEST_37.md` plus the 24 New York counties = 61, no Puerto Rico. Hand-off text: `.contract/national/CAT_ORDERS_HANDOFF.md`.
+- **Q4 (chance simulation):** not ruled; explained again to Tim, not started.
+
+## R2.1 Tasks (supersede V-1..V-4 in section 2 where they differ)
+
+**R-1 Replication data rule (S).** First; no dependencies.
+- Owns `.gitignore`, `README.md` (data section only), `index/test/EMISSIONS_SOURCES.md` (new), `national/run_mpo.R`, `national/pilot/run_pilot_mpo.R`, `national/migrate_drop_county_emissions.R` (new), every `national/out/*/members.csv`, `national/out/*/indices.csv`, `national/pilot/out/*/members.csv`.
+- Do: (1) `git rm --cached` the tracked NY emissions files `index/test/emissions.rds`, `emissions_2020_2025_endpoints.rds`, `emissions_2022_exact.rds`, `emissions_all_pollutants.{rds,csv}` and gitignore them; keep `emissions_provenance.txt`. Confirm `index/make_emissions.R` regenerates each one; if one is not regenerated, add that to `make_emissions.R` rather than keep the file. (2) `run_mpo.R` and `run_pilot_mpo.R`: stop writing `emissions_county`; write MPO-level `emissions_mpo` (sum over member counties of `emissions_county * share_county_affected`) and `emissions_rate_mpo` (= `emissions_mpo / pop_in_mpo`) into `indices.csv`. (3) Migration script: for every existing `out/<id>`, add those two columns to `indices.csv` from `members.csv`, then drop `emissions_county` from `members.csv`. Idempotent. (4) `EMISSIONS_SOURCES.md` + README: the exact URLs (`https://api.cat-apps.com/objects/LATEST`, `.../objects/year/<YYYY>.parquet` for 2020-2025), the manifest used (`MANIFEST-e2ccfae4.tsv`), no key needed, and "CAT is updated over time, so re-pulled values may differ slightly from the ones behind the paper."
+- Accept: `git ls-files | grep -E 'emissions_.*\.(rds|csv)$'` returns only `demo/` (left alone per CLAUDE.md); moving the five NY files aside and running `Rscript make_emissions.R` recreates them and `all.equal` to the moved copies is TRUE; no committed `members.csv` has an `emissions_county` column; every `done` MPO's `indices.csv` has `emissions_mpo` and `emissions_rate_mpo`; `Rscript national/run_mpo.R 36197300` still gives indices identical to the committed ones.
+
+**V-1 MPO table (S).** Depends R-1.
+- Owns `national/mpo_table.R`, `national/tables/mpo_wide.csv`.
+- One row per `done` MPO: `mpo_id, mpo_name, state, n_counties, n_states, pop_in_mpo, race, income, edu, age, overall, race_pw, income_pw, race_groups_lt_1000, emissions_mpo, emissions_rate_mpo`. Reads `national/out/*/indices.csv` and `national/LEDGER.csv` only.
+- Accept: rows = `done` count in `LEDGER.csv`; no NA; spot check three MPOs against their `indices.csv`.
+
+**V-2 Cohesive tile grid (O).** No dependencies.
+- Owns `national/tile_grid.R`, `national/tables/mpo_tiles.csv`, `national/fig/tile_grid_check.png`.
+- Tiles: every MPO with status `done` or `blocked_cat` in `national/LEDGER.csv` whose polygon centroid lies in the contiguous US (excludes Puerto Rico; no AK or HI MPO is multi-county). Centroids in EPSG:5070 from `index/cache/national/mpo/<id>.geojson` (re-fetch with `get_mpo_polygon()` in `national/pilot/pilot_functions.R` if missing).
+- Mask: lower-48 + DC outline (`tigris::states(cb = TRUE, year = 2022)`), EPSG:5070. Square cells; choose the cell size so the count of cells whose centre falls inside the outline is the smallest count >= N tiles.
+- Assignment: minimum total squared distance from centroid to cell centre (`clue::solve_LSAP`). Surplus cells go to the edge: add dummy rows that cost 0 on boundary cells (fewer than 4 in-mask neighbours) and a large constant elsewhere, then drop them. The design is the agent's to improve (for example a density-equalising pre-step so East Coast MPOs are not pushed inland); judge by the acceptance numbers and the picture.
+- Out `mpo_tiles.csv`: `mpo_id, col, row, cx, cy` (centroid), `disp_cells`.
+- Accept: one 4-connected block; no empty cell enclosed by occupied cells; deterministic; the receipt reports mean and max displacement in cells and the share of MPO pairs whose east-west and north-south order is preserved; `tile_grid_check.png` shows the block with US outline beside it, and it reads as the US.
+
+**V-4 Models (S).** Depends V-1.
+- Owns `national/models.R`, `national/results_national.json`.
+- For each index (race, income, edu, age, overall): OLS `index ~ log(emissions_rate_mpo)`; record `beta, se, p, r2, n` (classical SE, the figure's numbers) plus `se_hc3, p_hc3` and `se_cluster_state, p_cluster_state` (`sandwich`, cluster = MPO's primary state). Also `extremes.<index>.{min,max} = {mpo_id, mpo_name, value}` and `coverage = {done, single_county, blocked_cat, pending}` from `LEDGER.csv`, `cat_manifest`, `generated_utc`. Leaf objects follow the paper's `{value, status, evidence}` style.
+- Accept: valid JSON; race β ≈ -0.049 (the mock-up's figure, three decimals) with the current data; every number the figure prints exists in the JSON.
+
+**V-3 Four-panel figure (S, `dataviz` skill).** Depends V-2, V-4.
+- Owns `national/figures.R` (rewrite), `national/fig/mpo_national.png`; deletes `national/fig/mpo_rank_*.png` and `national/proto/` once accepted.
+- Implements ND16-ND20 exactly. Reuse the paper's plasma hues for race and income (`index/functions.R` `get_lines`). Map: sequential single hue, darker = less even, scale 0.70-1.00 (extend down by 0.05 steps only if a value falls below), legend titled with the index name, blocked MPOs as empty outlined tiles labelled once in the legend or caption as "awaiting CAT data". Scatter: x = `emissions_rate_mpo` converted to kg per resident, log10 axis with plain-number labels, axis title "On-road PM2.5 emissions per resident, kg, 2022 (log scale)"; y title = index name; OLS line `y ~ log(x)` with 95% band; annotation from `results_national.json` only.
+- Accept: rebuilds from `mpo_wide.csv`, `mpo_tiles.csv`, `results_national.json` alone; looked at as a rendered PNG at 2x: no overlapping labels, extremes labels legible and outside the block, legend titles present, both maps and both scatters on 0.70-1.00.
+
+Order: R-1 and V-2 in parallel → V-1 → V-4 → V-3. Paper text (V-6, "Scaling up") waits for the CAT runs.
