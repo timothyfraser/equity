@@ -73,4 +73,4 @@ Synthetic tests (`national/pilot/test_pilot.R`, 8 of 8 pass): a county with no e
 | Other paper regions | 92.4-94.9% |
 | Pilot MPOs | 78.4% (NYMTC) to 93.1% (Louisville) |
 
-The Bronx is the extreme case: the groups cover 822,891 of 1,443,229 residents (57%). This is in the published paper's method, not new to the national extension, and the uncovered residents are mostly Hispanic. Adding the four groups (14 groups) would change the paper's race numbers, so it needs a ruling.
+The Bronx is the extreme case: the groups cover 822,891 of 1,443,229 residents (57%). Of the 620,338 Bronx residents left out, 581,950 (94%) are Hispanic: Hispanic residents who report "some other race" or two or more races fall outside all ten groups. This is in the published paper's method, not new to the national extension. Adding the four groups (14 groups) would change the paper's race numbers, so it needs a ruling.
