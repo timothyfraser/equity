@@ -74,3 +74,41 @@ Synthetic tests (`national/pilot/test_pilot.R`, 8 of 8 pass): a county with no e
 | Pilot MPOs | 78.4% (NYMTC) to 93.1% (Louisville) |
 
 The Bronx is the extreme case: the groups cover 822,891 of 1,443,229 residents (57%). Of the 620,338 Bronx residents left out, 581,950 (94%) are Hispanic: Hispanic residents who report "some other race" or two or more races fall outside all ten groups. This is in the published paper's method, not new to the national extension. Adding the four groups (14 groups) would change the paper's race numbers, so it needs a ruling.
+
+# P6: 14 race groups and 10 more MPOs (2026-11-20)
+
+Tim ruled on both P5 findings:
+- **Race groups:** add the four missing groups everywhere. `RACE_VARS` (14 groups) in `index/functions.R` is now the one list every script uses; `RACE_VARS_10` keeps the as-published set. The New York census caches were rebuilt by `index/make_census.R`, which refuses to overwrite unless every existing column is unchanged (it was). The groups now cover 100.0% of residents in every county.
+- **37 counties with only a 2020 CAT run:** request the runs (`.contract/national/CAT_2022_RUN_REQUEST_37.md`). Until they land, those counties are dropped and flagged (Richmond: 2 of 8 counties).
+
+Checks after the change: P0 still reproduces `results.json` (now 14 groups) to 4.4e-16; P1 fresh-vs-cached still passes; synthetic tests 8 of 8; `index/tests/test_index.R` 0 failures.
+
+All 17 pilot MPOs (the 7 earlier ones rerun with 14 groups, plus Sacramento, Puget Sound, Denver, Maricopa, Mid-America/Kansas City, Metropolitan Council/Twin Cities, New Orleans RPC, Delaware Valley, Fargo-Moorhead and Atlanta) pass every check. Table: `national/pilot/out/p6_summary.csv`.
+
+| MPO | counties | partial | states | race | race (pop.-weighted) | overall | seconds |
+|---|---|---|---|---|---|---|---|
+| Winchester-Frederick County (VA) | 2 | 1 | 1 | 0.844 | 0.984 | 0.940 | 13* |
+| Richmond Area (VA), 2 counties dropped | 8 | 1 | 1 | 0.887 | 0.948 | 0.956 | 29* |
+| New Orleans RPC (LA) | 9 | 0 | 1 | 0.897 | 0.972 | 0.956 | 36 |
+| Sacramento Area COG (CA) | 6 | 2 | 1 | 0.918 | 0.968 | 0.951 | 46 |
+| NYMTC (NY) | 10 | 4 | 1 | 0.932 | 0.922 | 0.952 | 119* |
+| Louisville KY-IN | 5 | 0 | 2 | 0.933 | 0.977 | 0.965 | 31* |
+| Fargo-Moorhead (ND-MN) | 2 | 2 | 2 | 0.934 | 0.977 | 0.940 | 15 |
+| Mid-America RC (MO-KS) | 8 | 0 | 2 | 0.937 | 0.990 | 0.952 | 40 |
+| Durham Chapel Hill Carrboro (NC) | 3 | 2 | 1 | 0.937 | 0.972 | 0.950 | 17* |
+| Denver Regional COG (CO) | 8 | 3 | 1 | 0.940 | 0.967 | 0.945 | 46 |
+| Capital Region COG (CT) | 2 | 2 | 1 | 0.940 | 0.990 | 0.970 | 20* |
+| Delaware Valley RPC (PA-NJ) | 9 | 0 | 2 | 0.941 | 0.959 | 0.973 | 84 |
+| Capital Region TC (NY) | 4 | 1 | 1 | 0.942 | 0.964 | 0.961 | 27* |
+| Puget Sound RC (WA) | 4 | 0 | 1 | 0.954 | 0.964 | 0.954 | 49 |
+| Metropolitan Council (MN) | 9 | 2 | 1 | 0.954 | 0.964 | 0.956 | 46 |
+| Atlanta RC (GA) | 19 | 3 | 1 | 0.954 | 0.983 | 0.965 | 84 |
+| Maricopa AG (AZ) | 2 | 1 | 1 | 0.958 | 0.956 | 0.948 | 50 |
+
+\* first-run time; the rerun with 14 groups reused cached geometry.
+
+What the 17 show:
+1. The method holds across 13 states, multi-state MPOs, Connecticut's geography change, partial counties and 2 to 19 counties.
+2. Speed is 4-12 s per county with downloads (Atlanta: 19 counties in 84 s), so the national run is hours, not days.
+3. The smallest MPO ranks last on race (Winchester 0.844, population-weighted 0.984), the small-group effect again. The under-1,000 marker is needed on the national chart.
+4. NYMTC is the only pilot MPO whose population-weighted race score (0.922) is below its equal-group score (0.932): its unevenness falls on large groups.

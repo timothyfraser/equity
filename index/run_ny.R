@@ -75,19 +75,7 @@ get_all(
   index = "race",
   path_emissions = path_emissions,
   path_area_roads = path_area_roads,
-  myvars =  c(
-    "White_alone_Not_Hispanic_or_Latino_Population",
-    "Black_or_African_American_Not_Hispanic_or_Latino_Population",
-    "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population",
-    "Asian_Not_Hispanic_or_Latino_Population",
-    "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population",
-    
-    "Asian_Hispanic_or_Latino_Population",
-    "White_alone_Hispanic_or_Latino_Population",
-    "Black_or_African_American_Hispanic_or_Latino_Population",
-    "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population",
-    "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population"
-  )
+  myvars = RACE_VARS
 ) %>% 
   saveRDS("test/stat_race.rds")
 

@@ -17,13 +17,15 @@ CONTRACT = "/home/user/paper_equity/.contract/r0"
 MS_TEX   = "/home/user/paper_equity/baseline_cas/manuscript_cas.tex"   # frozen as-submitted manuscript: "published" is compared with what was printed then, not the edited v2
 DIST = 300; POLL = 110
 TYPES = c("income", "race", "edu", "age")
-VARIANTS = c("published", "fix_only", "rerun", "rerun_endpoints", "exact_2020", "exact_2025", "exact_2022_38")
+VARIANTS = c("published", "fix_only", "rerun", "rerun_race10", "rerun_endpoints", "exact_2020", "exact_2025", "exact_2022_38")
 regions_all = read_rds("data/regions_ny_data.rds")
 
 # ---- 1. Runs --------------------------------------------------------------
 dir.create("runs", showWarnings = FALSE)
 cfg = list(
   rerun         = list(dir = "variant_A",  year = 2022, em = "test/emissions_all_pollutants.rds",       regions = regions_all),
+  # rerun with the as-published ten race groups (before/after for the 14-group change, Tim 2026-11-20)
+  rerun_race10  = list(dir = "variant_A_race10", year = 2022, em = "test/emissions_all_pollutants.rds", regions = regions_all, race_vars = RACE_VARS_10),
   fix_only      = list(dir = "fix_only",   year = 2022, em = "published/emissions_all_pollutants.rds", regions = regions_all),
   rerun_endpoints = list(dir = "variant_A_endpoints", year = 2022, em = "test/emissions_2020_2025_endpoints.rds", regions = regions_all),
   exact_2020    = list(dir = "variant_B",  year = 2020, em = "test/emissions_2020_2025_endpoints.rds", regions = regions_all),
@@ -37,7 +39,8 @@ for(v in names(cfg)){
   k = cfg[[v]]; od = file.path("runs", k$dir); dir.create(od, showWarnings = FALSE, recursive = TRUE)
   message("== run ", v, " (year ", k$year, ", emissions ", k$em, ")")
   overall = get_overall(myyear = k$year, pollutant = POLL, dist = DIST, path_emissions = k$em,
-                        outdir = od, myregions = k$regions)
+                        outdir = od, myregions = k$regions,
+                        race_vars = if(is.null(k$race_vars)) RACE_VARS else k$race_vars)
   overall = overall %>% filter(!is.na(region))   # counties outside myregions (variant D) drop out
   saveRDS(overall, file.path(od, "stat_overall.rds"))
   lst = map(set_names(TYPES), ~read_rds(file.path(od, sprintf("stat_%s_%d_%d_%d.rds", .x, k$year, DIST, POLL))))
@@ -180,7 +183,9 @@ race_label = c(White_alone_Not_Hispanic_or_Latino_Population = "White", Black_or
                American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population = "Nat. Am.", Asian_Not_Hispanic_or_Latino_Population = "Asian",
                Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population = "Pacific", White_alone_Hispanic_or_Latino_Population = "White Latinx",
                Black_or_African_American_Hispanic_or_Latino_Population = "Black Latinx", American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population = "Nat. Am. Latinx",
-               Asian_Hispanic_or_Latino_Population = "Asian Latinx", Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population = "Pacific Latinx")
+               Asian_Hispanic_or_Latino_Population = "Asian Latinx", Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population = "Pacific Latinx",
+               Some_other_race_Not_Hispanic_or_Latino_Population = "Other", Two_or_more_races_Not_Hispanic_or_Latino_Population = "Multiracial",
+               Some_other_race_Hispanic_or_Latino_Population = "Other Latinx", Two_or_more_races_Hispanic_or_Latino_Population = "Multiracial Latinx")
 DESC = DESC %>% mutate(label = ifelse(group == "Race/Ethnicity", race_label[variable], NA_character_))
 DESC_nonrace = DESC %>% filter(group != "Race/Ethnicity")
 pr_nonrace = pr %>% filter(group != "Race/Ethnicity")
@@ -207,11 +212,7 @@ MIN_POPS = c(0, 1000, 5000)
 GROUPS_BY_TYPE = list(
   income = c("income_0_24999", "income_25000_49999", "income_50000_74999", "income_75000_99999",
              "income_100000_124999", "income_125000_149999", "income_150000_199999", "income_200000_or_more"),
-  race = c("White_alone_Not_Hispanic_or_Latino_Population", "Black_or_African_American_Not_Hispanic_or_Latino_Population",
-           "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population", "Asian_Not_Hispanic_or_Latino_Population",
-           "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population", "Asian_Hispanic_or_Latino_Population",
-           "White_alone_Hispanic_or_Latino_Population", "Black_or_African_American_Hispanic_or_Latino_Population",
-           "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population", "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population"),
+  race = RACE_VARS,
   edu = c("edu_less_than_hs", "edu_hs_grad", "edu_some_college_or_more", "edu_postgrad"),
   age = c("age_under_18", "age_18_34", "age_35_64", "age_65_and_over"))
 ROBUST = map_dfr(set_names(TYPES), function(t){
@@ -253,7 +254,8 @@ sha = system2("git", c("-C", "/home/user/equity", "rev-parse", "HEAD"), stdout =
 
 EV = c(published = "index/published/stat_*.rds (as-published snapshot); legacy index, old emissions",
        fix_only = "index/runs/fix_only (corrected index, published emissions; make_results.R)",
-       rerun = "index/runs/variant_A (corrected index, 2022 interpolated per county, piecewise linear over all available years 2020-2025; make_results.R)",
+       rerun = "index/runs/variant_A (corrected index, 2022 interpolated per county, piecewise linear over all available years 2020-2025; 14 race groups; make_results.R)",
+       rerun_race10 = "index/runs/variant_A_race10 (as rerun, but the as-published ten race groups, which leave out some other race and two or more races; make_results.R)",
        rerun_endpoints = "index/runs/variant_A_endpoints (corrected index, 2022 from straight line between 2020 and 2025 only; make_results.R)",
        exact_2020 = "index/runs/variant_B (exact 2020 emissions; make_results.R)",
        exact_2025 = "index/runs/variant_C (exact 2025 emissions; make_results.R)",

@@ -164,6 +164,28 @@ retrieve_census = function(state_fips, year, region = "tract:*", key = Sys.geten
 #' @param region:str code to pass to `censusapi` to tell what type of geography to return. Eg. `"tract:*"` returns every census tract.
 #' @param key:str census API key. By default, passed as environmental variable `CENSUS_API_KEY`. Can skip if already loaded as environmental variable.
 #' @export
+#' @name RACE_VARS
+#' @title Race and ethnicity groups (ACS B03002)
+#' RACE_VARS_10 is the as-published set (five races x Latinx or not). It left out "some other race"
+#' and "two or more races", which hold 24% of New York City residents (Bronx 43%), mostly Latinx.
+#' RACE_VARS (14 groups, Tim 2026-11-20) covers every resident: B03002_003-009 and _013-019.
+RACE_VARS_10 = c(
+  "White_alone_Not_Hispanic_or_Latino_Population",
+  "Black_or_African_American_Not_Hispanic_or_Latino_Population",
+  "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population",
+  "Asian_Not_Hispanic_or_Latino_Population",
+  "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population",
+  "Asian_Hispanic_or_Latino_Population",
+  "White_alone_Hispanic_or_Latino_Population",
+  "Black_or_African_American_Hispanic_or_Latino_Population",
+  "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population",
+  "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population")
+RACE_VARS = c(RACE_VARS_10,
+  "Some_other_race_Not_Hispanic_or_Latino_Population",
+  "Two_or_more_races_Not_Hispanic_or_Latino_Population",
+  "Some_other_race_Hispanic_or_Latino_Population",
+  "Two_or_more_races_Hispanic_or_Latino_Population")
+
 retrieve_census2 = function(state_fips, year, region = "tract:*", key = Sys.getenv("CENSUS_API_KEY")){
   library(dplyr, warn.conflicts = FALSE, quietly = TRUE)
   library(tidyr, warn.conflicts = FALSE, quietly = TRUE)
@@ -207,7 +229,12 @@ retrieve_census2 = function(state_fips, year, region = "tract:*", key = Sys.gete
     White_alone_Hispanic_or_Latino_Population = "B03002_013",
     Black_or_African_American_Hispanic_or_Latino_Population = "B03002_014",
     American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population = "B03002_015",
-    Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population = "B03002_017"
+    Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population = "B03002_017",
+    # Added 2026-11-20 (Tim): without these four, the ten groups missed 24% of NYC residents
+    Some_other_race_Not_Hispanic_or_Latino_Population = "B03002_008",
+    Two_or_more_races_Not_Hispanic_or_Latino_Population = "B03002_009",
+    Some_other_race_Hispanic_or_Latino_Population = "B03002_018",
+    Two_or_more_races_Hispanic_or_Latino_Population = "B03002_019"
   )
   
   
@@ -1169,6 +1196,10 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
       
       
       "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population" = "Pacific Latinx",
+      "Some_other_race_Hispanic_or_Latino_Population" = "Other Latinx",
+      "Two_or_more_races_Hispanic_or_Latino_Population" = "Multiracial Latinx",
+      "Some_other_race_Not_Hispanic_or_Latino_Population" = "Other",
+      "Two_or_more_races_Not_Hispanic_or_Latino_Population" = "Multiracial",
       "Asian_Hispanic_or_Latino_Population" = "Asian Latinx",
       "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population" = "Nat. Am. Latinx",
       "Black_or_African_American_Hispanic_or_Latino_Population" = "Black Latinx",
@@ -1607,7 +1638,8 @@ get_all = function(myregions,
 get_overall = function(myyear = 2022, pollutant = 98, dist = 1000,
                        path_emissions = "test/emissions_all_pollutants.rds",
                        outdir = "test",
-                       myregions = read_rds("data/regions_ny_data.rds")){
+                       myregions = read_rds("data/regions_ny_data.rds"),
+                       race_vars = RACE_VARS){
   
   # Testing values
   # myyear = 2022; pollutant = 2; dist = 1000
@@ -1659,19 +1691,7 @@ get_overall = function(myyear = 2022, pollutant = 98, dist = 1000,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
     path_emissions = path_emissions,
     index = "race",
-    myvars =  c(
-      "White_alone_Not_Hispanic_or_Latino_Population",
-      "Black_or_African_American_Not_Hispanic_or_Latino_Population",
-      "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population",
-      "Asian_Not_Hispanic_or_Latino_Population",
-      "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population",
-      
-      "Asian_Hispanic_or_Latino_Population",
-      "White_alone_Hispanic_or_Latino_Population",
-      "Black_or_African_American_Hispanic_or_Latino_Population",
-      "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population",
-      "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population"
-    )
+    myvars = race_vars
   )
   
   data4 %>%

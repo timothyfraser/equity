@@ -161,17 +161,7 @@ DIMENSIONS = list(
   income = c("income_0_24999", "income_25000_49999", "income_50000_74999", "income_75000_99999",
              "income_100000_124999", "income_125000_149999", "income_150000_199999", "income_200000_or_more"),
   edu = c("edu_less_than_hs", "edu_hs_grad", "edu_some_college_or_more", "edu_postgrad"),
-  race = c("White_alone_Not_Hispanic_or_Latino_Population",
-           "Black_or_African_American_Not_Hispanic_or_Latino_Population",
-           "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population",
-           "Asian_Not_Hispanic_or_Latino_Population",
-           "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population",
-           "Asian_Hispanic_or_Latino_Population",
-           "White_alone_Hispanic_or_Latino_Population",
-           "Black_or_African_American_Hispanic_or_Latino_Population",
-           "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population",
-           "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population"))
-
+  race = RACE_VARS)   # 14 groups, from index/functions.R (source it first)
 #' All four dimensions plus overall (mean of the four), for one unit.
 get_unit_indices = function(unit_name, ...){
   out = imap_dfr(DIMENSIONS, function(v, type){
