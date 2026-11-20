@@ -4,7 +4,7 @@ meta:
   method: docs/ROADTYPE_METHOD.md
   revision: 3
   repo: timothyfraser/equity (branch dev)
-  status: PLAN_SCALING_UP.md proposed 2026-11-20; waiting on Tim (Q1-Q5)
+  status: PLAN_SCALING_UP.md proposed and Q1-Q4 ruled 2026-11-20; waiting on Tim's go to implement
   plans:
   - .contract/national/PLAN_NATIONAL.md
   - .contract/national/PLAN_VIZ_AND_CAT.md
@@ -55,21 +55,21 @@ decisions:
     only a 2020 run + 24 NY), year 2022, no Puerto Rico.'
   ND24: 'Map layout: state abbreviation on every tile; maps about two thirds of the page height; extremes labels above/below
     the map (Tim, 2026-11-20).'
-  ND25: Scatter y-axes use the data extent; maps keep the shared 0.70-1.00 colour scale (pending Q1 confirmation).
+  ND25: Scatter y-axes use the data extent; both maps keep the shared 0.70-1.00 colour scale (Tim confirmed, Q1).
   ND26: Ordinary SEs, reported as 95% confidence intervals (done 2026-11-20).
   ND27: Run the exact permutation test (random allocation of group labels, fixed margins); report "x of 224 MPOs are significantly
     more uneven in emissions burden by race than we would expect by chance".
   ND28: Run ACS sampling-error intervals (parametric bootstrap on tract MOEs).
   ND29: Write the national "Scaling up" section now with the permutation and ACS clarifications; analysis reproducible, commented,
     in Tim's style, tested.
+  ND30: Methods gets a short subsubsection "Scaling Up to Metropolitan Planning Organizations" (Tim, Q2).
+  ND31: 'Permutation test headline: raw count with p0 < 0.05, no multiplicity adjustment (Tim, Q3: "I don''t think adj is
+    necessary").'
+  ND32: ACS draws hold zero-estimate cells at 0 (Tim, Q4).
 gates:
   G1: Removed by ND11 (no road-type variant).
 open_questions:
-  Q1: 'Map colour scale: shared 0.70-1.00 (recommended) or per-map extent'
-  Q2: New Methods subsubsection (recommended) or fold into Results
-  Q3: Headline BH-adjusted count (recommended) with raw count
-  Q4: ACS zero cells held at 0 (recommended)
-  Q5: Permutation and ACS intervals for NY regions too (recommended)
+  Q5: 'Permutation test and ACS intervals for the NY regions too: proceeding on the recommendation (yes) unless Tim objects.'
 tasks:
 - id: N-000
   title: Tim rulings

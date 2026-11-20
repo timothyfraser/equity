@@ -115,3 +115,11 @@ U-0 (O) and U-4 (S) start together → U-1 and U-2 (parallel, after Opus reviews
 ## 6. Needs Tim's approval before it happens
 
 Applying T-014 to the manuscript; the new Methods subsubsection (Q2); any change to the New York headline numbers.
+
+## 7. Answers (Tim, 2026-11-20)
+
+- **Q1:** shared 0.70-1.00 colour scale on both maps (ND25 confirmed).
+- **Q2:** add the short Methods subsubsection "Scaling Up to Metropolitan Planning Organizations" after "Estimating Exposure per Region" (U-5).
+- **Q3:** no multiplicity adjustment ("I don't think adj is necessary"). The headline is the raw count with p0 < 0.05. U-1 drops `p0_bh` and the BH count from its outputs; U-5 reports the raw count only.
+- **Q4:** hold zero-estimate cells at 0 in the ACS draws (U-2), stated as a limitation.
+- **Q5:** not asked; proceeding on the recommendation (permutation test and ACS intervals for the ten New York regions too, U-3) unless Tim says otherwise.
