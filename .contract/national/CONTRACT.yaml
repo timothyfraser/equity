@@ -4,7 +4,7 @@ meta:
   method: docs/ROADTYPE_METHOD.md
   revision: 3
   repo: timothyfraser/equity (branch dev)
-  status: proposed (revision 3, 2026-11-20; data access open; waiting on Q1-Q3 in PLAN section 7)
+  status: proposed (revision 3, 2026-11-20; data access open; Q1-Q3 ruled; Q4 open after N-014)
 decisions:
   ND1: 'National section ranks MPOs; emissions weighting kept (Tim, 2026-11-20: ''we''re not going to do it at the county
     level and cancel out the emissions term'')'
@@ -19,19 +19,24 @@ decisions:
   ND7: 'Planning units may use Fable (Tim, 2026-11-20: ''Use Fable to plan''); implementation units stay Opus/Sonnet.'
 gates:
   G1: Tim decides whether NY variant rerun_roadtype replaces rerun as the paper's headline (after N-015; blocks N-011)
+  ND8: 'Road-type split comes from the modern CAT runs only, 2022 and 2023 (MOVES Anywhere style); 2020 runs reflect older
+    MOVES road-type distributions and are not used for the split (Tim, 2026-11-20). Coverage measured 2026-11-20 from
+    year/2022.parquet and year/2023.parquet: 749 and 768 counties, union 954 of ~3,100, all 50 states. Counties with
+    neither year need a fallback split; N-014 proposes one, Tim rules (Q4).'
+  ND9: 'Off-network emissions are spread over the four road classes (Tim, 2026-11-20).'
+  ND10: 'MPO chart ranks by the equal-group index with a marker for groups under 1,000 residents (Tim, 2026-11-20).'
 open_questions:
-  Q1: 'Year basis of the road-type split: 2020 for all (recommended), D16 per road type, or decide after N-014. Blocks N-013.'
-  Q2: 'Off-network emissions: spread over road classes (recommended) or drop.'
-  Q3: 'Chart ranking: equal-group with >= 1,000 marker (recommended) or rank by >= 1,000 version.'
+  Q4: 'Fallback road-type split for the ~2,150 counties with no 2022/2023 run (e.g. nearest modern-run county, or state x
+    urban/rural median of modern runs). N-014 measures the options; blocks N-013.'
 tasks:
 - id: N-000
   title: Tim rulings
   wave: 0
   tier: Tim
-  status: ruled except Q1-Q3
+  status: ruled except Q4
   depends: []
   owns: []
-  definition_of_done: Q1-Q3 in PLAN section 7 answered
+  definition_of_done: Q4 answered after N-014
 - id: N-001
   title: 'Data access: TIGER + BTS NTAD MPO layer'
   wave: 0

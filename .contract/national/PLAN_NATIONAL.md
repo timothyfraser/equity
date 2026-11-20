@@ -210,3 +210,10 @@ About 4-5 agent-hours plus the background run. Two to three days. The JTG submis
 - `get_county_group_values` yields `NaN` for a county with no exposed residents. The road-type function drops and flags it.
 - The NY small-group numbers in section 2 are ad hoc; N-008 and paper task T-011b regenerate them through code.
 - `CONTRACT.yaml` in this folder carries `depends`, `owns` and `definition_of_done` per task and wins on any difference.
+
+## 10. Rulings on Q1-Q3 (Tim, 2026-11-20)
+
+- **Q1, road-type split: modern runs only (ND8).** Use the 2022 and 2023 CAT runs, which carry the MOVES Anywhere road-type distributions. The 2020 runs reflect older MOVES road-type distributions and are not used for the split. Measured coverage: 749 counties in 2022, 768 in 2023, 954 in either (out of about 3,100), with all 50 states represented. The roughly 2,150 counties with neither year need a fallback split (Q4). N-014 now audits 2022 against 2023 inside the 563 counties that have both, then measures fallback options (nearest modern-run county; state by urban/rural median) by leave-one-out on the 954.
+- **Q2, off-network: spread over the four classes (ND9).**
+- **Q3, chart ranking: equal-group index, flagging groups under 1,000 (ND10).**
+- **Can we split by road type effectively?** CAT can split: by=15 gives four on-network classes plus off-network for each modern-run county. The weak link is our exposure geometry. The TIGER buffers cover only primary and secondary roads (S1100/S1200), but "unrestricted" emissions include every local street, and Census urban areas are not the urban/rural line MOVES uses. The split will move burden between restricted and unrestricted corridors in roughly the right direction, but it will not locate local-street emissions. The paper should present it as a sensitivity layer, behind gate G1, not as a precise allocation.
