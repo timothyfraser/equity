@@ -88,6 +88,17 @@ add("- Descriptives (tab_descriptives2.tex), recomputed from the cached ACS 2022
 if(is.null(x$SENS_RERUN)) add("- Sensitivity rerun: not regenerated yet (`TODO-recompute`); run run_ny.R first.") else add("- Sensitivity fit (overall ~ log km, 10 regions x 5 distances): published slope ",f(x$SENS_PUB$slope_log_km,3),", intercept ",f(x$SENS_PUB$intercept,3),", sigma ",f(x$SENS_PUB$sigma,3),"; rerun slope ",f(x$SENS_RERUN$slope_log_km,3),", intercept ",f(x$SENS_RERUN$intercept,3),", sigma ",f(x$SENS_RERUN$sigma,3),".")
 add("- Published table2 population-weighted columns are `TODO-recompute`: they did not exist in the published run (not computed on the old run).")
 add("- Variant D: counties absent from the 2022 file drop out of each region; n per region is ",min(nD),"-",max(nD),".\n")
+add("## (g) Small-group robustness (race, equal-group index, rerun)\n")
+add("Equal-group weighting stays the headline (Tim, 2026-11-20). This check drops (region, group) pairs with fewer than the threshold number of people in the region, then recomputes the index on the remaining groups. Values are in `results.json` under `robustness.min_group_pop`.\n")
+rb=x$ROBUST %>% filter(type=="race"); ths=sort(unique(rb$threshold))
+d=tibble(Region=x$T2$rerun$region)
+for(th in ths){ r=rb %>% filter(threshold==th); d[[if(th==0) "all groups" else paste0(">= ",format(th,big.mark=",")," people")]]=f(r$value[match(d$Region,r$region)]) }
+for(th in ths){ r=rb %>% filter(threshold==th); d[[if(th==0) "n groups (all)" else paste0("n groups (>= ",format(th,big.mark=","),")")]]=r$n_groups[match(d$Region,r$region)] }
+tbl(d)
+add("")
+for(th in ths){ r=rb %>% filter(threshold==th); lab=if(th==0) "with all groups" else paste0("dropping groups below ",format(th,big.mark=",")," people")
+  add("- Lowest region on race ",lab,": ",r$region[which.min(r$value)]," (",f(min(r$value)),"; next lowest ",r$region[order(r$value)][2]," ",f(sort(r$value)[2]),").") }
+add("")
 add("---\n\n## For agents\n")
 add("- Source: `equity/index/make_results.R` (headless, run from `index/`); runs in `index/runs/{variant_A,fix_only,variant_B,variant_C,variant_D}/stat_<type>_<year>_300_110.rds`; tidy numbers in `index/runs/summary_numbers.rds`; JSON in `paper_equity/.contract/r0/results.json` (keys table2, summary, correlations, emissions_slopes, anova, region_slopes, sensitivity, descriptives).")
 add("- Variant keys: published, fix_only, rerun (=A, headline), rerun_endpoints, exact_2020 (=B), exact_2025 (=C), exact_2022_38 (=D).")

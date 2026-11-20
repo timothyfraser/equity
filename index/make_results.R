@@ -14,7 +14,7 @@ stopifnot(file.exists("functions.R"), dir.exists("published"), dir.exists("test"
 source("functions.R")
 
 CONTRACT = "/home/user/paper_equity/.contract/r0"
-MS_TEX   = "/home/user/paper_equity/manuscript_v2.tex"
+MS_TEX   = "/home/user/paper_equity/baseline_cas/manuscript_cas.tex"   # frozen as-submitted manuscript: "published" is compared with what was printed then, not the edited v2
 DIST = 300; POLL = 110
 TYPES = c("income", "race", "edu", "age")
 VARIANTS = c("published", "fix_only", "rerun", "rerun_endpoints", "exact_2020", "exact_2025", "exact_2022_38")
@@ -169,7 +169,7 @@ DESC = bind_rows(
 # Printed values, in table order, to mark matches
 printed_desc = tibble(variable = c("total_population", inc, race[c(1,2,3,4,5,6,7,8,9,10)][0], edu, age),
                       mean_pct = NA_real_, sd_pct = NA_real_)
-dl = readLines("/home/user/paper_equity/blocks/tab_descriptives2.tex")
+dl = readLines("/home/user/paper_equity/baseline_cas/blocks/tab_descriptives2.tex")
 dl = dl[str_detect(dl, "\\\\% & .*\\\\% \\\\\\\\")]
 pr = map_dfr(dl, function(l){
   p = str_trim(str_split(str_remove(l, "\\\\\\\\.*$"), "&")[[1]])
@@ -201,10 +201,44 @@ DESC$printed_mean[!is.na(DESC$label)] = pr_race$mean_pct[match(DESC$label[!is.na
 DESC$printed_sd[!is.na(DESC$label)]   = pr_race$sd_pct[match(DESC$label[!is.na(DESC$label)], pr_race$label)]
 DESC = DESC %>% mutate(match_printed = abs(mean_pct - printed_mean) <= 0.0501 & abs(sd_pct - printed_sd) <= 0.0501)
 
+# Small-group robustness (T-011b): equal-group index after dropping (region, group) pairs whose region population
+# is below a threshold. Variant `rerun` inputs (2022 interpolated, test/emissions_all_pollutants.rds, 300 m, PM2.5).
+MIN_POPS = c(0, 1000, 5000)
+GROUPS_BY_TYPE = list(
+  income = c("income_0_24999", "income_25000_49999", "income_50000_74999", "income_75000_99999",
+             "income_100000_124999", "income_125000_149999", "income_150000_199999", "income_200000_or_more"),
+  race = c("White_alone_Not_Hispanic_or_Latino_Population", "Black_or_African_American_Not_Hispanic_or_Latino_Population",
+           "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population", "Asian_Not_Hispanic_or_Latino_Population",
+           "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population", "Asian_Hispanic_or_Latino_Population",
+           "White_alone_Hispanic_or_Latino_Population", "Black_or_African_American_Hispanic_or_Latino_Population",
+           "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population", "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population"),
+  edu = c("edu_less_than_hs", "edu_hs_grad", "edu_some_college_or_more", "edu_postgrad"),
+  age = c("age_under_18", "age_18_34", "age_35_64", "age_65_and_over"))
+ROBUST = map_dfr(set_names(TYPES), function(t){
+  gv = GROUPS_BY_TYPE[[t]]
+  cgv = get_county_group_values(
+    exposure = read_rds(sprintf("test/area_roads%d.rds", DIST)), census_tracts = read_rds("test/census_tracts.rds"),
+    county_emissions = read_rds(cfg$rerun$em), path_census_counties = "test/census_counties.rds",
+    .pollutant = POLL, myyear = cfg$rerun$year, id_var = "geoid", vars = gv, pop_var = NULL, id_var2 = "geoid_county") %>%
+    left_join(by = c("geoid_county" = "geoid"), y = regions_all %>% select(region, geoid)) %>%
+    filter(!is.na(region)) %>%
+    group_by(region, group) %>% mutate(group_pop = sum(pop, na.rm = TRUE)) %>% ungroup()
+  map_dfr(MIN_POPS, function(th){
+    get_region_group_values(cgv %>% filter(group_pop >= th), region = "region", myvars = gv) %>%
+      group_by(region) %>% summarize(value = get_index(epshare), n_groups = sum(!is.na(epshare)), .groups = "drop") %>%
+      mutate(threshold = th)
+  }) %>% mutate(type = t)
+})
+# Check: threshold 0 must reproduce the rerun equal-group index
+chk_robust0 = ROBUST %>% filter(threshold == 0) %>%
+  left_join(runs$rerun$overall %>% select(region, race, income, edu, age) %>% pivot_longer(-region, names_to = "type", values_to = "rerun_value"),
+            by = c("region", "type")) %>% summarize(max_abs_diff = max(abs(value - rerun_value)))
+stopifnot(chk_robust0$max_abs_diff < 1e-9)
+
 # ---- 3. Save tidy numbers for RERUN_DIFF ------------------------------------
 saveRDS(list(T2 = T2, SUMM = SUMM, CORR = CORR, CORR_getcorr = CORR_getcorr, SLOPES = SLOPES, ANOVA = ANOVA, RSLOPES = RSLOPES,
              SENS_PUB = SENS_PUB, SENS_RERUN = SENS_RERUN, DESC = DESC, chk_legacy = chk_legacy, chk_t2 = chk_t2, chk_fix = chk_fix,
-             printed_t2 = printed_t2),
+             printed_t2 = printed_t2, ROBUST = ROBUST, chk_robust0 = chk_robust0),
         "runs/summary_numbers.rds")
 
 # ---- 4. results.json ---------------------------------------------------------
@@ -314,6 +348,19 @@ J$descriptives = list(
     list(group = group, variable = variable, label = label, mean_pct = mean_pct, sd_pct = sd_pct, printed_mean_pct = printed_mean,
          printed_sd_pct = printed_sd, status = if(isTRUE(match_printed)) "reported_in_manuscript" else "not_reproduced",
          evidence = "index/test/census_counties.rds via make_results.R")))
+
+ROB_EV = "index/runs/variant_A inputs (rerun: corrected index, 2022 interpolated); county-group values re-joined to regions, (region, group) pairs with region population below the threshold dropped, then get_region_group_values + get_index (make_results.R)"
+J$robustness = list(
+  `_note` = "Small-group robustness check (Tim, 2026-11-20: equal-group weighting is the headline; this drops groups below a size threshold). min_group_pop.<threshold>.<region>.<type>: equal-group index after dropping (region, group) pairs with fewer than <threshold> people in the region (ACS 2022 5-year group counts summed over the region's counties); threshold 0 = all groups = the rerun value. lowest_region.<type> = region with the lowest score.",
+  min_group_pop = map(set_names(MIN_POPS, as.character(MIN_POPS)), function(th){
+    d = ROBUST %>% filter(threshold == th)
+    out = map(set_names(unique(d$region)), function(rg)
+      map(set_names(TYPES), function(t){ r = d[d$region == rg & d$type == t, ]
+        list(value = r$value, n_groups = r$n_groups, status = "recomputed", evidence = ROB_EV) }))
+    out$lowest_region = map(set_names(TYPES), function(t){ r = d[d$type == t, ]
+      list(value = r$region[which.min(r$value)], status = "recomputed", evidence = ROB_EV) })
+    out
+  }))
 
 write(toJSON(J, pretty = TRUE, auto_unbox = TRUE, digits = NA, na = "null", null = "null"), file.path(CONTRACT, "results.json"))
 cat("\nWrote", file.path(CONTRACT, "results.json"), "\n")
