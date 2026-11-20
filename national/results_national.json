@@ -1,0 +1,513 @@
+{
+  "_meta": {
+    "schema": "results/v1",
+    "generator": "equity/national/models.R",
+    "purpose": "National MPO scatter models: index ~ log(emissions per resident); extremes; ledger coverage."
+  },
+  "generated_utc": {
+    "value": "2026-11-20T17:02:27Z",
+    "status": "computed",
+    "evidence": "national/models.R: Sys.time()"
+  },
+  "n_mpos": {
+    "value": 220,
+    "status": "computed",
+    "evidence": "national/models.R: rows of national/tables/mpo_wide.csv"
+  },
+  "cat_manifest": {
+    "value": "MANIFEST-e2ccfae4.tsv",
+    "status": "computed",
+    "evidence": "national/models.R: manifest field of national/LEDGER.csv"
+  },
+  "coverage": {
+    "done": {
+      "value": 220,
+      "status": "computed",
+      "evidence": "national/models.R: count of status in national/LEDGER.csv"
+    },
+    "single_county": {
+      "value": 186,
+      "status": "computed",
+      "evidence": "national/models.R: count of status in national/LEDGER.csv"
+    },
+    "blocked_cat": {
+      "value": 5,
+      "status": "computed",
+      "evidence": "national/models.R: count of status in national/LEDGER.csv"
+    },
+    "pending": {
+      "value": 0,
+      "status": "computed",
+      "evidence": "national/models.R: count of status in national/LEDGER.csv"
+    }
+  },
+  "models": {
+    "race": {
+      "beta": {
+        "value": -0.0488519206718668,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical OLS coefficient"
+      },
+      "se": {
+        "value": 0.00808252696743615,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical SE"
+      },
+      "p": {
+        "value": 6.43546529688157e-09,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical p"
+      },
+      "r2": {
+        "value": 0.143524887718952,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), R-squared"
+      },
+      "n": {
+        "value": 220,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), MPOs in fit"
+      },
+      "se_hc3": {
+        "value": 0.0109006441650612,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
+      },
+      "p_hc3": {
+        "value": 1.1966006079325e-05,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
+      },
+      "se_cluster_state": {
+        "value": 0.0109118038197361,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
+      },
+      "p_cluster_state": {
+        "value": 1.22035155901895e-05,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
+      }
+    },
+    "income": {
+      "beta": {
+        "value": -0.0110737203504195,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical OLS coefficient"
+      },
+      "se": {
+        "value": 0.00481036851757673,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical SE"
+      },
+      "p": {
+        "value": 0.0222761523316878,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical p"
+      },
+      "r2": {
+        "value": 0.0237324602784007,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), R-squared"
+      },
+      "n": {
+        "value": 220,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), MPOs in fit"
+      },
+      "se_hc3": {
+        "value": 0.005963700401267,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
+      },
+      "p_hc3": {
+        "value": 0.0646809306903552,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
+      },
+      "se_cluster_state": {
+        "value": 0.00704152102137718,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
+      },
+      "p_cluster_state": {
+        "value": 0.117254278071368,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
+      }
+    },
+    "edu": {
+      "beta": {
+        "value": -0.00859657326465919,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical OLS coefficient"
+      },
+      "se": {
+        "value": 0.00446125346667076,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical SE"
+      },
+      "p": {
+        "value": 0.055286888681844,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical p"
+      },
+      "r2": {
+        "value": 0.016747330134486,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), R-squared"
+      },
+      "n": {
+        "value": 220,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), MPOs in fit"
+      },
+      "se_hc3": {
+        "value": 0.00441222532936278,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
+      },
+      "p_hc3": {
+        "value": 0.0526561400598726,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
+      },
+      "se_cluster_state": {
+        "value": 0.00458498568733183,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
+      },
+      "p_cluster_state": {
+        "value": 0.0621380749974619,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
+      }
+    },
+    "age": {
+      "beta": {
+        "value": -0.00347001832266041,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical OLS coefficient"
+      },
+      "se": {
+        "value": 0.00377002262727138,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical SE"
+      },
+      "p": {
+        "value": 0.358368759448457,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical p"
+      },
+      "r2": {
+        "value": 0.00387110247359065,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), R-squared"
+      },
+      "n": {
+        "value": 220,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), MPOs in fit"
+      },
+      "se_hc3": {
+        "value": 0.00329346897708594,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
+      },
+      "p_hc3": {
+        "value": 0.293229756329124,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
+      },
+      "se_cluster_state": {
+        "value": 0.00407399502567225,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
+      },
+      "p_cluster_state": {
+        "value": 0.395288496982183,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
+      }
+    },
+    "overall": {
+      "beta": {
+        "value": -0.0179980581524015,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical OLS coefficient"
+      },
+      "se": {
+        "value": 0.00375844236946428,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical SE"
+      },
+      "p": {
+        "value": 3.09870759164065e-06,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical p"
+      },
+      "r2": {
+        "value": 0.0951791092958786,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), R-squared"
+      },
+      "n": {
+        "value": 220,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), MPOs in fit"
+      },
+      "se_hc3": {
+        "value": 0.00459366245478042,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
+      },
+      "p_hc3": {
+        "value": 0.000119490701788207,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
+      },
+      "se_cluster_state": {
+        "value": 0.00455338676883511,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
+      },
+      "p_cluster_state": {
+        "value": 0.000104434205681315,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
+      }
+    }
+  },
+  "extremes": {
+    "race": {
+      "min": {
+        "mpo_id": {
+          "value": "51201200",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Staunton-Augusta-Waynesboro MPO",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "VA",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.707526406884911,
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      },
+      "max": {
+        "mpo_id": {
+          "value": "44197400",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "State Planning Council",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "RI",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.980604997182832,
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      }
+    },
+    "income": {
+      "min": {
+        "mpo_id": {
+          "value": "41198700",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Salem-Keizer Area Transportation Study",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "OR",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.874870480569616,
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      },
+      "max": {
+        "mpo_id": {
+          "value": "25197300",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Boston Region MPO",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "MA",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.993719587922704,
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      }
+    },
+    "edu": {
+      "min": {
+        "mpo_id": {
+          "value": "53201300",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Walla Walla Valley MPO",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "WA",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.88373576571067,
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      },
+      "max": {
+        "mpo_id": {
+          "value": "13196401",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Columbus-Phenix City Metropolitan Planning Organization (C-PC-MPO)",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "GA",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.998206846667296,
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      }
+    },
+    "age": {
+      "min": {
+        "mpo_id": {
+          "value": "51198200",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Charlottesville-Albemarle MPO",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "VA",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.878867823328019,
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      },
+      "max": {
+        "mpo_id": {
+          "value": "29197101",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Ozarks Transportation Organization",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "MO",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.997564259292031,
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      }
+    },
+    "overall": {
+      "min": {
+        "mpo_id": {
+          "value": "41198700",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Salem-Keizer Area Transportation Study",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "OR",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.885945208007498,
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      },
+      "max": {
+        "mpo_id": {
+          "value": "17196201",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO id"
+        },
+        "mpo_name": {
+          "value": "Chicago Metropolitan Agency for Planning",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO name"
+        },
+        "state": {
+          "value": "IL",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "value": {
+          "value": 0.984310097789195,
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme index value"
+        }
+      }
+    }
+  }
+}
