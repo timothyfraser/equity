@@ -6,3 +6,7 @@
 index/published/
 index/secret/.env
 *.Rcheck
+
+# pilot and national downloads
+cache/
+index/cache/

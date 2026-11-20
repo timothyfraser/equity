@@ -10,7 +10,11 @@ $SUDO apt-get update
 $SUDO apt-get install -y \
   r-base-core r-cran-sf r-cran-dplyr r-cran-tidyr r-cran-purrr r-cran-readr \
   r-cran-stringr r-cran-ggplot2 r-cran-viridis r-cran-jsonlite r-cran-httr \
-  r-cran-broom r-cran-ggpubr r-cran-scales r-cran-gtools r-cran-progress
+  r-cran-broom r-cran-ggpubr r-cran-scales r-cran-gtools r-cran-progress \
+  libcurl4-openssl-dev
+
+# tigris >= 2.3 needs httr2 >= 1.1 and curl >= 6 (curl_parse_url); apt's r-cran-httr2/curl can be older.
+$SUDO Rscript -e 'v = function(p) if (requireNamespace(p, quietly = TRUE)) packageVersion(p) else package_version("0.0.0"); if (v("httr2") < "1.1.0" || v("curl") < "6.0.0") install.packages(c("curl", "httr2"), repos = "https://cloud.r-project.org")'
 
 # Packages apt lacks: Posit Package Manager binaries, installed only if missing.
 $SUDO Rscript - <<'RSCRIPT'
