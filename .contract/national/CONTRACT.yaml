@@ -4,39 +4,41 @@ meta:
   method: docs/ROADTYPE_METHOD.md
   revision: 3
   repo: timothyfraser/equity (branch dev)
-  status: proposed (revision 3, 2026-11-20; data access open; Q1-Q3 ruled; Q4 open after N-014)
+  status: proposed (revision 3 + ND11, 2026-11-20); all questions ruled; waiting on Tim go for Wave 1
 decisions:
   ND1: 'National section ranks MPOs; emissions weighting kept (Tim, 2026-11-20: ''we''re not going to do it at the county
     level and cancel out the emissions term'')'
   ND2: 'Goes into the JTG paper (Tim, 2026-11-20: Add to this paper)'
   ND3: Equal-group index stays the headline; population-weighted and small-group robustness (groups >= 1,000) beside it (Tim's
     fairness justification, 2026-11-20)
-  ND4: 'Road-type weighting: split county emissions by CAT by=15 road types and match TIGER road classes; apply to New York
-    too, gate G1 before it replaces the paper''s headline (Tim, 2026-11-20: Yes, use road types)'
+  ND4: 'SUPERSEDED by ND11. Road-type weighting: split county emissions by CAT by=15 road types and match TIGER road classes;
+    apply to New York too, gate G1 before it replaces the paper''s headline (Tim, 2026-11-20: Yes, use road types)'
   ND5: Ranked chart includes multi-county MPOs only; single-county MPOs computed and listed in the table (Tim, 2026-11-20)
   ND6: 'Data access: Tim added www2.census.gov, geodata.bts.gov, services.arcgis.com in environment Settings; all return 200
     (2026-11-20)'
   ND7: 'Planning units may use Fable (Tim, 2026-11-20: ''Use Fable to plan''); implementation units stay Opus/Sonnet.'
-gates:
-  G1: Tim decides whether NY variant rerun_roadtype replaces rerun as the paper's headline (after N-015; blocks N-011)
-  ND8: 'Road-type split comes from the modern CAT runs only, 2022 and 2023 (MOVES Anywhere style); 2020 runs reflect older
-    MOVES road-type distributions and are not used for the split (Tim, 2026-11-20). Coverage measured 2026-11-20 from
-    year/2022.parquet and year/2023.parquet: 749 and 768 counties, union 954 of ~3,100, all 50 states. Counties with
+  ND8: 'SUPERSEDED by ND11. Road-type split comes from the modern CAT runs only, 2022 and 2023 (MOVES Anywhere style); 2020
+    runs reflect older MOVES road-type distributions and are not used for the split (Tim, 2026-11-20). Coverage measured 2026-11-20
+    from year/2022.parquet and year/2023.parquet: 749 and 768 counties, union 954 of ~3,100, all 50 states. Counties with
     neither year need a fallback split; N-014 proposes one, Tim rules (Q4).'
-  ND9: 'Off-network emissions are spread over the four road classes (Tim, 2026-11-20).'
-  ND10: 'MPO chart ranks by the equal-group index with a marker for groups under 1,000 residents (Tim, 2026-11-20).'
-open_questions:
-  Q4: 'Fallback road-type split for the ~2,150 counties with no 2022/2023 run (e.g. nearest modern-run county, or state x
-    urban/rural median of modern runs). N-014 measures the options; blocks N-013.'
+  ND9: SUPERSEDED by ND11. Off-network emissions are spread over the four road classes (Tim, 2026-11-20).
+  ND10: MPO chart ranks by the equal-group index with a marker for groups under 1,000 residents (Tim, 2026-11-20).
+  ND11: 'Road-type split dropped (Tim, 2026-11-20: ''there isn''t a clear mapping of roadways onto urban, rural, and let alone
+    urban restricted, urban unrestricted, rural restricted, and rural unrestricted roads ... I would skip doing the road type
+    split''). Supersedes ND4, ND8, ND9 and gate G1; the national ranking and New York keep the county emissions rate (Eq.
+    7) on by=16 totals. N-013..N-016 cancelled.'
+gates:
+  G1: Removed by ND11 (no road-type variant).
+open_questions: {}
 tasks:
 - id: N-000
   title: Tim rulings
   wave: 0
   tier: Tim
-  status: ruled except Q4
+  status: ruled
   depends: []
   owns: []
-  definition_of_done: Q4 answered after N-014
+  definition_of_done: All questions ruled (Q1-Q3 2026-11-20; road-type questions moot after ND11)
 - id: N-001
   title: 'Data access: TIGER + BTS NTAD MPO layer'
   wave: 0
@@ -99,7 +101,7 @@ tasks:
   title: Road-type vintage audit
   wave: 1
   tier: Sonnet
-  status: proposed
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
   depends: []
   owns:
   - national/audit_roadtype.R
@@ -125,7 +127,7 @@ tasks:
   title: Road-type functions and New York run
   wave: 2
   tier: Opus review, Sonnet build
-  status: proposed
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
   depends:
   - N-003
   - N-014
@@ -145,7 +147,7 @@ tasks:
   title: NY rerun_roadtype variant and gate G1
   wave: 3
   tier: Sonnet
-  status: proposed
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
   depends:
   - N-013
   owns:
@@ -158,7 +160,7 @@ tasks:
   title: National detail downloads and class weights
   wave: 3
   tier: Sonnet
-  status: proposed
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
   depends:
   - N-004
   - N-013
@@ -176,7 +178,6 @@ tasks:
   depends:
   - N-003
   - N-004
-  - N-013
   owns:
   - national/run_geometry.R
   - data/national/area_roads_300_by_class.parquet
@@ -192,14 +193,14 @@ tasks:
   - N-005
   - N-006
   - N-007
-  - N-016
   owns:
   - national/make_mpo_index.R
   - data/national/index_mpo.parquet
   - .contract/national/results_national.json
   definition_of_done: One row per mpo_id x method (county_rate, roadtype) x dimension with index_equal, index_pw, index_equal_min1000,
     counts and flags; values in [0,1] or NA with reason; JSON validates against revisions/templates/results.schema.json; whole-county
-    NY MPOs equal the region run to 1e-9; threshold 0 reproduces index_equal
+    NY MPOs equal the region run to 1e-9; threshold 0 reproduces index_equal Method is county_rate only (ND11). A county with
+    no exposed residents is dropped and flagged, not left as NaN.
 - id: N-009
   title: Ranked MPO chart and table
   wave: 5
@@ -235,7 +236,6 @@ tasks:
   depends:
   - N-008
   - N-009
-  - N-015
   owns:
   - paper_equity/.contract/r0/edits/T-015.md
   definition_of_done: Results subsection, Methods paragraph with Eqs. 2c-8c, figure and caption, Discussion sentences, limits;

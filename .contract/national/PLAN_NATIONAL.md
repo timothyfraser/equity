@@ -217,3 +217,21 @@ About 4-5 agent-hours plus the background run. Two to three days. The JTG submis
 - **Q2, off-network: spread over the four classes (ND9).**
 - **Q3, chart ranking: equal-group index, flagging groups under 1,000 (ND10).**
 - **Can we split by road type effectively?** CAT can split: by=15 gives four on-network classes plus off-network for each modern-run county. The weak link is our exposure geometry. The TIGER buffers cover only primary and secondary roads (S1100/S1200), but "unrestricted" emissions include every local street, and Census urban areas are not the urban/rural line MOVES uses. The split will move burden between restricted and unrestricted corridors in roughly the right direction, but it will not locate local-street emissions. The paper should present it as a sensitivity layer, behind gate G1, not as a precise allocation.
+
+## 11. Road-type split dropped (ND11, Tim, 2026-11-20)
+
+Tim: "there isn't a clear mapping of roadways onto urban, rural, and let alone urban restricted, urban unrestricted, rural restricted, and rural unrestricted roads ... I would skip doing the road type split."
+
+This section supersedes every road-type item above: ND4, ND8 and ND9, gate G1, section 10's Q1 and Q2 rulings and the "can we split" note, `docs/ROADTYPE_METHOD.md` (kept as a record only), and tasks N-013, N-014, N-015 and N-016, which are cancelled. Every MPO and New York keep the paper's county emissions rate (Eq. 7) on CAT `by = 16` county totals, so the national section and the New York case study use one method. There is no `roadtype` variant: the chart (N-009) shows `county_rate`, and N-010's road-type rank comparison is dropped. N-008 keeps one fix that came from the road-type work: a county with no exposed residents is dropped and flagged rather than left as `NaN`.
+
+Revised waves:
+
+```
+Wave 1: N-004  N-005  N-006  N-002
+Wave 2: N-003
+Wave 3: N-007 (background, 8-16 h)
+Wave 4: N-008
+Wave 5: N-009  N-010  N-011  N-012
+```
+
+Still standing: ND10 (equal-group ranking, flagging groups under 1,000) and ND5 (multi-county MPOs only on the chart).
