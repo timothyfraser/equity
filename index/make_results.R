@@ -17,7 +17,7 @@ CONTRACT = "/home/user/paper_equity/.contract/r0"
 MS_TEX   = "/home/user/paper_equity/manuscript_v2.tex"
 DIST = 300; POLL = 110
 TYPES = c("income", "race", "edu", "age")
-VARIANTS = c("published", "fix_only", "rerun", "exact_2020", "exact_2025", "exact_2022_38")
+VARIANTS = c("published", "fix_only", "rerun", "rerun_endpoints", "exact_2020", "exact_2025", "exact_2022_38")
 regions_all = read_rds("data/regions_ny_data.rds")
 
 # ---- 1. Runs --------------------------------------------------------------
@@ -25,8 +25,9 @@ dir.create("runs", showWarnings = FALSE)
 cfg = list(
   rerun         = list(dir = "variant_A",  year = 2022, em = "test/emissions_all_pollutants.rds",       regions = regions_all),
   fix_only      = list(dir = "fix_only",   year = 2022, em = "published/emissions_all_pollutants.rds", regions = regions_all),
-  exact_2020    = list(dir = "variant_B",  year = 2020, em = "test/emissions_all_pollutants.rds",       regions = regions_all),
-  exact_2025    = list(dir = "variant_C",  year = 2025, em = "test/emissions_all_pollutants.rds",       regions = regions_all),
+  rerun_endpoints = list(dir = "variant_A_endpoints", year = 2022, em = "test/emissions_2020_2025_endpoints.rds", regions = regions_all),
+  exact_2020    = list(dir = "variant_B",  year = 2020, em = "test/emissions_2020_2025_endpoints.rds", regions = regions_all),
+  exact_2025    = list(dir = "variant_C",  year = 2025, em = "test/emissions_2020_2025_endpoints.rds", regions = regions_all),
   exact_2022_38 = list(dir = "variant_D",  year = 2022, em = "test/emissions_2022_exact.rds",
                        regions = regions_all %>% filter(geoid %in% (read_rds("test/emissions_2022_exact.rds") %>%
                                                                       filter(pollutant == POLL) %>% pull(geoid))))
@@ -104,6 +105,8 @@ CORR = map(set_names(VARIANTS), function(v){
 CORR_getcorr = list(
   rerun    = get_corr(data_regions = regions_all, data_emissions = read_csv("test/emissions_all_pollutants.csv", show_col_types = FALSE),
                       data_equity = runs$rerun$overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r),
+  rerun_endpoints = get_corr(data_regions = regions_all, data_emissions = read_rds("test/emissions_2020_2025_endpoints.rds"),
+                      data_equity = runs$rerun_endpoints$overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r),
   fix_only = get_corr(data_regions = regions_all, data_emissions = read_csv("published/emissions_all_pollutants.csv", show_col_types = FALSE),
                       data_equity = runs$fix_only$overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r),
   published = get_corr(data_regions = regions_all, data_emissions = read_csv("published/emissions_all_pollutants.csv", show_col_types = FALSE),
@@ -206,6 +209,9 @@ saveRDS(list(T2 = T2, SUMM = SUMM, CORR = CORR, CORR_getcorr = CORR_getcorr, SLO
 
 # ---- 4. results.json ---------------------------------------------------------
 prov = readLines("test/emissions_provenance.txt")
+em_all = read_rds("test/emissions_all_pollutants.rds") %>% filter(pollutant == POLL)
+n_years_tab = em_all %>% count(geoid) %>% count(n, name = "counties") %>% { setNames(.$counties, paste0(.$n, "_years")) }
+n_exact22 = em_all %>% filter(year == 2022) %>% pull(geoid) %>% n_distinct()
 urls = str_trim(prov[str_detect(prov, "^\\s+https://")])
 manifest = str_trim(str_remove(prov[str_detect(prov, "^manifest:")], "manifest:"))
 dl_time = str_trim(str_remove(prov[str_detect(prov, "^downloaded")], "downloaded \\(UTC\\):"))
@@ -213,7 +219,8 @@ sha = system2("git", c("-C", "/home/user/equity", "rev-parse", "HEAD"), stdout =
 
 EV = c(published = "index/published/stat_*.rds (as-published snapshot); legacy index, old emissions",
        fix_only = "index/runs/fix_only (corrected index, published emissions; make_results.R)",
-       rerun = "index/runs/variant_A (corrected index, 2022 interpolated from new 2020+2025 CAT emissions; make_results.R)",
+       rerun = "index/runs/variant_A (corrected index, 2022 interpolated per county, piecewise linear over all available years 2020-2025; make_results.R)",
+       rerun_endpoints = "index/runs/variant_A_endpoints (corrected index, 2022 from straight line between 2020 and 2025 only; make_results.R)",
        exact_2020 = "index/runs/variant_B (exact 2020 emissions; make_results.R)",
        exact_2025 = "index/runs/variant_C (exact 2025 emissions; make_results.R)",
        exact_2022_38 = "index/runs/variant_D (exact 2022 emissions, 38 of 62 counties; make_results.R)")
@@ -232,16 +239,21 @@ pub_leaf_t2 = function(region, idx, val){
 }
 J = list()
 J[["_meta"]] = list(
-  schema = "results/v1", paper = "paper_equity", updated = "2026-11-19",
+  schema = "results/v1", paper = "paper_equity", updated = "2026-11-20",
   purpose = "Single source of truth for every quantitative claim in the equity-index paper; produced by equity/index/make_results.R (run headless from index/).",
   generator = "equity/index/make_results.R",
   equity_git_sha = sha,
-  emissions = list(manifest = manifest, downloaded_utc = dl_time, urls = as.list(urls), provenance_file = "equity/index/test/emissions_provenance.txt"),
+  emissions = list(
+    interpolation = "per county and pollutant, piecewise linear (stats::approx) between the nearest available years 2020-2025; exact where 2022 exists",
+    counties_by_n_years_available_pm25 = as.list(n_years_tab),
+    counties_using_exact_2022_pm25 = n_exact22,
+    manifest = manifest, downloaded_utc = dl_time, urls = as.list(urls), provenance_file = "equity/index/test/emissions_provenance.txt"),
   census = "ACS 2022 5-year, cached in test/census_*.rds; not refetched",
   pollutant = POLL, dist_m = DIST,
   variants = list(published = "as printed: legacy normaliser (n-2)/3, absent groups scored 0, old emissions",
                   fix_only = "corrected index n/(2(n-1)), absent groups not scored, published emissions",
-                  rerun = "variant A: corrected index, 2022 interpolated linearly from new CAT 2020 and 2025 (62 counties)",
+                  rerun = "variant A (HEADLINE): corrected index, 2022 interpolated per county, piecewise linear (approx) between the nearest available CAT years 2020-2025 (62 counties); exact where 2022 exists",
+                  rerun_endpoints = "variant A-endpoints: corrected index, 2022 from the straight line between 2020 and 2025 only (the earlier method)",
                   exact_2020 = "variant B: corrected index, exact 2020 emissions (62)",
                   exact_2025 = "variant C: corrected index, exact 2025 emissions (62)",
                   exact_2022_38 = "variant D: corrected index, exact 2022 emissions, 38 of 62 counties (check only)"),
@@ -281,7 +293,7 @@ J$summary = map(set_names(VARIANTS), function(v) map(SUMM[[v]], function(s){
 J$correlations = map(set_names(VARIANTS), function(v) {
   out = map(CORR[[v]], function(x) c(leaf(x$r, v), list(n = x$n)))
   if(v %in% names(CORR_getcorr)) out$r_emissions_race_getcorr_form = leaf(CORR_getcorr[[v]], v,
-        note = "get_corr form: lm(regional emissions ~ year) over the years in emissions_all_pollutants.csv, predicted at 2022")
+        note = "get_corr form: each county interpolated to 2022 (approx over the years in the emissions file), then summed to region")
   out
 })
 J$emissions_slopes = map(set_names(VARIANTS), function(v) map(SLOPES[[v]], function(x)

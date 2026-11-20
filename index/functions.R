@@ -750,7 +750,8 @@ get_viz_buffers = function(
 }
 
 
-get_emissions_interpolated = function(county_emissions = read_rds(path_emissions), year = 2022){
+# Superseded 2026-11-20 (T-005c): straight-line lm over the years present, replaced by piecewise approx() below.
+get_emissions_interpolated_legacy = function(county_emissions = read_rds(path_emissions), year = 2022){
   myyear = year
   # Add in emissions data by county
   county_emissions  %>%
@@ -761,6 +762,30 @@ get_emissions_interpolated = function(county_emissions = read_rds(path_emissions
       .groups = "drop")
 }
 
+
+
+
+#' @name get_emissions_interpolated
+#' @description
+#' Per county and pollutant, interpolate emissions to `year` piecewise linearly (stats::approx) between the
+#' nearest available years 2020-2025 (exact where `year` exists). Tim, 2026-11-20: "just interpolate 2022 using the
+#' combined set of all available years data for each ny counties 2020 to 2025", and "I said linear interpolation NOT a linear fit."
+#' @param county_emissions data.frame with geoid, pollutant, year, emissions
+#' @param year:int target year. Outside the available range returns NA (rule = 1) with a warning naming the geoid.
+get_emissions_interpolated = function(county_emissions = read_rds(path_emissions), year = 2022){
+  year_target = year
+  out = county_emissions %>%
+    filter(year >= 2020, year <= 2025, !is.na(emissions)) %>%
+    arrange(geoid, pollutant, year) %>%
+    group_by(geoid, pollutant) %>%
+    summarize(
+      emissions = if(dplyr::n() >= 2) stats::approx(x = year, y = emissions, xout = year_target, rule = 1)$y
+                  else if(dplyr::n() == 1 && year[1] == year_target) emissions[1] else NA_real_,
+      .groups = "drop")
+  bad = out %>% filter(is.na(emissions)) %>% pull(geoid) %>% unique()
+  if(length(bad) > 0) warning("get_emissions_interpolated: no bracketing years for year ", year_target, " in geoid(s): ", paste(bad, collapse = ", "))
+  out
+}
 
 
 #' @name get_county_group_values
@@ -1694,16 +1719,14 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
                        .pollutant = 110,
                        xmin = 0
 ){
-  data  = data_regions %>%
-    left_join(by = c("geoid"),
-              y = data_emissions %>% 
-                filter(pollutant == .pollutant) %>%
-                mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0"))) %>%
-    group_by(region, pollutant, year) %>%
-    summarize(emissions = sum(emissions, na.rm = TRUE)) %>%
-    ungroup() %>%
+  data  = data_emissions %>% 
+    filter(pollutant == .pollutant) %>%
+    mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0")) %>%
+    get_emissions_interpolated(year = myyear) %>%
+    left_join(by = "geoid", y = data_regions %>% select(geoid, region)) %>%
+    filter(!is.na(region)) %>%
     group_by(region, pollutant) %>%
-    summarize(emissions = lm(formula = emissions ~ year) %>% predict(newdata = tibble(year = myyear))) %>%
+    summarize(emissions = sum(emissions, na.rm = TRUE), .groups = "drop_last") %>%
     left_join(by = "region", y = data_equity)
   
   
@@ -1778,16 +1801,14 @@ get_corr = function(data_regions = read_rds("data/regions_ny_data.rds"),
                        .pollutant = 110,
                        xmin = 0
 ){
-  data_regions %>%
-    left_join(by = c("geoid"),
-              y = data_emissions %>% 
-                filter(pollutant == .pollutant) %>%
-                mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0"))) %>%
-    group_by(region, pollutant, year) %>%
-    summarize(emissions = sum(emissions, na.rm = TRUE)) %>%
-    ungroup() %>%
+  data_emissions %>% 
+    filter(pollutant == .pollutant) %>%
+    mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0")) %>%
+    get_emissions_interpolated(year = myyear) %>%
+    left_join(by = "geoid", y = data_regions %>% select(geoid, region)) %>%
+    filter(!is.na(region)) %>%
     group_by(region, pollutant) %>%
-    summarize(emissions = lm(formula = emissions ~ year) %>% predict(newdata = tibble(year = myyear))) %>%
+    summarize(emissions = sum(emissions, na.rm = TRUE), .groups = "drop_last") %>%
     left_join(by = "region", y = data_equity) %>%
     ungroup()
 }

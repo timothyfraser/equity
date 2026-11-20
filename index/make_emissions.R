@@ -20,14 +20,20 @@ base = "https://api.cat-apps.com/objects"
 manifest = cat_manifest_name(base)
 stamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S", tz = "UTC")
 
-# Years 2020 and 2025 (all 62 counties) feed the interpolation
+# Every available year 2020-2025 (62 counties each where present) feeds the per-county piecewise linear interpolation
+YEARS = 2020:2025
 main = retrieve_emissions_bulk(
-  geoid = geoids, year = c(2020, 2025), pollutant = pollutants,
+  geoid = geoids, year = YEARS, pollutant = pollutants,
   base = base, cache_dir = cache_dir) |>
   arrange(year, pollutant, geoid)
 write_csv(main, "test/emissions_all_pollutants.csv")
 main |> mutate(geoid = str_pad(geoid, width = 5, side = "left", pad = "0")) |>
   saveRDS("test/emissions_all_pollutants.rds")
+
+# Endpoints only (2020 and 2025): the earlier straight-line method, kept as the rerun_endpoints variant
+main |> filter(year %in% c(2020, 2025)) |>
+  mutate(geoid = str_pad(geoid, width = 5, side = "left", pad = "0")) |>
+  saveRDS("test/emissions_2020_2025_endpoints.rds")
 
 # Year 2022 exactly as published (incomplete: some counties missing); used only for cross-checks
 exact22 = retrieve_emissions_bulk(
@@ -38,15 +44,22 @@ saveRDS(exact22, "test/emissions_2022_exact.rds")
 
 # Provenance
 counts = function(d) d |> count(year, pollutant) |> mutate(txt = paste0("  ", year, " pollutant ", pollutant, ": ", n, " rows")) |> pull(txt)
+yrs110 = main |> filter(pollutant == 110) |> group_by(geoid) |>
+  summarize(n_years = n(), years = paste(sort(year), collapse = ",")) |> arrange(geoid)
 c("CAT bulk emissions provenance",
   paste("manifest:", manifest),
   paste("downloaded (UTC):", stamp),
   "object URLs:",
-  paste0("  ", base, "/year/", c(2020, 2025, 2022), ".parquet"),
-  paste("test/emissions_all_pollutants.{csv,rds} rows:", nrow(main)),
+  paste0("  ", base, "/year/", c(YEARS, 2022), ".parquet") |> unique(),
+  paste("test/emissions_all_pollutants.{csv,rds} (years 2020-2025, all available) rows:", nrow(main)),
+  paste("test/emissions_2020_2025_endpoints.rds (2020 and 2025 only) rows:", sum(main$year %in% c(2020, 2025))),
   paste("test/emissions_2022_exact.rds rows:", nrow(exact22)),
   "rows per year x pollutant (all_pollutants):", counts(main),
-  "rows per year x pollutant (2022 exact):", counts(exact22)) |>
+  "rows per year x pollutant (2022 exact):", counts(exact22),
+  "counties by number of years available (pollutant 110):", 
+  paste0("  ", names(table(yrs110$n_years)), " years: ", as.integer(table(yrs110$n_years)), " counties"),
+  "per-county years available, pollutant 110 (geoid: years):",
+  paste0("  ", yrs110$geoid, ": ", yrs110$years)) |>
   writeLines("test/emissions_provenance.txt")
 
 # ---- legacy (retired Cloud Run proxy) ----
