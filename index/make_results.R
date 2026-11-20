@@ -364,6 +364,28 @@ J$robustness = list(
     out
   }))
 
+# ---- U-3: national results and New York permutation / ACS-interval robustness (appended only; nothing above is changed) ----
+# National block: leaves copied as they are from the three national JSON files (already {value, status, evidence}).
+NAT_FILES = c(national = "../national/results_national.json", permutation = "../national/results_permutation.json", acs = "../national/results_acs.json")
+UNC_FILES = c(perm = "runs/uncertainty/ny_permutation.csv", acs = "runs/uncertainty/ny_acs_intervals.csv")
+missing_in = c(NAT_FILES, UNC_FILES)[!file.exists(c(NAT_FILES, UNC_FILES))]
+if(length(missing_in) > 0) stop("U-3 inputs missing, no output written: ", paste(missing_in, collapse = ", "))
+read_leafs = function(f) read_json(f, simplifyVector = FALSE)
+NAT = read_leafs(NAT_FILES[["national"]])
+J$national = c(
+  NAT[c("models", "extremes", "coverage", "cat_manifest", "n_mpos")],
+  list(permutation = read_leafs(NAT_FILES[["permutation"]]) %>% discard_at("_meta"),
+       acs = read_leafs(NAT_FILES[["acs"]]) %>% discard_at("_meta")))
+# New York permutation and ACS interval leaves, region x type
+unc_leaf = function(value, csv, script) list(value = value, status = "computed", evidence = sprintf("%s via %s", csv, script))
+PERM = read_csv(UNC_FILES[["perm"]], show_col_types = FALSE)
+ACSI = read_csv(UNC_FILES[["acs"]], show_col_types = FALSE)
+by_rt = function(d, cols, csv, script) map(set_names(unique(d$region)), function(rg)
+  map(set_names(d$type[d$region == rg]), function(t){ r = d[d$region == rg & d$type == t, ]
+    map(set_names(cols), function(cl) unc_leaf(r[[cl]], csv, script)) }))
+J$robustness$permutation = by_rt(PERM, c("I_obs", "E0", "q025", "q975", "p0", "I_star", "n_groups"), UNC_FILES[["perm"]], "index/runs/uncertainty/ny_permutation.R")
+J$robustness$acs_interval = by_rt(ACSI, c("I_obs", "lo95", "hi95", "width"), UNC_FILES[["acs"]], "index/runs/uncertainty/ny_acs_intervals.R")
+
 write(toJSON(J, pretty = TRUE, auto_unbox = TRUE, digits = NA, na = "null", null = "null"), file.path(CONTRACT, "results.json"))
 cat("\nWrote", file.path(CONTRACT, "results.json"), "\n")
 cat("legacy-formula check (max abs diff vs stored published):\n"); print(chk_legacy)

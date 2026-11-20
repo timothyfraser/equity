@@ -43,7 +43,7 @@ tile_map = function(v, sub = NULL){
   t = tl |> filter(!is.na(.data[[v]])) |> mutate(fill = pal(.data[[v]]), tcol = text_col(fill)) |>
     left_join(wide |> select(mpo_id, state), by = "mpo_id")
   # Extremes: label ABOVE the block if the tile is above the median row, else BELOW.
-  hw = 2.3   # half label width in columns (two-line labels, ~5 pt)
+  hw = 3.6   # half label width in columns at this panel size (labels about 7 columns wide); clamps labels inside the panel
   e = ext_tbl(v) |> left_join(tiles, by = "mpo_id") |>
     mutate(above = row > med_row, ly = if_else(above, rr[2] + 2.3, rr[1] - 2.3),
            lab = paste0(wrap_name(paste0(name, ", ", state)), "\n(", sprintf("%.3f", val), ")"), lx = pmin(pmax(col, xr[1] - 0.5 + hw), xr[2] + 0.5 - hw))
@@ -58,14 +58,14 @@ tile_map = function(v, sub = NULL){
   y_lo = rr[1] - 3.5; y_hi = rr[2] + 3.5   # leader ends just short of the text
   ggplot() +
     geom_tile(data = t, aes(col, row, fill = .data[[v]]), color = "white", linewidth = 0.3, width = 1, height = 1) +
-    geom_text(data = t, aes(col, row, label = state, color = I(tcol)), size = 1.75, lineheight = 0.9) +   # 1.75 mm = 5 pt
+    geom_text(data = t, aes(col, row, label = state, color = I(tcol)), size = 1.25, lineheight = 0.9) +   # 1.25 mm = about 3.6 pt: fits two letters in a square tile with the maps side by side
     geom_tile(data = blocked, aes(col, row), fill = "white", color = "#8b949e", linewidth = 0.35, width = 0.82, height = 0.82) +
     geom_tile(data = e, aes(col, row), fill = NA, color = "black", linewidth = 0.6, width = 1, height = 1) +
     # leader runs along the white gap at the tile's right edge (x = col + 0.5), so it never covers a state label,
     # then turns to the label; no halo needed
     geom_segment(data = e, aes(x = col + 0.5, xend = col + 0.5, y = y0, yend = y1), linewidth = 0.3, color = "black") +
     geom_segment(data = e, aes(x = col + 0.5, xend = lx, y = y1, yend = y1), linewidth = 0.3, color = "black") +
-    geom_text(data = e, aes(x = lx, y = ly, label = lab), size = 1.9, color = ink, lineheight = 0.9, vjust = 0.5) +
+    geom_text(data = e, aes(x = lx, y = ly, label = lab), size = 1.7, color = ink, lineheight = 0.9, vjust = 0.5) +
     scale_fill_gradient(low = hue[[v]], high = pale[[v]], limits = c(lo, 1), name = paste(nm[[v]], "equity index"),
                         guide = guide_colorbar(barwidth = 7, barheight = 0.4, ticks = FALSE, title.position = "top")) +
     # no side padding: the block fills the width; 3 rows above and below hold the extremes labels
@@ -98,7 +98,8 @@ scatter = function(v){
           axis.text = element_text(color = muted), axis.title = element_text(color = ink))
 }
 sub = "One tile per MPO, arranged nearest its location."
-gg = tile_map("race", sub) / tile_map("income", sub) / (scatter("race") | scatter("income")) + plot_layout(heights = c(3.7, 3.7, 2.6))
+# maps side by side on top, scatters side by side below (Tim, 2026-11-20)
+gg = (tile_map("race", sub) | tile_map("income", sub)) / (scatter("race") | scatter("income")) + plot_layout(heights = c(1.1, 1))
 dir.create("national/fig", showWarnings = FALSE)
-ggsave("national/fig/mpo_national.png", gg, device = ragg::agg_png, width = 7.5, height = 10, dpi = 500, bg = "white")
+ggsave("national/fig/mpo_national.png", gg, device = ragg::agg_png, width = 7.5, height = 7.2, dpi = 500, bg = "white")
 message("wrote national/fig/mpo_national.png; lower limit ", lo, "; blocked tiles: ", nrow(blocked))
