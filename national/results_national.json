@@ -5,23 +5,23 @@
     "purpose": "National MPO scatter models: index ~ log(emissions per resident); extremes; ledger coverage."
   },
   "generated_utc": {
-    "value": "2026-11-20T17:02:27Z",
+    "value": "2026-11-20T22:13:35Z",
     "status": "computed",
     "evidence": "national/models.R: Sys.time()"
   },
   "n_mpos": {
-    "value": 220,
+    "value": 224,
     "status": "computed",
     "evidence": "national/models.R: rows of national/tables/mpo_wide.csv"
   },
   "cat_manifest": {
-    "value": "MANIFEST-e2ccfae4.tsv",
+    "value": "MANIFEST-59ea1fac.tsv",
     "status": "computed",
-    "evidence": "national/models.R: manifest field of national/LEDGER.csv"
+    "evidence": "national/models.R: manifest field of national/LEDGER.csv, done MPOs"
   },
   "coverage": {
     "done": {
-      "value": 220,
+      "value": 224,
       "status": "computed",
       "evidence": "national/models.R: count of status in national/LEDGER.csv"
     },
@@ -31,7 +31,7 @@
       "evidence": "national/models.R: count of status in national/LEDGER.csv"
     },
     "blocked_cat": {
-      "value": 5,
+      "value": 1,
       "status": "computed",
       "evidence": "national/models.R: count of status in national/LEDGER.csv"
     },
@@ -44,235 +44,285 @@
   "models": {
     "race": {
       "beta": {
-        "value": -0.0488519206718668,
+        "value": -0.0492793946848828,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical OLS coefficient"
       },
       "se": {
-        "value": 0.00808252696743615,
+        "value": 0.00791717757765966,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical SE"
       },
       "p": {
-        "value": 6.43546529688157e-09,
+        "value": 2.38470138758758e-09,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical p"
       },
+      "ci_low": {
+        "value": -0.0648818350872414,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical 95% CI, lower (confint)"
+      },
+      "ci_high": {
+        "value": -0.0336769542825241,
+        "status": "computed",
+        "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), classical 95% CI, upper (confint)"
+      },
       "r2": {
-        "value": 0.143524887718952,
+        "value": 0.148585964568295,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), R-squared"
       },
       "n": {
-        "value": 220,
+        "value": 224,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), MPOs in fit"
       },
       "se_hc3": {
-        "value": 0.0109006441650612,
+        "value": 0.0106804453061808,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
       },
       "p_hc3": {
-        "value": 1.1966006079325e-05,
+        "value": 6.67705042276677e-06,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
       },
       "se_cluster_state": {
-        "value": 0.0109118038197361,
+        "value": 0.010886200845569,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
       },
       "p_cluster_state": {
-        "value": 1.22035155901895e-05,
+        "value": 9.76609943220789e-06,
         "status": "computed",
         "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
       }
     },
     "income": {
       "beta": {
-        "value": -0.0110737203504195,
+        "value": -0.00979327083579838,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical OLS coefficient"
       },
       "se": {
-        "value": 0.00481036851757673,
+        "value": 0.00484057339800805,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical SE"
       },
       "p": {
-        "value": 0.0222761523316878,
+        "value": 0.0442551030252825,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical p"
       },
+      "ci_low": {
+        "value": -0.019332624628844,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical 95% CI, lower (confint)"
+      },
+      "ci_high": {
+        "value": -0.000253917042752759,
+        "status": "computed",
+        "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), classical 95% CI, upper (confint)"
+      },
       "r2": {
-        "value": 0.0237324602784007,
+        "value": 0.0181039953481948,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), R-squared"
       },
       "n": {
-        "value": 220,
+        "value": 224,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), MPOs in fit"
       },
       "se_hc3": {
-        "value": 0.005963700401267,
+        "value": 0.00595595823819653,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
       },
       "p_hc3": {
-        "value": 0.0646809306903552,
+        "value": 0.101533423573733,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
       },
       "se_cluster_state": {
-        "value": 0.00704152102137718,
+        "value": 0.00740564490949909,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
       },
       "p_cluster_state": {
-        "value": 0.117254278071368,
+        "value": 0.187393684154946,
         "status": "computed",
         "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
       }
     },
     "edu": {
       "beta": {
-        "value": -0.00859657326465919,
+        "value": -0.0071250874886226,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical OLS coefficient"
       },
       "se": {
-        "value": 0.00446125346667076,
+        "value": 0.00445677117879744,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical SE"
       },
       "p": {
-        "value": 0.055286888681844,
+        "value": 0.11130716830203,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical p"
       },
+      "ci_low": {
+        "value": -0.0159080794099295,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical 95% CI, lower (confint)"
+      },
+      "ci_high": {
+        "value": 0.00165790443268429,
+        "status": "computed",
+        "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), classical 95% CI, upper (confint)"
+      },
       "r2": {
-        "value": 0.016747330134486,
+        "value": 0.0113819141527605,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), R-squared"
       },
       "n": {
-        "value": 220,
+        "value": 224,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), MPOs in fit"
       },
       "se_hc3": {
-        "value": 0.00441222532936278,
+        "value": 0.00443310037228364,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
       },
       "p_hc3": {
-        "value": 0.0526561400598726,
+        "value": 0.109421500868288,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
       },
       "se_cluster_state": {
-        "value": 0.00458498568733183,
+        "value": 0.00489674785573067,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
       },
       "p_cluster_state": {
-        "value": 0.0621380749974619,
+        "value": 0.147063732524679,
         "status": "computed",
         "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
       }
     },
     "age": {
       "beta": {
-        "value": -0.00347001832266041,
+        "value": -0.00363056251992156,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical OLS coefficient"
       },
       "se": {
-        "value": 0.00377002262727138,
+        "value": 0.00370401200567976,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical SE"
       },
       "p": {
-        "value": 0.358368759448457,
+        "value": 0.328069016110274,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical p"
       },
+      "ci_low": {
+        "value": -0.0109300863718702,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical 95% CI, lower (confint)"
+      },
+      "ci_high": {
+        "value": 0.00366896133202706,
+        "status": "computed",
+        "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), classical 95% CI, upper (confint)"
+      },
       "r2": {
-        "value": 0.00387110247359065,
+        "value": 0.00430898203491421,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), R-squared"
       },
       "n": {
-        "value": 220,
+        "value": 224,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), MPOs in fit"
       },
       "se_hc3": {
-        "value": 0.00329346897708594,
+        "value": 0.00325518707199324,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
       },
       "p_hc3": {
-        "value": 0.293229756329124,
+        "value": 0.265920859005836,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
       },
       "se_cluster_state": {
-        "value": 0.00407399502567225,
+        "value": 0.00409851781531251,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
       },
       "p_cluster_state": {
-        "value": 0.395288496982183,
+        "value": 0.376671267885211,
         "status": "computed",
         "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
       }
     },
     "overall": {
       "beta": {
-        "value": -0.0179980581524015,
+        "value": -0.0174570788823063,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical OLS coefficient"
       },
       "se": {
-        "value": 0.00375844236946428,
+        "value": 0.00371815819657421,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical SE"
       },
       "p": {
-        "value": 3.09870759164065e-06,
+        "value": 4.6654394132191e-06,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical p"
       },
+      "ci_low": {
+        "value": -0.0247844807372662,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical 95% CI, lower (confint)"
+      },
+      "ci_high": {
+        "value": -0.0101296770273464,
+        "status": "computed",
+        "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), classical 95% CI, upper (confint)"
+      },
       "r2": {
-        "value": 0.0951791092958786,
+        "value": 0.0903274095985159,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), R-squared"
       },
       "n": {
-        "value": 220,
+        "value": 224,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), MPOs in fit"
       },
       "se_hc3": {
-        "value": 0.00459366245478042,
+        "value": 0.00450940759619424,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), HC3 SE, sandwich::vcovHC"
       },
       "p_hc3": {
-        "value": 0.000119490701788207,
+        "value": 0.000142409198242246,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), HC3 p, sandwich::vcovHC"
       },
       "se_cluster_state": {
-        "value": 0.00455338676883511,
+        "value": 0.00461558475046416,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), state-clustered SE, sandwich::vcovCL"
       },
       "p_cluster_state": {
-        "value": 0.000104434205681315,
+        "value": 0.000199898802285702,
         "status": "computed",
         "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), state-clustered p, sandwich::vcovCL"
       }

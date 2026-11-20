@@ -1,229 +1,229 @@
 mpo_id,mpo_name,state,status,n_counties,n_states,blocking,dropped,manifest,message,finished_utc,seconds
-48197302,El Paso MPO,TX,blocked_cat,3,2,35035 no_bracketing_years (2020),,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:30:21,2.8
-51197401,Richmond Area MPO,VA,blocked_cat,8,1,51041 no_bracketing_years (2020); 51760 no_bracketing_years (2020),,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:10,3
-51197403,Tri Cities Area MPO,VA,blocked_cat,6,1,51041 no_bracketing_years (2020),,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:32,2.1
-51199100,Hampton Roads Transportation Planning Organization,VA,blocked_cat,14,1,51199 no_bracketing_years (2020); 51740 no_bracketing_years (2020); 51810 no_bracketing_years (2020),,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:47,2.3
-72200200,Puerto Rico Metropolitan Planning Organization,PR,blocked_cat,76,1,72001 no_cat_data; 72003 no_cat_data; 72005 no_cat_data; 72007 no_cat_data; 72009 no_cat_data; 72011 no_cat_data; 72013 no_cat_data; 72015 no_cat_data; 72017 no_cat_data; 72019 no_cat_data; 72021 no_cat_data; 72023 no_cat_data; 72025 no_cat_data; 72027 no_cat_data; 72029 no_cat_data; 72031 no_cat_data; 72033 no_cat_data; 72035 no_cat_data; 72037 no_cat_data; 72039 no_cat_data; 72041 no_cat_data; 72043 no_cat_data; 72045 no_cat_data; 72047 no_cat_data; 72051 no_cat_data; 72053 no_cat_data; 72054 no_cat_data; 72055 no_cat_data; 72057 no_cat_data; 72059 no_cat_data; 72061 no_cat_data; 72063 no_cat_data; 72065 no_cat_data; 72067 no_cat_data; 72069 no_cat_data; 72071 no_cat_data; 72073 no_cat_data; 72075 no_cat_data; 72077 no_cat_data; 72079 no_cat_data; 72081 no_cat_data; 72083 no_cat_data; 72085 no_cat_data; 72087 no_cat_data; 72089 no_cat_data; 72091 no_cat_data; 72093 no_cat_data; 72095 no_cat_data; 72097 no_cat_data; 72099 no_cat_data; 72101 no_cat_data; 72103 no_cat_data; 72105 no_cat_data; 72107 no_cat_data; 72109 no_cat_data; 72111 no_cat_data; 72113 no_cat_data; 72115 no_cat_data; 72117 no_cat_data; 72119 no_cat_data; 72121 no_cat_data; 72123 no_cat_data; 72125 no_cat_data; 72127 no_cat_data; 72129 no_cat_data; 72131 no_cat_data; 72133 no_cat_data; 72135 no_cat_data; 72137 no_cat_data; 72139 no_cat_data; 72141 no_cat_data; 72143 no_cat_data; 72145 no_cat_data; 72149 no_cat_data; 72151 no_cat_data; 72153 no_cat_data,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:34:23,3.1
-01197402,Shoals Area MPO,AL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:35,11
-01197501,Montgomery MPO,AL,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:38,14.2
-01197601,Huntsville MPO,AL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:38,9.1
-01197602,Calhoun Area Metropolitan Planning Organization,AL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:43,7
-01197700,Birmingham MPO,AL,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:56,17.8
-01198200,Decatur Area MPO,AL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:46,7
-01198300,Southeast Wiregrass Area MPO,AL,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:52,7.1
-04197301,Maricopa Association of Governments,AZ,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:07:39,43.1
-05197300,Frontier MPO,AR,done,4,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:07:30,16
-05197400,Central Arkansas Regional Transportation Study,AR,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:07:32,18.1
-05198200,Northwest Arkansas Regional Planning Commission,AR,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:07:41,9.3
-06196700,Sacramento Area COG,CA,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:08:24,41.7
-06197001,Metropolitan Transportation Commission,CA,done,9,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:09:05,81
-06197202,Fresno Council of Governments,CA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:34:51,13.6
-06197501,Southern California Association of Governments,CA,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:53,173.5
-06197502,Association of Monterey Bay Area Governments,CA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:08:38,12.9
-08197701,Denver Regional COG,CO,done,8,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:09:45,42.2
-08197702,Pikes Peak Area COG,CO,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:09:17,10.9
-08198800,North Front Range MPO,CO,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:09:33,9.9
-09197402,Southeastern Connecticut Council of Governments (SECOG),CT,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:09:52,13.1
-09197501,Capital Region COG,CT,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:00,14.2
-09197502,Naugatuck Valley Council of Governments,CT,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:20,26.6
-09197504,Housatonic Valley MPO,CT,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:16,15.4
-09198101,Greater Bridgeport / Valley MPO,CT,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:42,20.8
-09201499,Lower Connecticut River Valley COG,CT,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:29,8.6
-10197100,Wilmington Area Planning Council,DE,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:50,19.6
-10199000,Dover / Kent County MPO,DE,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:10:51,8.6
-11196500,National Capital Region Transportation Planning Board,DC,done,15,3,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:13,81.4
-12197000,Florida-Alabama Transportation Planning Organization,FL,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:11:13,20.5
-12197703,METROPLAN Orlando,FL,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:11:24,21.3
-12197705,Volusia-Flagler TPO,FL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:11:29,11.3
-12197706,Capital Region Transportation Planning Agency,FL,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:11:38,12.4
-12197802,North Florida Transportation Planning Organization,FL,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:11:57,23.8
-12197803,Forward Pinellas,FL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:09,29.9
-12197804,Sarasota/Manatee MPO,FL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:13,14.3
-12198001,Okaloosa-Walton Transportation Planning Organization,FL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:22,8.5
-12199202,Hernando/Citrus MPO,FL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:33,9.6
-12200300,Lake-Sumter MPO,FL,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:41,10.4
-12201400,Heartland Regional TPO,FL,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:47,15.5
-13196401,Columbus-Phenix City Metropolitan Planning Organization (C-PC-MPO),GA,done,4,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:56,21.5
-13196402,Macon Area Transportation Study (MATS),GA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:53,10.7
-13196500,Dougherty Area Regional Transportation Study (DARTS),GA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:12:55,6.5
-13196900,Madison Athens-Clarke Oconee Regional Transportation Study (MACORTS),GA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:13:03,9.2
-13197000,Augusta Regional Transportation Study (ARTS),GA,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:13:15,18.8
-13197100,Atlanta Regional Commission (ARC),GA,done,19,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:26,89
-13198200,Warner Robins Area Transportation Study (WRATS),GA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:13:12,7.6
-13198301,Savannah Coastal Region MPO,GA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:13:25,11.5
-13200301,Gainesville-Hall MPO (GHMPO),GA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:13:31,8.6
-13200302,Greater Dalton MPO,GA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:13:33,6.5
-13200303,Valdosta-Lowndes MPO (VLMPO),GA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:13:39,6.8
-16197700,Community Planning Association of Southwest Idaho,ID,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:00,14
-16200302,Lewis-Clark Valley MPO,ID,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:12,10.2
-16202300,Magic Valley MPO,ID,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:07,4.7
-17196201,Chicago Metropolitan Agency for Planning,IL,done,9,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:15:47,99.3
-17196401,Region One Planning Council (R1PC),IL,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:26,9.5
-17197600,Tri-County Regional Planning Commission,IL,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:38,8.4
-18196900,Madison County COG,IN,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:51,11.3
-18197401,Michiana Area COG,IN,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:14:53,13.6
-18197501,Northwest Indiana Regional Planning Commission,IN,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:15:08,13.9
-18197800,Indianapolis MPO,IN,done,8,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:15:29,24.7
-18198600,Evansville MPO,IN,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:15:30,15
-19196601,Bi-State Regional Commission,IL,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:15:47,14.1
-19196602,Sioux City MPO,IA,done,3,3,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:15:51,16.6
-19198300,Des Moines Area MPO,IA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:01,10
-20197600,Wichita Area MPO,KS,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:08,12.8
-20201300,Flint Hills Metropolitan Planning Organization,KS,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:06,6
-21197300,Louisville/Jefferson County KY-IN MPO,KY,done,5,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:24,22.1
-21197401,Lexington Area MPO,KY,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:18,10.9
-21200201,Radcliff-Elizabethtown MPO,KY,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:22,8.9
-22196200,Regional Planning Commission,LA,done,9,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:55,32.6
-22196800,Northwest Louisiana COG,LA,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:41,16
-22197201,Capital Regional Planning Commission,LA,done,5,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:45,19.1
-22197202,Lafayette Area MPO,LA,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:16:59,16.1
-22198200,Houma-Thibodaux MPO,LA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:01,9.3
-23197500,Portland Area Comprehensive Transportation System,ME,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:14,14.4
-24198600,Hagerstown-Eastern Panhandle MPO,MD,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:17,12.3
-24199200,Baltimore Regional Transportation Board,MD,done,7,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:40,34
-24200400,Salisbury-Wicomico MPO,MD,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:23,8
-24201300,Calvert-St. Maryrs Metropolitan Planning Organization,MD,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:24,6
-25197201,Old Colony MPO,MA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:51,27.1
-25197300,Boston Region MPO,MA,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:18:24,54.8
-25197601,Pioneer Valley MPO,MA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:17:52,11.1
-25198700,Montachusett MPO,MA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:18:23,26.7
-25199800,Southeastern Massachusetts MPO,MA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:18:22,19.9
-26197301,Tri-County Regional Planning Commission,MI,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:34:59,7.4
-26197302,West Michigan Shoreline Regional Development Commission,MI,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:18:41,13.6
-26197401,Southeast Michigan COG,MI,done,7,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:31,63.5
-26197900,Kalamazoo Area Transportation Study,MI,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:18:49,6.9
-26198100,Niles-Buchanan-Cass Area Transportation Study (NATS),MI,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:18:49,6.6
-26199000,Grand Valley Metropolitan Council,MI,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:01,10.5
-26199100,Macatawa Area Coordinating Council,MI,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:00,6.8
-26201300,Midland Area Transportation Study,MI,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:09,8
-26202300,Traverse Transportation Coordinating Initiative,MI,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:07,4.8
-27197000,St. Cloud Area Planning Organization,MN,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:21,12.3
-27197300,Metropolitan Council,MN,done,9,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:53,38.8
-27197500,Duluth-Superior Metropolitan Interstate Council,MN,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:35,13.2
-27201300,Mankato / North Mankato Area Planning Organization,MN,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:38,4.8
-28197300,Gulf Regional Planning Commission,MS,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:51,14.7
-28197500,Central Mississippi Planning & Development District,MS,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:51,12.4
-28198200,Hattiesburg-Petal-Forrest-Lamar MPO,MS,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:19:57,5.1
-29197101,Ozarks Transportation Organization,MO,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:07,14.3
-29197102,St. Joseph Area Transportation Study Organization,MO,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:05,10
-29197300,East-West Gateway Council of Government,MO,done,8,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:36,37.9
-29197401,Mid-America Regional Council,MO,done,8,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:35,28.9
-29198200,Joplin Area Transportation Study Organization,MO,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:17,6.1
-29200300,Capital Area MPO,MO,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:23,5.5
-31197400,Metropolitan Area Planning Agency,NE,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:51,12.8
-32198300,Regional Transportation Commission of Southern Nevada,NV,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:14,30.5
-32199800,Tahoe Regional Planning Agency,NV,done,4,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:06,21.1
-32200300,Carson Area Metropolitan Planning Organization,NV,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:20:58,5.9
-33197301,Southern New Hampshire Planning Commission,NH,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:20,17.3
-33198200,Strafford Regional Planning Commission,NH,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:22,11.5
-34198200,North Jersey Transportation Planning Authority,NJ,done,14,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:22:38,82.7
-34199300,South Jersey Transportation Planning Organization,NJ,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:34,12.6
-35197200,Mid-Region COG,NM,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:40,16.6
-36196500,Syracuse Metropolitan Transportation Council,NY,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:57,15.5
-36197200,Herkimer-Oneida Counties Transportation Study,NY,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:21:56,11.2
-36197300,Capital Region Transportation Council,NY,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:06,27
-36197401,Greater Buffalo-Niagara Regional Transportation Council,NY,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:22:15,18
-36197402,Binghamton Metropolitan Transportation Study,NY,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:22:14,16
-36197700,Genesee Transportation Council,NY,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:22:35,18.9
-36198201,New York Metropolitan Transportation Council,NY,done,10,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:25,127.4
-36198204,Adirondack/Glens Falls Transportation Council,NY,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:22:51,11.4
-37196400,Capital Area MPO,NC,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:23:23,30.7
-37197000,French Broad River MPO,NC,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:23:11,18.6
-37197300,Burlington-Graham MPO,NC,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:23:26,13.7
-37197401,Winston Salem Urban Area MPO,NC,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:23:38,14
-37197402,Fayetteville Area MPO,NC,done,5,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:23:44,16.8
-37197403,Gaston-Cleveland-Lincoln MPO,NC,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:23:51,11.8
-37197800,Wilmington Urban Area MPO,NC,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:23:57,11.9
-37197900,Charlotte Regional Transportation Planning Organization,NC,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:24,32.1
-37198001,Durham Chapel Hill Carrboro MPO,NC,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:09,10.8
-37198002,Cabarrus Rowan MPO,NC,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:18,7.7
-37198003,High Point Urban Area MPO,NC,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:40,21.2
-37198201,Greater Hickory MPO,NC,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:37,11.1
-37199202,Rocky Mount Urban Area MPO,NC,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:43,7.9
-38197200,Fargo-Moorhead Metropolitan Council of Governments,ND,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:52,10.4
-38198201,Bismarck Mandan Metropolitan Planning Organization,ND,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:50,5.9
-38198202,Grand Forks-East Grand Forks MPO,ND,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:24:52,7.2
-39196201,Akron Metropolitan Area Transportation Study,OH,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:18,23.9
-39196800,Northeast Ohio Areawide Coordinating Agency,OH,done,5,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:34,34.3
-39197301,Mid-Ohio Regional Planning Commission,OH,done,5,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:30,29.5
-39197302,Miami Valley Regional Planning Commission,OH,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:40,21
-39197303,Eastgate Regional COG,OH,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:42,10.7
-39197304,Brook-Hancock-Jefferson Metropolitan Planning Commission,OH,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:42,7.6
-39197400,Ohio-Kentucky-Indiana Regional Council of Governments,OH,done,8,3,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:26:24,42.5
-39197500,Lake Erie West Regional Council,OH,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:56,12.5
-39198200,Licking County Area Transportation Study,OH,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:25:53,9
-39200300,Policy Committee of the Erie Regional Planning Commission,OH,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:26:03,9.1
-40196500,Association of Central Oklahoma Governments,OK,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:26:19,22.2
-40197400,Indian Nations COG,OK,done,5,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:26:24,16
-41197900,Metro,OR,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:27:02,37
-41198700,Salem-Keizer Area Transportation Study,OR,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:26:50,23.6
-41201301,Albany Area Metropolitan Planning Organization,OR,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:26:43,9.5
-42196401,Lehigh Valley Transportation Study,PA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:27:00,12.6
-42196402,Lackawanna/Luzerne MPO,PA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:27:07,15.4
-42196501,Delaware Valley Regional Planning Commission,PA,done,9,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:12,65
-42196502,Harrisburg Area Transportation Study,PA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:27:22,13.5
-42196503,Cambria County MPO,PA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:27:18,8.7
-42197400,Southwestern Pennsylvania Commission,PA,done,10,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:16,53.6
-42201311,Northeastern Pennsylvania Alliance (NEPA),PA,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:27:50,15.6
-42201312,Susquehanna Economic Development Association Council of Governments,PA,done,8,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:10,19.4
-44197400,State Planning Council,RI,done,6,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:41,25.9
-45196200,Greenville-Pickens Area Transportation Study,SC,done,5,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:37,20.7
-45197000,Columbia Area Transportation Study,SC,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:29,11.5
-45197700,Charleston Area Transportation Study,SC,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:46,13.7
-45198200,Florence Area Transportation Study,SC,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:46,7
-45198300,Rock Hill-Fort Mill Area Transportation Study,SC,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:50,8.5
-45199200,Grand-Strand Area Transportation Study,SC,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:00,12.1
-45199300,Anderson Area Transportation Study,SC,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:58,8.2
-45201300,Lowcountry Area Transportation Study,SC,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:28:59,7.2
-46197300,Sioux Falls MPO,SD,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:06,6.2
-46198100,Rapid City Area MPO,SD,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:05,4.9
-47197701,Greater Nashville Regional Council,TN,done,7,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:37,35.5
-47197702,Memphis Urban Area MPO,TN,done,4,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:29,22.6
-47197703,Chattanooga-Hamilton County/North Georgia Metropolitan Planning Organization,TN,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:21,13.6
-47197704,Kingsport MTPO,TN,done,4,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:34,12.3
-47197801,Knoxville Regional Transportation Planning Organization,TN,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:52,22.7
-47197802,Clarksville Urbanized Area MPO,TN,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:45,10.1
-47198201,Johnson City Metropolitan Transportation Planning Organization,TN,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:47,8.9
-47198203,Bristol MPO,TN,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:58,10.2
-47200301,Lakeway MPO,TN,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:29:56,6.5
-48196900,Abilene MPO,TX,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:30:17,20.2
-48197001,South East Texas Regional Planning Commission,TX,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:30:20,20.9
-48197301,Capital Area MPO,TX,done,6,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:30:42,39.5
-48197303,Corpus Christi MPO,TX,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:30:33,11.3
-48197401,North Central Texas COG,TX,done,12,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:31:57,91.3
-48197402,Houston-Galveston Area Council,TX,done,8,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:31:48,74.1
-48197501,Killeen-Temple Metropolitan Planning Organization,TX,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:31:02,11.5
-48197502,Amarillo MPO,TX,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:31:13,9.2
-48197504,Longview MPO,TX,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:31:30,12.8
-48197505,Texarkana MPO,TX,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:31:40,8.7
-48197700,Alamo Area MPO,TX,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:12,27.7
-48200500,Permian Basin MPO,TX,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:09,10.4
-48201901,Rio Grande Valley MPO,TX,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:28,29.5
-49197300,Wasatch Front Regional Council,UT,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:38,24.5
-51197402,Roanoke Valley MPO,VA,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:38,9.5
-51197900,Central Virginia Transportation Planning Organization,VA,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:43,10.1
-51198200,Charlottesville-Albemarle MPO,VA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:46,7
-51198300,Danville MPO,VA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:46,6.8
-51199200,Fredericksburg Area MPO,VA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:56,8.3
-51200301,New River Valley MPO,VA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:56,9
-51200302,Winchester-Frederick County MPO,VA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:32:53,5.5
-51200303,Harrisonburg-Rockingham MPO,VA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:02,7
-51201200,Staunton-Augusta-Waynesboro MPO,VA,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:04,7.4
-53197100,Benton-Franklin Council of Governments,WA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:08,7.3
-53198202,Cowlitz-Wahkiakum Council of Governments,WA,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:16,7.9
-53199100,Puget Sound Regional Council,WA,done,4,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:48,39
-53200302,Chelan-Douglas Transportation Council (CDTC),WA,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:23,4.9
-53201300,Walla Walla Valley MPO,WA,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:24,5.9
-54197400,KYOVA Interstate Planning Commission,WV,done,5,3,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:36,12.6
-54197501,Regional Intergovernmental Council,WV,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:32,6.7
-54197502,Belmont-Ohio-Marshall Transportation Study,WV,done,3,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:40,7.1
-54197503,Wood-Washington-Wirt Interstate Planning Commission,WV,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:45,7.4
-54201300,Fayette/Raleigh MPO (FRMPO),WV,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:50,5.8
-55196100,Southeastern Wisconsin Regional Planning Commission,WI,done,7,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:34:16,29.6
-55196700,La Crosse Area Planning Committee,WI,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:33:56,6.8
-55197301,Appleton/Fox Cities MPO,WI,done,3,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:34:04,9.6
-55197499,State Line Area Transportation Study,WI,done,2,2,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:34:12,8.7
-55198201,Chippewa-Eau Claire MPO,WI,done,2,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:34:11,5.8
+72200200,Puerto Rico Metropolitan Planning Organization,PR,blocked_cat,76,1,72001 no_cat_data; 72003 no_cat_data; 72005 no_cat_data; 72007 no_cat_data; 72009 no_cat_data; 72011 no_cat_data; 72013 no_cat_data; 72015 no_cat_data; 72017 no_cat_data; 72019 no_cat_data; 72021 no_cat_data; 72023 no_cat_data; 72025 no_cat_data; 72027 no_cat_data; 72029 no_cat_data; 72031 no_cat_data; 72033 no_cat_data; 72035 no_cat_data; 72037 no_cat_data; 72039 no_cat_data; 72041 no_cat_data; 72043 no_cat_data; 72045 no_cat_data; 72047 no_cat_data; 72051 no_cat_data; 72053 no_cat_data; 72054 no_cat_data; 72055 no_cat_data; 72057 no_cat_data; 72059 no_cat_data; 72061 no_cat_data; 72063 no_cat_data; 72065 no_cat_data; 72067 no_cat_data; 72069 no_cat_data; 72071 no_cat_data; 72073 no_cat_data; 72075 no_cat_data; 72077 no_cat_data; 72079 no_cat_data; 72081 no_cat_data; 72083 no_cat_data; 72085 no_cat_data; 72087 no_cat_data; 72089 no_cat_data; 72091 no_cat_data; 72093 no_cat_data; 72095 no_cat_data; 72097 no_cat_data; 72099 no_cat_data; 72101 no_cat_data; 72103 no_cat_data; 72105 no_cat_data; 72107 no_cat_data; 72109 no_cat_data; 72111 no_cat_data; 72113 no_cat_data; 72115 no_cat_data; 72117 no_cat_data; 72119 no_cat_data; 72121 no_cat_data; 72123 no_cat_data; 72125 no_cat_data; 72127 no_cat_data; 72129 no_cat_data; 72131 no_cat_data; 72133 no_cat_data; 72135 no_cat_data; 72137 no_cat_data; 72139 no_cat_data; 72141 no_cat_data; 72143 no_cat_data; 72145 no_cat_data; 72149 no_cat_data; 72151 no_cat_data; 72153 no_cat_data,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:44,0.8
+01197402,Shoals Area MPO,AL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:48,2.1
+01197501,Montgomery MPO,AL,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:47,1.4
+01197601,Huntsville MPO,AL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:17,6.1
+01197602,Calhoun Area Metropolitan Planning Organization,AL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:18,1.9
+01197700,Birmingham MPO,AL,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:18,1.8
+01198200,Decatur Area MPO,AL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:21,2.1
+01198300,Southeast Wiregrass Area MPO,AL,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:21,1.9
+04197301,Maricopa Association of Governments,AZ,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:22,2.8
+05197300,Frontier MPO,AR,done,4,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:24,2.2
+05197400,Central Arkansas Regional Transportation Study,AR,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:24,1.8
+05198200,Northwest Arkansas Regional Planning Commission,AR,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:25,1.3
+06196700,Sacramento Area COG,CA,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:28,2.4
+06197001,Metropolitan Transportation Commission,CA,done,9,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:28,2.1
+06197202,Fresno Council of Governments,CA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:28,2.1
+06197501,Southern California Association of Governments,CA,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:48,2.2
+06197502,Association of Monterey Bay Area Governments,CA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:30,1.5
+08197701,Denver Regional COG,CO,done,8,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:50,2.3
+08197702,Pikes Peak Area COG,CO,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:50,1.6
+08198800,North Front Range MPO,CO,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:51,1.8
+09197402,Southeastern Connecticut Council of Governments (SECOG),CT,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:53,1.4
+09197501,Capital Region COG,CT,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:53,1.5
+09197502,Naugatuck Valley Council of Governments,CT,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:54,1.8
+09197504,Housatonic Valley MPO,CT,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:57,1.9
+09198101,Greater Bridgeport / Valley MPO,CT,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:56,1.6
+09201499,Lower Connecticut River Valley COG,CT,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:08:57,1.6
+10197100,Wilmington Area Planning Council,DE,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:00,2.2
+10199000,Dover / Kent County MPO,DE,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:00,2.1
+11196500,National Capital Region Transportation Planning Board,DC,done,15,3,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:01,2.6
+12197000,Florida-Alabama Transportation Planning Organization,FL,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:03,1.6
+12197703,METROPLAN Orlando,FL,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:03,1.8
+12197705,Volusia-Flagler TPO,FL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:04,1.8
+12197706,Capital Region Transportation Planning Agency,FL,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:07,2.5
+12197802,North Florida Transportation Planning Organization,FL,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:07,2
+12197803,Forward Pinellas,FL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:08,2.1
+12197804,Sarasota/Manatee MPO,FL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:10,1.5
+12198001,Okaloosa-Walton Transportation Planning Organization,FL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:10,1.5
+12199202,Hernando/Citrus MPO,FL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:12,1.9
+12200300,Lake-Sumter MPO,FL,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:13,1.4
+12201400,Heartland Regional TPO,FL,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:13,1.6
+13196401,Columbus-Phenix City Metropolitan Planning Organization (C-PC-MPO),GA,done,4,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:15,1.9
+13196402,Macon Area Transportation Study (MATS),GA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:16,1.8
+13196500,Dougherty Area Regional Transportation Study (DARTS),GA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:16,1.5
+13196900,Madison Athens-Clarke Oconee Regional Transportation Study (MACORTS),GA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:19,2
+13197000,Augusta Regional Transportation Study (ARTS),GA,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:20,2.5
+13197100,Atlanta Regional Commission (ARC),GA,done,19,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:21,3.6
+13198200,Warner Robins Area Transportation Study (WRATS),GA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:22,1.5
+13198301,Savannah Coastal Region MPO,GA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:23,1.8
+13200301,Gainesville-Hall MPO (GHMPO),GA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:25,1.7
+13200302,Greater Dalton MPO,GA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:25,1.8
+13200303,Valdosta-Lowndes MPO (VLMPO),GA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:27,1.8
+16197700,Community Planning Association of Southwest Idaho,ID,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:28,1.8
+16200302,Lewis-Clark Valley MPO,ID,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:28,1.8
+16202300,Magic Valley MPO,ID,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:30,1.6
+17196201,Chicago Metropolitan Agency for Planning,IL,done,9,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:32,2.8
+17196401,Region One Planning Council (R1PC),IL,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:32,2.2
+17197600,Tri-County Regional Planning Commission,IL,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:33,1.6
+18196900,Madison County COG,IN,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:34,1.4
+18197401,Michiana Area COG,IN,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:35,1.6
+18197501,Northwest Indiana Regional Planning Commission,IN,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:36,2
+18197800,Indianapolis MPO,IN,done,8,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:37,1.6
+18198600,Evansville MPO,IN,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:38,1.3
+19196601,Bi-State Regional Commission,IL,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:39,1.8
+19196602,Sioux City MPO,IA,done,3,3,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:40,1.5
+19198300,Des Moines Area MPO,IA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:40,1.6
+20197600,Wichita Area MPO,KS,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:42,1.3
+20201300,Flint Hills Metropolitan Planning Organization,KS,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:42,1.6
+21197300,Louisville/Jefferson County KY-IN MPO,KY,done,5,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:44,2.1
+21197401,Lexington Area MPO,KY,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:45,1.7
+21200201,Radcliff-Elizabethtown MPO,KY,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:46,1.9
+22196200,Regional Planning Commission,LA,done,9,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:47,1.9
+22196800,Northwest Louisiana COG,LA,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:48,1.4
+22197201,Capital Regional Planning Commission,LA,done,5,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:49,1.7
+22197202,Lafayette Area MPO,LA,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:50,1.9
+22198200,Houma-Thibodaux MPO,LA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:51,1.6
+23197500,Portland Area Comprehensive Transportation System,ME,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:52,1.8
+24198600,Hagerstown-Eastern Panhandle MPO,MD,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:53,1.8
+24199200,Baltimore Regional Transportation Board,MD,done,7,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:54,2.1
+24200400,Salisbury-Wicomico MPO,MD,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:55,1.5
+24201300,Calvert-St. Maryrs Metropolitan Planning Organization,MD,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:56,1.5
+25197201,Old Colony MPO,MA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:57,1.5
+25197300,Boston Region MPO,MA,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:58,1.8
+25197601,Pioneer Valley MPO,MA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:09:59,1.9
+25198700,Montachusett MPO,MA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:00,1.9
+25199800,Southeastern Massachusetts MPO,MA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:01,2
+26197301,Tri-County Regional Planning Commission,MI,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:02,2
+26197302,West Michigan Shoreline Regional Development Commission,MI,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:03,1.6
+26197401,Southeast Michigan COG,MI,done,7,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:05,1.8
+26197900,Kalamazoo Area Transportation Study,MI,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:05,1.8
+26198100,Niles-Buchanan-Cass Area Transportation Study (NATS),MI,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:06,2
+26199000,Grand Valley Metropolitan Council,MI,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:08,1.7
+26199100,Macatawa Area Coordinating Council,MI,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:09,1.6
+26201300,Midland Area Transportation Study,MI,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:09,1.9
+26202300,Traverse Transportation Coordinating Initiative,MI,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:11,1.4
+27197000,St. Cloud Area Planning Organization,MN,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:11,1.4
+27197300,Metropolitan Council,MN,done,9,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:12,1.6
+27197500,Duluth-Superior Metropolitan Interstate Council,MN,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:14,1.7
+27201300,Mankato / North Mankato Area Planning Organization,MN,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:14,1.7
+28197300,Gulf Regional Planning Commission,MS,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:14,1.3
+28197500,Central Mississippi Planning & Development District,MS,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:16,1.6
+28198200,Hattiesburg-Petal-Forrest-Lamar MPO,MS,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:17,1.5
+29197101,Ozarks Transportation Organization,MO,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:17,1.4
+29197102,St. Joseph Area Transportation Study Organization,MO,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:19,1.5
+29197300,East-West Gateway Council of Government,MO,done,8,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:19,1.5
+29197401,Mid-America Regional Council,MO,done,8,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:20,1.8
+29198200,Joplin Area Transportation Study Organization,MO,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:22,1.6
+29200300,Capital Area MPO,MO,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:23,1.9
+31197400,Metropolitan Area Planning Agency,NE,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:23,1.7
+32198300,Regional Transportation Commission of Southern Nevada,NV,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:25,1.4
+32199800,Tahoe Regional Planning Agency,NV,done,4,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:25,1.5
+32200300,Carson Area Metropolitan Planning Organization,NV,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:25,1.6
+33197301,Southern New Hampshire Planning Commission,NH,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:29,2.9
+33198200,Strafford Regional Planning Commission,NH,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:29,2.5
+34198200,North Jersey Transportation Planning Authority,NJ,done,14,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:29,2.7
+34199300,South Jersey Transportation Planning Organization,NJ,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:32,1.8
+35197200,Mid-Region COG,NM,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:32,1.5
+36196500,Syracuse Metropolitan Transportation Council,NY,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:32,1.7
+36197200,Herkimer-Oneida Counties Transportation Study,NY,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:34,1.3
+36197300,Capital Region Transportation Council,NY,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:35,1.4
+36197401,Greater Buffalo-Niagara Regional Transportation Council,NY,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:35,1.4
+36197402,Binghamton Metropolitan Transportation Study,NY,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:37,1.6
+36197700,Genesee Transportation Council,NY,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:38,1.7
+36198201,New York Metropolitan Transportation Council,NY,done,10,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:38,1.9
+36198204,Adirondack/Glens Falls Transportation Council,NY,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:40,1.4
+37196400,Capital Area MPO,NC,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:41,2
+37197000,French Broad River MPO,NC,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:41,2
+37197300,Burlington-Graham MPO,NC,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:43,1.6
+37197401,Winston Salem Urban Area MPO,NC,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:44,1.8
+37197402,Fayetteville Area MPO,NC,done,5,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:44,1.4
+37197403,Gaston-Cleveland-Lincoln MPO,NC,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:46,1.6
+37197800,Wilmington Urban Area MPO,NC,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:47,1.5
+37197900,Charlotte Regional Transportation Planning Organization,NC,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:48,2.3
+37198001,Durham Chapel Hill Carrboro MPO,NC,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:48,1.6
+37198002,Cabarrus Rowan MPO,NC,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:50,1.6
+37198003,High Point Urban Area MPO,NC,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:51,1.7
+37198201,Greater Hickory MPO,NC,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:51,1.8
+37199202,Rocky Mount Urban Area MPO,NC,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:53,1.7
+38197200,Fargo-Moorhead Metropolitan Council of Governments,ND,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:54,1.7
+38198201,Bismarck Mandan Metropolitan Planning Organization,ND,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:54,1.5
+38198202,Grand Forks-East Grand Forks MPO,ND,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:56,1.6
+39196201,Akron Metropolitan Area Transportation Study,OH,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:57,1.5
+39196800,Northeast Ohio Areawide Coordinating Agency,OH,done,5,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:57,1.7
+39197301,Mid-Ohio Regional Planning Commission,OH,done,5,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:59,1.7
+39197302,Miami Valley Regional Planning Commission,OH,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:10:59,1.5
+39197303,Eastgate Regional COG,OH,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:00,1.8
+39197304,Brook-Hancock-Jefferson Metropolitan Planning Commission,OH,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:02,1.4
+39197400,Ohio-Kentucky-Indiana Regional Council of Governments,OH,done,8,3,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:02,1.6
+39197500,Lake Erie West Regional Council,OH,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:03,1.5
+39198200,Licking County Area Transportation Study,OH,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:04,1.3
+39200300,Policy Committee of the Erie Regional Planning Commission,OH,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:05,1.4
+40196500,Association of Central Oklahoma Governments,OK,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:06,1.9
+40197400,Indian Nations COG,OK,done,5,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:07,1.7
+41197900,Metro,OR,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:08,1.9
+41198700,Salem-Keizer Area Transportation Study,OR,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:09,1.4
+41201301,Albany Area Metropolitan Planning Organization,OR,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:09,1.3
+42196401,Lehigh Valley Transportation Study,PA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:11,1.7
+42196402,Lackawanna/Luzerne MPO,PA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:12,1.5
+42196501,Delaware Valley Regional Planning Commission,PA,done,9,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:13,2.3
+42196502,Harrisburg Area Transportation Study,PA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:14,1.4
+42196503,Cambria County MPO,PA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:14,1.3
+42197400,Southwestern Pennsylvania Commission,PA,done,10,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:16,1.7
+42201311,Northeastern Pennsylvania Alliance (NEPA),PA,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:17,1.8
+42201312,Susquehanna Economic Development Association Council of Governments,PA,done,8,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:17,2
+44197400,State Planning Council,RI,done,6,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:18,1.6
+45196200,Greenville-Pickens Area Transportation Study,SC,done,5,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:20,1.4
+45197000,Columbia Area Transportation Study,SC,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:20,1.4
+45197700,Charleston Area Transportation Study,SC,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:21,1.3
+45198200,Florence Area Transportation Study,SC,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:22,1.5
+45198300,Rock Hill-Fort Mill Area Transportation Study,SC,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:23,1.7
+45199200,Grand-Strand Area Transportation Study,SC,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:23,1.4
+45199300,Anderson Area Transportation Study,SC,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:25,1.5
+45201300,Lowcountry Area Transportation Study,SC,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:26,2.2
+46197300,Sioux Falls MPO,SD,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:26,1.9
+46198100,Rapid City Area MPO,SD,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:28,1.4
+47197701,Greater Nashville Regional Council,TN,done,7,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:29,1.6
+47197702,Memphis Urban Area MPO,TN,done,4,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:29,1.9
+47197703,Chattanooga-Hamilton County/North Georgia Metropolitan Planning Organization,TN,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:30,1.4
+47197704,Kingsport MTPO,TN,done,4,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:32,1.4
+47197801,Knoxville Regional Transportation Planning Organization,TN,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:32,1.9
+47197802,Clarksville Urbanized Area MPO,TN,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:33,1.4
+47198201,Johnson City Metropolitan Transportation Planning Organization,TN,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:35,1.6
+47198203,Bristol MPO,TN,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:35,1.7
+47200301,Lakeway MPO,TN,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:36,1.6
+48196900,Abilene MPO,TX,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:37,1.5
+48197001,South East Texas Regional Planning Commission,TX,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:38,1.5
+48197301,Capital Area MPO,TX,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:38,1.5
+48197302,El Paso MPO,TX,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:58,19.2
+48197303,Corpus Christi MPO,TX,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:42,2.7
+48197401,North Central Texas COG,TX,done,12,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:43,3
+48197402,Houston-Galveston Area Council,TX,done,8,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:45,1.7
+48197501,Killeen-Temple Metropolitan Planning Organization,TX,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:46,1.5
+48197502,Amarillo MPO,TX,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:48,1.6
+48197504,Longview MPO,TX,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:48,1.5
+48197505,Texarkana MPO,TX,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:52,1.7
+48197700,Alamo Area MPO,TX,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:51,1.7
+48200500,Permian Basin MPO,TX,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:54,1.7
+48201901,Rio Grande Valley MPO,TX,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:55,1.5
+49197300,Wasatch Front Regional Council,UT,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:11:57,1.9
+51197401,Richmond Area MPO,VA,done,8,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:20,24.1
+51197402,Roanoke Valley MPO,VA,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:01,1.9
+51197403,Tri Cities Area MPO,VA,done,6,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:13,13.7
+51197900,Central Virginia Transportation Planning Organization,VA,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:04,1.6
+51198200,Charlottesville-Albemarle MPO,VA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:06,1.4
+51198300,Danville MPO,VA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:09,1.4
+51199100,Hampton Roads Transportation Planning Organization,VA,done,14,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:43,33.5
+51199200,Fredericksburg Area MPO,VA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:15,1.4
+51200301,New River Valley MPO,VA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:18,1.4
+51200302,Winchester-Frederick County MPO,VA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:21,1.5
+51200303,Harrisonburg-Rockingham MPO,VA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:22,1.3
+51201200,Staunton-Augusta-Waynesboro MPO,VA,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:23,1.6
+53197100,Benton-Franklin Council of Governments,WA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:25,1.3
+53198202,Cowlitz-Wahkiakum Council of Governments,WA,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:26,1.4
+53199100,Puget Sound Regional Council,WA,done,4,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:28,1.9
+53200302,Chelan-Douglas Transportation Council (CDTC),WA,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:29,1.7
+53201300,Walla Walla Valley MPO,WA,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:31,1.8
+54197400,KYOVA Interstate Planning Commission,WV,done,5,3,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:31,1.5
+54197501,Regional Intergovernmental Council,WV,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:34,1.3
+54197502,Belmont-Ohio-Marshall Transportation Study,WV,done,3,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:34,1.2
+54197503,Wood-Washington-Wirt Interstate Planning Commission,WV,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:37,1.8
+54201300,Fayette/Raleigh MPO (FRMPO),WV,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:36,1.5
+55196100,Southeastern Wisconsin Regional Planning Commission,WI,done,7,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:39,1.9
+55196700,La Crosse Area Planning Committee,WI,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:39,1.4
+55197301,Appleton/Fox Cities MPO,WI,done,3,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:42,1.3
+55197499,State Line Area Transportation Study,WI,done,2,2,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:42,1.5
+55198201,Chippewa-Eau Claire MPO,WI,done,2,1,,,MANIFEST-59ea1fac.tsv,NA,2026-11-20 22:12:44,1.4
 01196401,Mobile Area Transportation Study,AL,single_county,1,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:23,2.3
 01196402,Gadsden-Etowah MPO,AL,single_county,1,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:23,2.4
 01197401,Tuscaloosa Area MPO,AL,single_county,1,1,,,MANIFEST-e2ccfae4.tsv,NA,2026-11-20 14:06:23,2.8

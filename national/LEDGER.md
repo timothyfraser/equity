@@ -1,25 +1,19 @@
 # National MPO ledger
 
-Generated 2026-11-20 14:35 UTC by `national/ledger.R build`. CAT manifest(s): MANIFEST-e2ccfae4.tsv.
+Generated 2026-11-20 22:12 UTC by `national/ledger.R build`. CAT manifest(s): MANIFEST-59ea1fac.tsv, MANIFEST-e2ccfae4.tsv.
 
 Rerun `bash national/run_national.sh` at any time. It processes every MPO with no status or an error, and every done or blocked MPO whose CAT manifest is older than the current one, so blocked MPOs are picked up as soon as new CAT runs are published.
 
 | status | MPOs |
 |---|---|
-| blocked_cat | 5 |
-| done | 220 |
+| blocked_cat | 1 |
+| done | 224 |
 | single_county | 186 |
 
 ## Blocked: counties with no CAT value for 2022
 
 | county | reason | MPOs waiting on it |
 |---|---|---|
-| 35035 | no_bracketing_years (2020) | El Paso MPO |
-| 51041 | no_bracketing_years (2020) | Richmond Area MPO; Tri Cities Area MPO |
-| 51199 | no_bracketing_years (2020) | Hampton Roads Transportation Planning Organization |
-| 51740 | no_bracketing_years (2020) | Hampton Roads Transportation Planning Organization |
-| 51760 | no_bracketing_years (2020) | Richmond Area MPO |
-| 51810 | no_bracketing_years (2020) | Hampton Roads Transportation Planning Organization |
 | 72001 | no_cat_data | Puerto Rico Metropolitan Planning Organization |
 | 72003 | no_cat_data | Puerto Rico Metropolitan Planning Organization |
 | 72005 | no_cat_data | Puerto Rico Metropolitan Planning Organization |

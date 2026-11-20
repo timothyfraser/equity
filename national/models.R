@@ -44,7 +44,8 @@ extremes = lapply(fits, \(f) f[c("min", "max")])
 
 cnt = \(s) sum(ledger$status == s)
 cov_ev = "national/models.R: count of status in national/LEDGER.csv"
-manifest = unique(ledger$manifest[ledger$manifest != "NA" & !is.na(ledger$manifest)])
+# done MPOs only: single_county MPOs are never rerun, so they keep the manifest of their first run
+manifest = unique(ledger$manifest[ledger$status == "done" & !is.na(ledger$manifest) & ledger$manifest != "NA"])
 stopifnot(length(manifest) == 1)
 
 res = list(
@@ -52,7 +53,7 @@ res = list(
                  purpose = "National MPO scatter models: index ~ log(emissions per resident); extremes; ledger coverage."),
   generated_utc = leaf(format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), "national/models.R: Sys.time()"),
   n_mpos = leaf(nrow(d), "national/models.R: rows of national/tables/mpo_wide.csv"),
-  cat_manifest = leaf(manifest, "national/models.R: manifest field of national/LEDGER.csv"),
+  cat_manifest = leaf(manifest, "national/models.R: manifest field of national/LEDGER.csv, done MPOs"),
   coverage = list(done = leaf(cnt("done"), cov_ev), single_county = leaf(cnt("single_county"), cov_ev),
                   blocked_cat = leaf(cnt("blocked_cat"), cov_ev), pending = leaf(cnt("pending"), cov_ev)),
   models = models,
