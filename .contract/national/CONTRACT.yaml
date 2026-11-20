@@ -10,10 +10,17 @@ decisions:
   ND2: 'Goes into the JTG paper (Tim, 2026-11-20: Add to this paper)'
   ND3: Equal-group index stays the headline; population-weighted and small-group robustness beside it (Tim's fairness
     justification, 2026-11-20)
+  ND4: 'Road-type weighting: split county emissions by CAT by=15 road types and match TIGER road classes; apply
+    to New York too, so the paper''s numbers are rerun (Tim, 2026-11-20: Yes, use road types)'
+  ND5: Ranked chart includes multi-county MPOs only (Tim, 2026-11-20)
+  ND6: 'Data access: Tim adds www2.census.gov, geodata.bts.gov, services.arcgis.com in environment Settings (the
+    session''s update_environment was rejected twice by the environments service)'
 tasks:
 - id: N-000
   title: Tim rulings Q1-Q6
-  status: proposed
+  status: partly ruled
+  result: 'Q1 hosts via Settings (Tim); Q3 road types yes; Q4 multi-county only. Open: Q2 tract rule (default interior
+    point), Q5 robustness threshold (default 1,000), Q6 timing (Tim chose earlier to hold JTG for this).'
 - id: N-001
   title: 'Data access: TIGER + BTS NTAD MPO layer'
   status: proposed
