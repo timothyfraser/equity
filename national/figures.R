@@ -69,8 +69,8 @@ tile_map = function(v, sub = NULL){
     scale_fill_gradient(low = hue[[v]], high = pale[[v]], limits = c(lo, 1), name = paste(nm[[v]], "equity index"),
                         guide = guide_colorbar(barwidth = 7, barheight = 0.4, ticks = FALSE, title.position = "top")) +
     # no side padding: the block fills the width; 3 rows above and below hold the extremes labels
-    # tiles 1.4 wide per 1 tall: square tiles leave the maps half the page width, 2:1 flattens the country
-    coord_fixed(ratio = 1 / 1.4, xlim = xr + c(-0.5, 0.5), ylim = c(y_lo, y_hi), expand = FALSE, clip = "off") +   # labels near an edge may run into the margin
+    # square tiles (Tim, 2026-11-20: "Make each tile a square in the map, not a rectangle")
+    coord_fixed(ratio = 1, xlim = xr + c(-0.5, 0.5), ylim = c(y_lo, y_hi), expand = FALSE, clip = "off") +   # labels near an edge may run into the margin
     labs(title = paste(nm[[v]], "equity index per metropolitan planning organization"), subtitle = sub,
          caption = if (nrow(blocked)) "Outlined: awaiting CAT data" else NULL) +
     theme_void(base_size = 7) + base_theme() +
@@ -98,7 +98,7 @@ scatter = function(v){
           axis.text = element_text(color = muted), axis.title = element_text(color = ink))
 }
 sub = "One tile per MPO, arranged nearest its location."
-gg = tile_map("race", sub) / tile_map("income", sub) / (scatter("race") | scatter("income")) + plot_layout(heights = c(3.4, 3.4, 2.8))
+gg = tile_map("race", sub) / tile_map("income", sub) / (scatter("race") | scatter("income")) + plot_layout(heights = c(3.7, 3.7, 2.6))
 dir.create("national/fig", showWarnings = FALSE)
 ggsave("national/fig/mpo_national.png", gg, device = ragg::agg_png, width = 7.5, height = 10, dpi = 500, bg = "white")
 message("wrote national/fig/mpo_national.png; lower limit ", lo, "; blocked tiles: ", nrow(blocked))
