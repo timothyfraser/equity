@@ -1,0 +1,14 @@
+{
+  "mpo_id": "19198000",
+  "mpo_name": "Metropolitan Planning Organization of Johnson County",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 28,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:15:52",
+  "seconds": 1.9
+}

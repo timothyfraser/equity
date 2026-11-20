@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Flint Hills Metropolitan Planning Organization,2,0.9970221594088372,0.9352319276015265,0.9352319276015265,0.934267838450141,age,4,1,1,20201300,Flint Hills Metropolitan Planning Organization,7,110060
+Flint Hills Metropolitan Planning Organization,2,0.999827489692389,0.9727020022904612,0.9044570080166142,0.97658563322522,income,8,0.9999999999999999,1,20201300,Flint Hills Metropolitan Planning Organization,7,110060
+Flint Hills Metropolitan Planning Organization,2,0.9996388201017106,0.9542093028731446,0.9542093028731446,0.9775391251100595,edu,4,1,1,20201300,Flint Hills Metropolitan Planning Organization,7,110060
+Flint Hills Metropolitan Planning Organization,2,0.9998556728467985,0.9102491882657863,0.33327968426012666,0.9814556873084086,race,14,1,1,20201300,Flint Hills Metropolitan Planning Organization,7,110060
+Flint Hills Metropolitan Planning Organization,NA,NA,0.9430981052577296,0.781794480687853,0.9674620710234573,overall,NA,NA,NA,20201300,Flint Hills Metropolitan Planning Organization,7,110060

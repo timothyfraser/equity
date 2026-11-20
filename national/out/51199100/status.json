@@ -1,0 +1,27 @@
+{
+  "mpo_id": "51199100",
+  "mpo_name": "Hampton Roads Transportation Planning Organization",
+  "status": "blocked_cat",
+  "n_counties": 14,
+  "n_states": 1,
+  "n_tracts_in": 455,
+  "blocking": [
+    {
+      "geoid": "51199",
+      "reason": "no_bracketing_years (2020)"
+    },
+    {
+      "geoid": "51740",
+      "reason": "no_bracketing_years (2020)"
+    },
+    {
+      "geoid": "51810",
+      "reason": "no_bracketing_years (2020)"
+    }
+  ],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:32:47",
+  "seconds": 2.3
+}

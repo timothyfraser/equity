@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Mid-America Regional Council,2,0.999849440359086,0.9795166063752107,0.9795166063752107,0.9854875875589659,age,4,1,1,29197401,Mid-America Regional Council,2,2078942
+Mid-America Regional Council,2,0.9991390249648444,0.9435232004454764,0.8023312015591675,0.9525620489349834,income,8,1,1,29197401,Mid-America Regional Council,2,2078942
+Mid-America Regional Council,2,0.998427457757715,0.9486481475159658,0.9486481475159658,0.952760179133271,edu,4,1,1,29197401,Mid-America Regional Council,2,2078942
+Mid-America Regional Council,2,0.9999732843794883,0.9365593063725766,0.5287262759105686,0.9903894800475213,race,14,1,1,29197401,Mid-America Regional Council,2,2078942
+Mid-America Regional Council,NA,NA,0.9520618151773074,0.8148055578402281,0.9702998239186854,overall,NA,NA,NA,29197401,Mid-America Regional Council,2,2078942

@@ -1,0 +1,14 @@
+{
+  "mpo_id": "25197201",
+  "mpo_name": "Old Colony MPO",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 1,
+  "n_tracts_in": 81,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:17:51",
+  "seconds": 27.1
+}

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Salem-Keizer Area Transportation Study,2,0.9985037122469915,0.928148568299483,0.928148568299483,0.9532821683268089,age,4,0.9999999999999998,1,41198700,Salem-Keizer Area Transportation Study,3,263925
+Salem-Keizer Area Transportation Study,2,0.9972776072623024,0.8748704805696161,0.5620466819936566,0.9055382080220867,income,8,1.0000000000000002,1,41198700,Salem-Keizer Area Transportation Study,3,263925
+Salem-Keizer Area Transportation Study,2,0.9957680790168292,0.8867741677668646,0.8867741677668646,0.9251901995060643,edu,4,1,1,41198700,Salem-Keizer Area Transportation Study,3,263925
+Salem-Keizer Area Transportation Study,2,0.9954667406151027,0.8539876153940267,-0.08466342850151576,0.9130303633951968,race,14,0.9999999999999998,1,41198700,Salem-Keizer Area Transportation Study,3,263925
+Salem-Keizer Area Transportation Study,NA,NA,0.8859452080074977,0.5730764973896221,0.9242602348125392,overall,NA,NA,NA,41198700,Salem-Keizer Area Transportation Study,3,263925

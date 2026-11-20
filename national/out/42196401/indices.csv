@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Lehigh Valley Transportation Study,2,0.9996646220789329,0.966634965082865,0.966634965082865,0.9763099311124164,age,4,0.9999999999999999,1,42196401,Lehigh Valley Transportation Study,3,688409
+Lehigh Valley Transportation Study,2,0.999601003554697,0.9618651424429404,0.8665279985502913,0.9681859030599026,income,8,0.9999999999999999,1,42196401,Lehigh Valley Transportation Study,3,688409
+Lehigh Valley Transportation Study,2,0.9998212431791932,0.9661970900691628,0.9661970900691628,0.9851208851182969,edu,4,1,1,42196401,Lehigh Valley Transportation Study,3,688409
+Lehigh Valley Transportation Study,2,0.9989737942062471,0.9247365579806529,0.06539513368174033,0.9587659066801593,race,13,0.9999999999999999,1,42196401,Lehigh Valley Transportation Study,3,688409
+Lehigh Valley Transportation Study,NA,NA,0.9548584388939052,0.7161887968460148,0.9720956564926938,overall,NA,NA,NA,42196401,Lehigh Valley Transportation Study,3,688409

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Regional Intergovernmental Council,2,0.9997669309086856,0.9715039213264542,0.9715039213264542,0.9816308417906371,age,4,1,1,54197501,Regional Intergovernmental Council,8,237242
+Regional Intergovernmental Council,2,0.9997323267432954,0.9725494599151112,0.9039231097028891,0.9754387291506088,income,8,1,1,54197501,Regional Intergovernmental Council,8,237242
+Regional Intergovernmental Council,2,0.9985429128128016,0.9298858871370899,0.9298858871370899,0.951838495909969,edu,4,1.0000000000000002,1,54197501,Regional Intergovernmental Council,8,237242
+Regional Intergovernmental Council,2,0.9981390158519264,0.9104006004764533,0.03806016716202709,0.9503130644973793,race,13,0.9999999999999999,1,54197501,Regional Intergovernmental Council,8,237242
+Regional Intergovernmental Council,NA,NA,0.9460849672137772,0.7108432713321151,0.9648052828371485,overall,NA,NA,NA,54197501,Regional Intergovernmental Council,8,237242

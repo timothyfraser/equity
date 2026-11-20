@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Maricopa Association of Governments,2,0.9995312579003819,0.9630997596117008,0.9630997596117008,0.9737618087723507,age,4,1,1,04197301,Maricopa Association of Governments,0,4709199
+Maricopa Association of Governments,2,0.9987855787400967,0.9289154500474991,0.7512040751662468,0.9409533814018791,income,8,1,1,04197301,Maricopa Association of Governments,0,4709199
+Maricopa Association of Governments,2,0.9989821669852593,0.9436253013347302,0.9436253013347302,0.9624754569710612,edu,4,1.0000000000000002,1,04197301,Maricopa Association of Governments,0,4709199
+Maricopa Association of Governments,2,0.9989226980336137,0.9576429460619453,0.6853475993173083,0.955964188345561,race,14,1,1,04197301,Maricopa Association of Governments,0,4709199
+Maricopa Association of Governments,NA,NA,0.9483208642639689,0.8358191838574965,0.958288708872713,overall,NA,NA,NA,04197301,Maricopa Association of Governments,0,4709199

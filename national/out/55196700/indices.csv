@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+La Crosse Area Planning Committee,2,0.9977479496810123,0.9301450349093265,0.9301450349093265,0.9428908192218146,age,4,1,1,55196700,La Crosse Area Planning Committee,8,117621
+La Crosse Area Planning Committee,2,0.9989706824009648,0.9270984315274396,0.7448445103460388,0.9453727719915166,income,8,1,1,55196700,La Crosse Area Planning Committee,8,117621
+La Crosse Area Planning Committee,2,0.9996943195517181,0.9509818524879341,0.9509818524879341,0.9788590580750008,edu,4,0.9999999999999999,1,55196700,La Crosse Area Planning Committee,8,117621
+La Crosse Area Planning Committee,2,0.9999281796671865,0.8948759770344407,-0.11118140484895167,0.9881133789222755,race,13,1,1,55196700,La Crosse Area Planning Committee,8,117621
+La Crosse Area Planning Committee,NA,NA,0.9257753239897852,0.6286974982235869,0.9638090070526519,overall,NA,NA,NA,55196700,La Crosse Area Planning Committee,8,117621

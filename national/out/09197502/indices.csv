@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Naugatuck Valley Council of Governments,2,0.9999840640976261,0.9942583140831915,0.9942583140831915,0.9954576545273519,age,4,0.9999999999999999,1,09197502,Naugatuck Valley Council of Governments,5,362588
+Naugatuck Valley Council of Governments,2,0.9998635078357281,0.9736068211321868,0.9076238739626539,0.977791323834951,income,8,1,1,09197502,Naugatuck Valley Council of Governments,5,362588
+Naugatuck Valley Council of Governments,2,0.9999543666590132,0.9916232318225477,0.9916232318225477,0.99224117429191,edu,4,1,1,09197502,Naugatuck Valley Council of Governments,5,362588
+Naugatuck Valley Council of Governments,2,0.999965089299783,0.9162096711137047,0.3775575568446634,0.9903520025405622,race,14,0.9999999999999999,1,09197502,Naugatuck Valley Council of Governments,5,362588
+Naugatuck Valley Council of Governments,NA,NA,0.9689245095379077,0.8177657441782642,0.9889605387986938,overall,NA,NA,NA,09197502,Naugatuck Valley Council of Governments,5,362588

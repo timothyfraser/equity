@@ -10,3 +10,4 @@ index/secret/.env
 # pilot and national downloads
 cache/
 index/cache/
+national/logs/

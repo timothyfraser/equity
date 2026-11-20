@@ -1,0 +1,14 @@
+{
+  "mpo_id": "37196000",
+  "mpo_name": "Greensboro Urban Area MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 94,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:22:51",
+  "seconds": 1.8
+}

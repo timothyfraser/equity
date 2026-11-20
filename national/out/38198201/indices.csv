@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Bismarck Mandan Metropolitan Planning Organization,2,0.9997092849903059,0.9664038788841751,0.9664038788841751,0.9770569468456294,age,4,1,1,38198201,Bismarck Mandan Metropolitan Planning Organization,7,120503
+Bismarck Mandan Metropolitan Planning Organization,2,0.9992653335170357,0.9428007276811038,0.7998025468838632,0.9539847939776764,income,8,1,1,38198201,Bismarck Mandan Metropolitan Planning Organization,7,120503
+Bismarck Mandan Metropolitan Planning Organization,2,0.9990523639944789,0.9572539373647736,0.9572539373647736,0.963472205299282,edu,4,1,1,38198201,Bismarck Mandan Metropolitan Planning Organization,7,120503
+Bismarck Mandan Metropolitan Planning Organization,2,0.9999077332752514,0.9215023422575082,0.08118086886209097,0.9847280109735332,race,13,1,1,38198201,Bismarck Mandan Metropolitan Planning Organization,7,120503
+Bismarck Mandan Metropolitan Planning Organization,NA,NA,0.9469902215468902,0.7011603079987258,0.9698104892740302,overall,NA,NA,NA,38198201,Bismarck Mandan Metropolitan Planning Organization,7,120503

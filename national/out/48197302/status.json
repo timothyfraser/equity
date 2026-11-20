@@ -1,0 +1,19 @@
+{
+  "mpo_id": "48197302",
+  "mpo_name": "El Paso MPO",
+  "status": "blocked_cat",
+  "n_counties": 3,
+  "n_states": 2,
+  "n_tracts_in": 198,
+  "blocking": [
+    {
+      "geoid": "35035",
+      "reason": "no_bracketing_years (2020)"
+    }
+  ],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:30:21",
+  "seconds": 2.8
+}

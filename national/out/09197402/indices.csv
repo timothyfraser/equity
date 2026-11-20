@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Southeastern Connecticut Council of Governments (SECOG),2,0.9999139311530119,0.9838187469571607,0.9838187469571607,0.9887529463736274,age,4,1,1,09197402,Southeastern Connecticut Council of Governments (SECOG),2,280293
+Southeastern Connecticut Council of Governments (SECOG),2,0.9996953071849387,0.9665260405371033,0.8828411418798618,0.9695427211550764,income,8,0.9999999999999999,1,09197402,Southeastern Connecticut Council of Governments (SECOG),2,280293
+Southeastern Connecticut Council of Governments (SECOG),2,0.9996864687295393,0.9645373805545764,0.9645373805545764,0.9788921448392797,edu,4,1,1,09197402,Southeastern Connecticut Council of Governments (SECOG),2,280293
+Southeastern Connecticut Council of Governments (SECOG),2,0.9995315979755851,0.95825552533341,-0.1428571428571428,0.9721341967611934,race,12,0.9999999999999999,1,09197402,Southeastern Connecticut Council of Governments (SECOG),2,280293
+Southeastern Connecticut Council of Governments (SECOG),NA,NA,0.9682844233455625,0.672085031633614,0.9773305022822942,overall,NA,NA,NA,09197402,Southeastern Connecticut Council of Governments (SECOG),2,280293

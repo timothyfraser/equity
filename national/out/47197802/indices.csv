@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Clarksville Urbanized Area MPO,2,0.9999474574155394,0.9883223455604347,0.9883223455604347,0.991475071903478,age,4,1,1,47197802,Clarksville Urbanized Area MPO,5,241751
+Clarksville Urbanized Area MPO,2,0.9990498284876108,0.9432496420673049,0.8013737472355672,0.9478142384169467,income,8,1,1,47197802,Clarksville Urbanized Area MPO,5,241751
+Clarksville Urbanized Area MPO,2,0.9998660251998123,0.9823487847380411,0.9823487847380411,0.986129759507638,edu,4,1,1,47197802,Clarksville Urbanized Area MPO,5,241751
+Clarksville Urbanized Area MPO,2,0.9989649253542625,0.9296946956573278,0.4777320248830058,0.9606858010069252,race,14,1,1,47197802,Clarksville Urbanized Area MPO,5,241751
+Clarksville Urbanized Area MPO,NA,NA,0.9609038670057771,0.8124442256042622,0.9715262177087469,overall,NA,NA,NA,47197802,Clarksville Urbanized Area MPO,5,241751

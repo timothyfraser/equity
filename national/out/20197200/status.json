@@ -1,0 +1,14 @@
+{
+  "mpo_id": "20197200",
+  "mpo_name": "Metropolitan Topeka Planning Organization",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 44,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:15:55",
+  "seconds": 1.7
+}

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Columbia Area Transportation Study,2,0.999284286579797,0.9586106296675057,0.9586106296675057,0.9670825573340349,age,4,1,1,45197000,Columbia Area Transportation Study,4,676538
+Columbia Area Transportation Study,2,0.9992500625716377,0.947552114667745,0.8164324013371075,0.9558287756656185,income,8,1,1,45197000,Columbia Area Transportation Study,4,676538
+Columbia Area Transportation Study,2,0.9999734412774298,0.97952891391293,0.97952891391293,0.9940133862432983,edu,4,0.9999999999999999,1,45197000,Columbia Area Transportation Study,4,676538
+Columbia Area Transportation Study,2,0.999982961624356,0.9076252192689488,0.31378734314076207,0.9925848562227381,race,14,1,1,45197000,Columbia Area Transportation Study,4,676538
+Columbia Area Transportation Study,NA,NA,0.9483292193792824,0.7670898220145763,0.9773773938664224,overall,NA,NA,NA,45197000,Columbia Area Transportation Study,4,676538

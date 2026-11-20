@@ -1,0 +1,14 @@
+{
+  "mpo_id": "38197200",
+  "mpo_name": "Fargo-Moorhead Metropolitan Council of Governments",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 2,
+  "n_tracts_in": 55,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:24:52",
+  "seconds": 10.4
+}

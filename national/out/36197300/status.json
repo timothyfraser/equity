@@ -1,0 +1,14 @@
+{
+  "mpo_id": "36197300",
+  "mpo_name": "Capital Region Transportation Council",
+  "status": "done",
+  "n_counties": 4,
+  "n_states": 1,
+  "n_tracts_in": 239,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:06:06",
+  "seconds": 27
+}

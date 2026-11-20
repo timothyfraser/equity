@@ -1,0 +1,23 @@
+{
+  "mpo_id": "51197401",
+  "mpo_name": "Richmond Area MPO",
+  "status": "blocked_cat",
+  "n_counties": 8,
+  "n_states": 1,
+  "n_tracts_in": 268,
+  "blocking": [
+    {
+      "geoid": "51041",
+      "reason": "no_bracketing_years (2020)"
+    },
+    {
+      "geoid": "51760",
+      "reason": "no_bracketing_years (2020)"
+    }
+  ],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:06:10",
+  "seconds": 3
+}

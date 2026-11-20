@@ -1,0 +1,14 @@
+{
+  "mpo_id": "26197900",
+  "mpo_name": "Kalamazoo Area Transportation Study",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 75,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:18:49",
+  "seconds": 6.9
+}

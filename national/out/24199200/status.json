@@ -1,0 +1,14 @@
+{
+  "mpo_id": "24199200",
+  "mpo_name": "Baltimore Regional Transportation Board",
+  "status": "done",
+  "n_counties": 7,
+  "n_states": 1,
+  "n_tracts_in": 707,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:17:40",
+  "seconds": 34
+}

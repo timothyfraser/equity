@@ -1,0 +1,14 @@
+{
+  "mpo_id": "29197101",
+  "mpo_name": "Ozarks Transportation Organization",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 82,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:20:07",
+  "seconds": 14.3
+}

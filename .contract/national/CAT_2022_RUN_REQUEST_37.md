@@ -66,4 +66,4 @@ curl -s -o y2022.parquet https://api.cat-apps.com/objects/year/2022.parquet
 
 ## What happens on our side afterwards
 
-Delete `index/cache/cat_year/2022.parquet`, rerun `national/pilot/run_pilot_mpo.R` for the Richmond Area MPO (51197401), and confirm both counties show `emis_method = exact`. The national run uses exact 2022 for these counties; no fallback is needed.
+Run `bash national/run_national.sh` from the `equity` repo root. It reads the new manifest from `LATEST`, downloads that manifest's year files into a fresh cache folder, and reprocesses every MPO whose last run used an older manifest, including every `blocked_cat` MPO in `national/LEDGER.md`. Nothing else needs changing. Richmond Area MPO (51197401) is the check: its two blocking counties should then show `emis_method = exact` in `national/out/51197401/members.csv`.

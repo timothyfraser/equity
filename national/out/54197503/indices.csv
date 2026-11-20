@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Wood-Washington-Wirt Interstate Planning Commission,2,0.9998519456235365,0.9824430705557928,0.9824430705557928,0.9875010032746366,age,4,1,1,54197503,Wood-Washington-Wirt Interstate Planning Commission,8,122936
+Wood-Washington-Wirt Interstate Planning Commission,2,0.999457127531904,0.9517145492176227,0.8310009222616793,0.9607952160315876,income,8,1,1,54197503,Wood-Washington-Wirt Interstate Planning Commission,8,122936
+Wood-Washington-Wirt Interstate Planning Commission,2,0.9998649623183918,0.9696526655027012,0.9696526655027012,0.9847455585079761,edu,4,1,1,54197503,Wood-Washington-Wirt Interstate Planning Commission,8,122936
+Wood-Washington-Wirt Interstate Planning Commission,2,0.999986281275223,0.905565170574941,-0.48925810777202994,0.9948449265957191,race,12,1,1,54197503,Wood-Washington-Wirt Interstate Planning Commission,8,122936
+Wood-Washington-Wirt Interstate Planning Commission,NA,NA,0.9523438639627644,0.5734596376370359,0.9819716761024798,overall,NA,NA,NA,54197503,Wood-Washington-Wirt Interstate Planning Commission,8,122936

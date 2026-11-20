@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Carson Area Metropolitan Planning Organization,2,0.9997949612299017,0.9734148069180245,0.9734148069180245,0.9826204213215761,age,4,0.9999999999999999,1,32200300,Carson Area Metropolitan Planning Organization,5,83849
+Carson Area Metropolitan Planning Organization,2,0.9996305951900202,0.9610577139026679,0.8637019986593377,0.9703389778942549,income,8,1,1,32200300,Carson Area Metropolitan Planning Organization,5,83849
+Carson Area Metropolitan Planning Organization,2,0.9997833744442259,0.972155454902655,0.972155454902655,0.9822655971964627,edu,4,1,1,32200300,Carson Area Metropolitan Planning Organization,5,83849
+Carson Area Metropolitan Planning Organization,2,0.9995342952408691,0.8969241106744958,-0.13099414338479987,0.9690873194167849,race,13,1,1,32200300,Carson Area Metropolitan Planning Organization,5,83849
+Carson Area Metropolitan Planning Organization,NA,NA,0.9508880215994608,0.6695695292738043,0.9760780789572696,overall,NA,NA,NA,32200300,Carson Area Metropolitan Planning Organization,5,83849

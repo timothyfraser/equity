@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Metropolitan Transportation Commission,2,0.9998364915278551,0.9758339264345641,0.9758339264345641,0.9844210664054532,age,4,1,1,06197001,Metropolitan Transportation Commission,0,7685888
+Metropolitan Transportation Commission,2,0.9988002474309333,0.9656570550581622,0.8797996927035681,0.9537999381337003,income,8,1,1,06197001,Metropolitan Transportation Commission,0,7685888
+Metropolitan Transportation Commission,2,0.9987498139846971,0.9537600259337827,0.9537600259337827,0.9568657379433,edu,4,1,0.9999999999999999,06197001,Metropolitan Transportation Commission,0,7685888
+Metropolitan Transportation Commission,2,0.998855261740341,0.9556739333761868,0.6707206479373877,0.9480479277463563,race,14,1,1,06197001,Metropolitan Transportation Commission,0,7685888
+Metropolitan Transportation Commission,NA,NA,0.9627312352006739,0.8700285732523256,0.9607836675572025,overall,NA,NA,NA,06197001,Metropolitan Transportation Commission,0,7685888

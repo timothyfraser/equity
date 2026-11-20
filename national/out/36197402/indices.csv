@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Binghamton Metropolitan Transportation Study,2,0.9999389216824388,0.9848705680914562,0.9848705680914562,0.9905834627191868,age,4,1,1,36197402,Binghamton Metropolitan Transportation Study,7,219924
+Binghamton Metropolitan Transportation Study,2,0.9990306600464042,0.9497183748028979,0.8240143118101425,0.9505025303718909,income,8,1,1,36197402,Binghamton Metropolitan Transportation Study,7,219924
+Binghamton Metropolitan Transportation Study,2,0.9996157890595152,0.9553921395787152,0.9553921395787152,0.9756419315732925,edu,4,0.9999999999999999,1,36197402,Binghamton Metropolitan Transportation Study,7,219924
+Binghamton Metropolitan Transportation Study,2,0.9993109811901091,0.8843689576962173,0.1410265428861852,0.9666462521817968,race,14,0.9999999999999999,1,36197402,Binghamton Metropolitan Transportation Study,7,219924
+Binghamton Metropolitan Transportation Study,NA,NA,0.9435875100423217,0.7263258905916248,0.9708435442115417,overall,NA,NA,NA,36197402,Binghamton Metropolitan Transportation Study,7,219924

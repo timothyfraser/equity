@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Northeast Ohio Areawide Coordinating Agency,2,0.9999617748200555,0.9887150082018974,0.9887150082018974,0.9925493814660314,age,4,1.0000000000000002,1,39196800,Northeast Ohio Areawide Coordinating Agency,3,2073016
+Northeast Ohio Areawide Coordinating Agency,2,0.999894221117643,0.9808710380960528,0.9330486333361847,0.9830240779157853,income,8,1,1,39196800,Northeast Ohio Areawide Coordinating Agency,3,2073016
+Northeast Ohio Areawide Coordinating Agency,2,0.9999767804569204,0.9880455480790824,0.9880455480790824,0.9941666287525202,edu,4,1,1,39196800,Northeast Ohio Areawide Coordinating Agency,3,2073016
+Northeast Ohio Areawide Coordinating Agency,2,0.9997962165320405,0.956002911809329,0.673164487726444,0.9831550187558602,race,14,1,1,39196800,Northeast Ohio Areawide Coordinating Agency,3,2073016
+Northeast Ohio Areawide Coordinating Agency,NA,NA,0.9784086265465903,0.8957434193359022,0.9882237767225492,overall,NA,NA,NA,39196800,Northeast Ohio Areawide Coordinating Agency,3,2073016

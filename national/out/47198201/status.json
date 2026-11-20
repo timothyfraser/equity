@@ -1,0 +1,14 @@
+{
+  "mpo_id": "47198201",
+  "mpo_name": "Johnson City Metropolitan Transportation Planning Organization",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 42,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:29:47",
+  "seconds": 8.9
+}

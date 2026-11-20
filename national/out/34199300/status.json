@@ -1,0 +1,14 @@
+{
+  "mpo_id": "34199300",
+  "mpo_name": "South Jersey Transportation Planning Organization",
+  "status": "done",
+  "n_counties": 4,
+  "n_states": 1,
+  "n_tracts_in": 170,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:21:34",
+  "seconds": 12.6
+}

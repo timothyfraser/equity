@@ -1,0 +1,14 @@
+{
+  "mpo_id": "48197002",
+  "mpo_name": "Bryan-College Station MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 63,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:30:02",
+  "seconds": 2.1
+}

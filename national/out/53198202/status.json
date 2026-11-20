@@ -1,0 +1,14 @@
+{
+  "mpo_id": "53198202",
+  "mpo_name": "Cowlitz-Wahkiakum Council of Governments",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 2,
+  "n_tracts_in": 19,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:33:16",
+  "seconds": 7.9
+}

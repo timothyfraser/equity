@@ -1,0 +1,14 @@
+{
+  "mpo_id": "42196501",
+  "mpo_name": "Delaware Valley Regional Planning Commission",
+  "status": "done",
+  "n_counties": 9,
+  "n_states": 2,
+  "n_tracts_in": 1449,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:28:12",
+  "seconds": 65
+}

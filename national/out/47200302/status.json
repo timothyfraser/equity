@@ -1,0 +1,14 @@
+{
+  "mpo_id": "47200302",
+  "mpo_name": "Cleveland Area MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 19,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:29:56",
+  "seconds": 2
+}

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Association of Central Oklahoma Governments,2,0.999640797593925,0.9693095557896476,0.9693095557896476,0.9770670980479548,age,4,1,1,40196500,Association of Central Oklahoma Governments,3,1308009
+Association of Central Oklahoma Governments,2,0.9997491446651198,0.962729927733904,0.869554747068664,0.9735824263351417,income,8,1.0000000000000002,1,40196500,Association of Central Oklahoma Governments,3,1308009
+Association of Central Oklahoma Governments,2,0.9998410752112148,0.9847004983380688,0.9847004983380688,0.9858743615611162,edu,4,1,1,40196500,Association of Central Oklahoma Governments,3,1308009
+Association of Central Oklahoma Governments,2,0.9998932002456256,0.9446297119255155,0.5886778600181146,0.9851506413406688,race,14,1,1,40196500,Association of Central Oklahoma Governments,3,1308009
+Association of Central Oklahoma Governments,NA,NA,0.965342423446784,0.8530606653036238,0.9804186318212204,overall,NA,NA,NA,40196500,Association of Central Oklahoma Governments,3,1308009

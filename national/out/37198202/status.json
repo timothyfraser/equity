@@ -1,0 +1,14 @@
+{
+  "mpo_id": "37198202",
+  "mpo_name": "Goldsboro Urban Area MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 21,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:24:31",
+  "seconds": 2.1
+}

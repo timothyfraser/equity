@@ -1,0 +1,14 @@
+{
+  "mpo_id": "01196401",
+  "mpo_name": "Mobile Area Transportation Study",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 125,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:06:23",
+  "seconds": 2.3
+}

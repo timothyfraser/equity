@@ -1,0 +1,14 @@
+{
+  "mpo_id": "45196200",
+  "mpo_name": "Greenville-Pickens Area Transportation Study",
+  "status": "done",
+  "n_counties": 5,
+  "n_states": 1,
+  "n_tracts_in": 149,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:28:37",
+  "seconds": 20.7
+}

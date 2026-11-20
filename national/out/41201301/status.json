@@ -1,0 +1,14 @@
+{
+  "mpo_id": "41201301",
+  "mpo_name": "Albany Area Metropolitan Planning Organization",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 12,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:26:43",
+  "seconds": 9.5
+}

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Knoxville Regional Transportation Planning Organization,2,0.9997246101234762,0.9742840268876622,0.9742840268876622,0.980782571299672,age,4,1,1,47197801,Knoxville Regional Transportation Planning Organization,6,707572
+Knoxville Regional Transportation Planning Organization,2,0.9995071022317776,0.9568612234346686,0.84901428202134,0.9642339729189998,income,8,1,1,47197801,Knoxville Regional Transportation Planning Organization,6,707572
+Knoxville Regional Transportation Planning Organization,2,0.9998633092940333,0.9767428497747682,0.9767428497747682,0.9859845592640586,edu,4,1,1,47197801,Knoxville Regional Transportation Planning Organization,6,707572
+Knoxville Regional Transportation Planning Organization,2,0.9998240797747836,0.9443336713550176,0.5864787014944159,0.9819242914463225,race,14,1,1,47197801,Knoxville Regional Transportation Planning Organization,6,707572
+Knoxville Regional Transportation Planning Organization,NA,NA,0.9630554428630291,0.8466299650445466,0.9782313487322633,overall,NA,NA,NA,47197801,Knoxville Regional Transportation Planning Organization,6,707572

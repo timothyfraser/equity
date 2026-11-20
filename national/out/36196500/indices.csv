@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Syracuse Metropolitan Transportation Council,2,0.9999646370484255,0.9887468296595326,0.9887468296595326,0.992221767725453,age,4,0.9999999999999999,1,36196500,Syracuse Metropolitan Transportation Council,4,508880
+Syracuse Metropolitan Transportation Council,2,0.9994958769969186,0.9600784901160898,0.8602747154063143,0.9648402841315427,income,8,1,1,36196500,Syracuse Metropolitan Transportation Council,4,508880
+Syracuse Metropolitan Transportation Council,2,0.9996205691154544,0.9657506416119829,0.9657506416119829,0.9767867618591051,edu,4,1,1,36196500,Syracuse Metropolitan Transportation Council,4,508880
+Syracuse Metropolitan Transportation Council,2,0.9994317269347186,0.9396007198917091,0.551319633481268,0.972598455737714,race,14,0.9999999999999999,1,36196500,Syracuse Metropolitan Transportation Council,4,508880
+Syracuse Metropolitan Transportation Council,NA,NA,0.9635441703198286,0.8415229550397745,0.9766118173634537,overall,NA,NA,NA,36196500,Syracuse Metropolitan Transportation Council,4,508880

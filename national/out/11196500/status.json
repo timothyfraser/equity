@@ -1,0 +1,14 @@
+{
+  "mpo_id": "11196500",
+  "mpo_name": "National Capital Region Transportation Planning Board",
+  "status": "done",
+  "n_counties": 15,
+  "n_states": 3,
+  "n_tracts_in": 1332,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:12:13",
+  "seconds": 81.4
+}

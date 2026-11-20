@@ -1,0 +1,14 @@
+{
+  "mpo_id": "54197501",
+  "mpo_name": "Regional Intergovernmental Council",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 69,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:33:32",
+  "seconds": 6.7
+}

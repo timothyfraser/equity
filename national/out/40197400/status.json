@@ -1,0 +1,14 @@
+{
+  "mpo_id": "40197400",
+  "mpo_name": "Indian Nations COG",
+  "status": "done",
+  "n_counties": 5,
+  "n_states": 1,
+  "n_tracts_in": 265,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:26:24",
+  "seconds": 16
+}

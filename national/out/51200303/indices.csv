@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Harrisonburg-Rockingham MPO,2,0.9992286089795949,0.9439556828723696,0.9439556828723696,0.9671927846311841,age,4,1,1,51200303,Harrisonburg-Rockingham MPO,6,78448
+Harrisonburg-Rockingham MPO,2,0.9990444274731106,0.960547086945884,0.8619148043105938,0.9595328213369818,income,8,1,1,51200303,Harrisonburg-Rockingham MPO,6,78448
+Harrisonburg-Rockingham MPO,2,0.9993045985303861,0.9530604468577261,0.9530604468577261,0.9690037821276396,edu,4,1,1,51200303,Harrisonburg-Rockingham MPO,6,78448
+Harrisonburg-Rockingham MPO,2,0.9974539736300528,0.8459774378476157,-0.2692655139165079,0.9310747129107563,race,13,1,1,51200303,Harrisonburg-Rockingham MPO,6,78448
+Harrisonburg-Rockingham MPO,NA,NA,0.9258851636308989,0.6224163550310454,0.9567010252516405,overall,NA,NA,NA,51200303,Harrisonburg-Rockingham MPO,6,78448

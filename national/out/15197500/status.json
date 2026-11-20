@@ -1,0 +1,14 @@
+{
+  "mpo_id": "15197500",
+  "mpo_name": "Oahu MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 327,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:13:45",
+  "seconds": 4.9
+}

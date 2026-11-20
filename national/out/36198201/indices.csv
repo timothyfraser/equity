@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+New York Metropolitan Transportation Council,2,0.999825704161087,0.9777197495082393,0.9777197495082393,0.984037366817835,age,4,1,1,36198201,New York Metropolitan Transportation Council,0,12960473
+New York Metropolitan Transportation Council,2,0.9986059770536988,0.9399444528862493,0.7898055851018726,0.9411393921189489,income,8,1,1,36198201,New York Metropolitan Transportation Council,0,12960473
+New York Metropolitan Transportation Council,2,0.9997263836542452,0.9594301947260175,0.9594301947260175,0.9809963515337567,edu,4,1,1,36198201,New York Metropolitan Transportation Council,0,12960473
+New York Metropolitan Transportation Council,2,0.9958287144589624,0.9320590059916602,0.49529547308090427,0.9217854702509182,race,14,1,1,36198201,New York Metropolitan Transportation Council,0,12960473
+New York Metropolitan Transportation Council,NA,NA,0.9522883507780415,0.8055627506042584,0.9569896451803648,overall,NA,NA,NA,36198201,New York Metropolitan Transportation Council,0,12960473

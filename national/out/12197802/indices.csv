@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+North Florida Transportation Planning Organization,2,0.9997530941088877,0.9678486404247005,0.9678486404247005,0.9798107114730368,age,4,1,1,12197802,North Florida Transportation Planning Organization,4,1534106
+North Florida Transportation Planning Organization,2,0.9996241524433555,0.9618789427380889,0.8665762995833113,0.9661358230859018,income,8,1,1,12197802,North Florida Transportation Planning Organization,4,1534106
+North Florida Transportation Planning Organization,2,0.9999443626310262,0.9802825334212697,0.9802825334212697,0.9898032142446951,edu,4,1,1,12197802,North Florida Transportation Planning Organization,4,1534106
+North Florida Transportation Planning Organization,2,0.999744581410279,0.9676159211473762,0.7594325570947941,0.9786076400569037,race,14,1,1,12197802,North Florida Transportation Planning Organization,4,1534106
+North Florida Transportation Planning Organization,NA,NA,0.9694065094328588,0.8935350076310189,0.9785893472151344,overall,NA,NA,NA,12197802,North Florida Transportation Planning Organization,4,1534106

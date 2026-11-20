@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Joplin Area Transportation Study Organization,2,0.9999299384693395,0.9855794811147179,0.9855794811147179,0.9899882415508475,age,4,1,1,29198200,Joplin Area Transportation Study Organization,7,79539
+Joplin Area Transportation Study Organization,2,0.9995992148069327,0.957401371219681,0.8509047992688837,0.9658025671293066,income,8,1,1,29198200,Joplin Area Transportation Study Organization,7,79539
+Joplin Area Transportation Study Organization,2,0.9999287060624452,0.9758313249471211,0.9758313249471211,0.9907052437131677,edu,4,1.0000000000000002,1,29198200,Joplin Area Transportation Study Organization,7,79539
+Joplin Area Transportation Study Organization,2,0.999820157197747,0.94044736421602,0.22670356357529142,0.9822949063383785,race,13,1,1,29198200,Joplin Area Transportation Study Organization,7,79539
+Joplin Area Transportation Study Organization,NA,NA,0.964814885374385,0.7597547922265036,0.9821977396829251,overall,NA,NA,NA,29198200,Joplin Area Transportation Study Organization,7,79539

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Regional Transportation Commission of Southern Nevada,2,0.9998730734445715,0.9767955363413228,0.9767955363413228,0.986118254100257,age,4,1,1,32198300,Regional Transportation Commission of Southern Nevada,0,2271285
+Regional Transportation Commission of Southern Nevada,2,0.999037304413034,0.932751657932275,0.7646308027629622,0.9470100555461048,income,8,1,1,32198300,Regional Transportation Commission of Southern Nevada,0,2271285
+Regional Transportation Commission of Southern Nevada,2,0.9991370097695939,0.9401991948907747,0.9401991948907747,0.9625437507663318,edu,4,1,1,32198300,Regional Transportation Commission of Southern Nevada,0,2271285
+Regional Transportation Commission of Southern Nevada,2,0.9989219780555301,0.9506541754565114,0.6334310176769418,0.9475572875613385,race,14,1,1,32198300,Regional Transportation Commission of Southern Nevada,0,2271285
+Regional Transportation Commission of Southern Nevada,NA,NA,0.950100141155221,0.8287641379180004,0.9608073369935081,overall,NA,NA,NA,32198300,Regional Transportation Commission of Southern Nevada,0,2271285

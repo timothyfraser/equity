@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Albany Area Metropolitan Planning Organization,2,0.9995897332728179,0.962909518026948,0.962909518026948,0.9753035451067313,age,4,1,1,41201301,Albany Area Metropolitan Planning Organization,6,57344
+Albany Area Metropolitan Planning Organization,2,0.998363473339613,0.8881570157000813,0.6085495549502844,0.9291348454251351,income,8,1.0000000000000002,1,41201301,Albany Area Metropolitan Planning Organization,6,57344
+Albany Area Metropolitan Planning Organization,2,0.9986424055764884,0.9382025074681537,0.9382025074681537,0.9553169742084551,edu,4,1,1,41201301,Albany Area Metropolitan Planning Organization,6,57344
+Albany Area Metropolitan Planning Organization,2,0.9993403661762889,0.8919485011661242,-1.1203980422226265,0.9661195277011762,race,11,1,1,41201301,Albany Area Metropolitan Planning Organization,6,57344
+Albany Area Metropolitan Planning Organization,NA,NA,0.9203043855903268,0.3473158845556899,0.9564687231103745,overall,NA,NA,NA,41201301,Albany Area Metropolitan Planning Organization,6,57344

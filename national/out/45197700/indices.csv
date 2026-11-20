@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Charleston Area Transportation Study,2,0.9999424983338783,0.9857451794639888,0.9857451794639888,0.9912360235583993,age,4,0.9999999999999999,1,45197700,Charleston Area Transportation Study,3,732257
+Charleston Area Transportation Study,2,0.9994887410659267,0.9599838515972041,0.8599434805902145,0.9660992548267736,income,8,1,1,45197700,Charleston Area Transportation Study,3,732257
+Charleston Area Transportation Study,2,0.9989287469121767,0.9496835867430844,0.9496835867430844,0.9618055524450448,edu,4,1,1,45197700,Charleston Area Transportation Study,3,732257
+Charleston Area Transportation Study,2,0.9987823802226974,0.9078561724759641,0.31550299553573335,0.9624023127609407,race,14,0.9999999999999999,1,45197700,Charleston Area Transportation Study,3,732257
+Charleston Area Transportation Study,NA,NA,0.9508171975700603,0.7777188105832553,0.9703857858977896,overall,NA,NA,NA,45197700,Charleston Area Transportation Study,3,732257

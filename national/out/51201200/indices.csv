@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Staunton-Augusta-Waynesboro MPO,2,0.9998525941879093,0.9775818668476786,0.9775818668476786,0.9858646005538257,age,4,1,1,51201200,Staunton-Augusta-Waynesboro MPO,8,68797
+Staunton-Augusta-Waynesboro MPO,2,0.9990618461493094,0.9421895542929384,0.7976634400252843,0.9489093970600211,income,8,1,1,51201200,Staunton-Augusta-Waynesboro MPO,8,68797
+Staunton-Augusta-Waynesboro MPO,2,0.9995254553130197,0.9708173751260166,0.9708173751260166,0.9753136611953226,edu,4,1,1,51201200,Staunton-Augusta-Waynesboro MPO,8,68797
+Staunton-Augusta-Waynesboro MPO,2,0.9997959516726537,0.7075264068849112,-1.3446022017726715,0.9713812477743283,race,13,0.9999999999999999,1,51201200,Staunton-Augusta-Waynesboro MPO,8,68797
+Staunton-Augusta-Waynesboro MPO,NA,NA,0.8995288007878862,0.350365120056577,0.9703672266458745,overall,NA,NA,NA,51201200,Staunton-Augusta-Waynesboro MPO,8,68797

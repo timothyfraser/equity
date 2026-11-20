@@ -1,0 +1,14 @@
+{
+  "mpo_id": "10197100",
+  "mpo_name": "Wilmington Area Planning Council",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 2,
+  "n_tracts_in": 165,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:10:50",
+  "seconds": 19.6
+}

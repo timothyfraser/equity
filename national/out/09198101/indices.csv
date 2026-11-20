@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Greater Bridgeport / Valley MPO,2,0.9999851506503847,0.9923009202796879,0.9923009202796879,0.9948503741577409,age,4,1,1,09198101,Greater Bridgeport / Valley MPO,5,415680
+Greater Bridgeport / Valley MPO,2,0.9998028666593106,0.9797420342571794,0.9290971199001281,0.9793966367500009,income,8,1,1,09198101,Greater Bridgeport / Valley MPO,5,415680
+Greater Bridgeport / Valley MPO,2,0.9997225411233652,0.9712180438385117,0.9712180438385117,0.9805849178100082,edu,4,1,1,09198101,Greater Bridgeport / Valley MPO,5,415680
+Greater Bridgeport / Valley MPO,2,0.9992956697810346,0.9464347584308582,0.6020867769149467,0.9639169419048831,race,14,1,1,09198101,Greater Bridgeport / Valley MPO,5,415680
+Greater Bridgeport / Valley MPO,NA,NA,0.9724239392015593,0.8736757152333186,0.9796872176556582,overall,NA,NA,NA,09198101,Greater Bridgeport / Valley MPO,5,415680

@@ -1,0 +1,14 @@
+{
+  "mpo_id": "26198100",
+  "mpo_name": "Niles-Buchanan-Cass Area Transportation Study (NATS)",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 17,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:18:49",
+  "seconds": 6.6
+}

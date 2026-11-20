@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Chicago Metropolitan Agency for Planning,2,0.9999814712308652,0.992213357329592,0.992213357329592,0.9948281483780621,age,4,1,1,17196201,Chicago Metropolitan Agency for Planning,0,8552475
+Chicago Metropolitan Agency for Planning,2,0.999960487341971,0.9872237214921901,0.9552830252226654,0.9882910407902625,income,8,1,1,17196201,Chicago Metropolitan Agency for Planning,0,8552475
+Chicago Metropolitan Agency for Planning,2,0.9999697477641158,0.9877661838278802,0.9877661838278802,0.9927698465144187,edu,4,1,1,17196201,Chicago Metropolitan Agency for Planning,0,8552475
+Chicago Metropolitan Agency for Planning,2,0.9997059533028138,0.9700371285071181,0.7774186689100203,0.9745774156593362,race,14,1,1,17196201,Chicago Metropolitan Agency for Planning,0,8552475
+Chicago Metropolitan Agency for Planning,NA,NA,0.9843100977891951,0.9281703088225395,0.9876166128355199,overall,NA,NA,NA,17196201,Chicago Metropolitan Agency for Planning,0,8552475

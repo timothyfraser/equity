@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Greenville-Pickens Area Transportation Study,2,0.9998862319960152,0.9804069208173962,0.9804069208173962,0.9870709977462764,age,4,1,1,45196200,Greenville-Pickens Area Transportation Study,4,640653
+Greenville-Pickens Area Transportation Study,2,0.9996121007701498,0.9654300514730558,0.8790051801556955,0.9672189680640956,income,8,1,1,45196200,Greenville-Pickens Area Transportation Study,4,640653
+Greenville-Pickens Area Transportation Study,2,0.9996935836402305,0.9633018383323424,0.9633018383323424,0.9766825811924061,edu,4,0.9999999999999999,1,45196200,Greenville-Pickens Area Transportation Study,4,640653
+Greenville-Pickens Area Transportation Study,2,0.9995198599786608,0.9420782406151056,0.5697240731407843,0.9734936717038957,race,14,1,1,45196200,Greenville-Pickens Area Transportation Study,4,640653
+Greenville-Pickens Area Transportation Study,NA,NA,0.9628042628094751,0.8481095031115546,0.9761165546766685,overall,NA,NA,NA,45196200,Greenville-Pickens Area Transportation Study,4,640653

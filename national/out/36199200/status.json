@@ -1,0 +1,14 @@
+{
+  "mpo_id": "36199200",
+  "mpo_name": "Ithaca-Tompkins County Transportation Council",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 26,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:06:13",
+  "seconds": 2
+}

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Hattiesburg-Petal-Forrest-Lamar MPO,2,0.9955886665921916,0.9119635653818767,0.9119635653818767,0.9236185223048736,age,4,0.9999999999999999,1,28198200,Hattiesburg-Petal-Forrest-Lamar MPO,8,118112
+Hattiesburg-Petal-Forrest-Lamar MPO,2,0.9972228504697086,0.9015167206970064,0.6553085224395223,0.9249581332718155,income,8,1,1,28198200,Hattiesburg-Petal-Forrest-Lamar MPO,8,118112
+Hattiesburg-Petal-Forrest-Lamar MPO,2,0.9998529627220599,0.9770770595280729,0.9770770595280729,0.9853583313987619,edu,4,1,1,28198200,Hattiesburg-Petal-Forrest-Lamar MPO,8,118112
+Hattiesburg-Petal-Forrest-Lamar MPO,2,0.9957211420014143,0.8357923435066433,-0.21982830537922116,0.928750512346627,race,14,0.9999999999999999,1,28198200,Hattiesburg-Petal-Forrest-Lamar MPO,8,118112
+Hattiesburg-Petal-Forrest-Lamar MPO,NA,NA,0.9065874222783998,0.5811302104925626,0.9406713748305195,overall,NA,NA,NA,28198200,Hattiesburg-Petal-Forrest-Lamar MPO,8,118112

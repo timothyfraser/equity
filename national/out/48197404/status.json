@@ -1,0 +1,14 @@
+{
+  "mpo_id": "48197404",
+  "mpo_name": "Tyler Area MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 51,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:30:49",
+  "seconds": 2.1
+}

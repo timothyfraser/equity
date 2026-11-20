@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Harrisburg Area Transportation Study,2,0.9999345341931336,0.986212966104728,0.986212966104728,0.9894617138660521,age,4,0.9999999999999999,1,42196502,Harrisburg Area Transportation Study,5,593318
+Harrisburg Area Transportation Study,2,0.9998173181332418,0.9716504231155089,0.9007764809042809,0.9758480656529964,income,8,1,1,42196502,Harrisburg Area Transportation Study,5,593318
+Harrisburg Area Transportation Study,2,0.9999456717963062,0.989662338626736,0.989662338626736,0.9911486321687539,edu,4,1,1,42196502,Harrisburg Area Transportation Study,5,593318
+Harrisburg Area Transportation Study,2,0.999799205861067,0.9386787350002797,0.5444706028592201,0.9820394254758652,race,14,0.9999999999999999,1,42196502,Harrisburg Area Transportation Study,5,593318
+Harrisburg Area Transportation Study,NA,NA,0.9715511157118131,0.8552805971237413,0.9846244592909169,overall,NA,NA,NA,42196502,Harrisburg Area Transportation Study,5,593318

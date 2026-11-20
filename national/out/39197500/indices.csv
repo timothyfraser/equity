@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Lake Erie West Regional Council,2,0.9993323949567466,0.9570857976421907,0.9570857976421907,0.9685866464990623,age,4,1,1,39197500,Lake Erie West Regional Council,5,561578
+Lake Erie West Regional Council,2,0.9999167838642811,0.982467683045628,0.9386368906596982,0.9862415673127507,income,8,1,1,39197500,Lake Erie West Regional Council,5,561578
+Lake Erie West Regional Council,2,0.99953660472614,0.9708850380340465,0.9708850380340465,0.9747449563294867,edu,4,1,1,39197500,Lake Erie West Regional Council,5,561578
+Lake Erie West Regional Council,2,0.9999351039311236,0.920439558632163,0.40897957841035393,0.9880491279353382,race,14,1,1,39197500,Lake Erie West Regional Council,5,561578
+Lake Erie West Regional Council,NA,NA,0.9577195193385071,0.8188968261865723,0.9794055745191594,overall,NA,NA,NA,39197500,Lake Erie West Regional Council,5,561578

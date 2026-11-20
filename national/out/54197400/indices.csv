@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+KYOVA Interstate Planning Commission,2,0.9991184348481204,0.9483179189871824,0.9483179189871824,0.9645578025131296,age,4,1,1,54197400,KYOVA Interstate Planning Commission,5,274987
+KYOVA Interstate Planning Commission,2,0.9996312984849964,0.972745765322031,0.9046101786271088,0.9741262479712781,income,8,1,1,54197400,KYOVA Interstate Planning Commission,5,274987
+KYOVA Interstate Planning Commission,2,0.9993574765313824,0.9599798901624232,0.9599798901624232,0.9696275500651441,edu,4,1,1,54197400,KYOVA Interstate Planning Commission,5,274987
+KYOVA Interstate Planning Commission,2,0.9998504230746923,0.8872382135554124,-0.31198102254157734,0.9846919720638898,race,12,1,1,54197400,KYOVA Interstate Planning Commission,5,274987
+KYOVA Interstate Planning Commission,NA,NA,0.9420704470067622,0.6252317413087842,0.9732508931533604,overall,NA,NA,NA,54197400,KYOVA Interstate Planning Commission,5,274987

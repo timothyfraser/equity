@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Duluth-Superior Metropolitan Interstate Council,2,0.999860397086561,0.9778494805920855,0.9778494805920855,0.9857494834581932,age,4,0.9999999999999999,1,27197500,Duluth-Superior Metropolitan Interstate Council,7,147567
+Duluth-Superior Metropolitan Interstate Council,2,0.9969593724378003,0.8893150803945317,0.6126027813808608,0.9096896537470953,income,8,1,1,27197500,Duluth-Superior Metropolitan Interstate Council,7,147567
+Duluth-Superior Metropolitan Interstate Council,2,0.998535379358702,0.9441348371314165,0.9441348371314165,0.9536744078848489,edu,4,1,1,27197500,Duluth-Superior Metropolitan Interstate Council,7,147567
+Duluth-Superior Metropolitan Interstate Council,2,0.9995814959644775,0.8891925568229824,-0.12596265730720702,0.9735004332843955,race,13,0.9999999999999999,1,27197500,Duluth-Superior Metropolitan Interstate Council,7,147567
+Duluth-Superior Metropolitan Interstate Council,NA,NA,0.925122988735254,0.602156110449289,0.9556534945936332,overall,NA,NA,NA,27197500,Duluth-Superior Metropolitan Interstate Council,7,147567

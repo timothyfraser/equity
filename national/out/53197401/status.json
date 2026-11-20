@@ -1,0 +1,14 @@
+{
+  "mpo_id": "53197401",
+  "mpo_name": "Spokane Regional Transportation Council",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 130,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:33:05",
+  "seconds": 2
+}

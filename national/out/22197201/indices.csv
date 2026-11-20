@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Capital Regional Planning Commission,2,0.9999843257079235,0.9930667925255213,0.9930667925255213,0.9951600791899774,age,4,1,1,22197201,Capital Regional Planning Commission,5,769411
+Capital Regional Planning Commission,2,0.9998892340236215,0.9764727248852816,0.9176545370984858,0.9829447408321642,income,8,1,1,22197201,Capital Regional Planning Commission,5,769411
+Capital Regional Planning Commission,2,0.9998540768367362,0.9733884693879553,0.9733884693879553,0.9865375472491781,edu,4,1,1,22197201,Capital Regional Planning Commission,5,769411
+Capital Regional Planning Commission,2,0.9996714384856062,0.9339716524012135,0.26107593969679443,0.9779229052572137,race,13,1,1,22197201,Capital Regional Planning Commission,5,769411
+Capital Regional Planning Commission,NA,NA,0.969224909799993,0.7862964346771892,0.9856413181321333,overall,NA,NA,NA,22197201,Capital Regional Planning Commission,5,769411

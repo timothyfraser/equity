@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+St. Joseph Area Transportation Study Organization,2,0.9999082301341545,0.9801008089380171,0.9801008089380171,0.9870846237428249,age,4,1,1,29197102,St. Joseph Area Transportation Study Organization,6,79804
+St. Joseph Area Transportation Study Organization,2,0.99979713362224365,0.9711368911111016,0.8989791188888556,0.9794597129859358,income,8,1,1,29197102,St. Joseph Area Transportation Study Organization,6,79804
+St. Joseph Area Transportation Study Organization,2,0.9999376576889587,0.9815346047152707,0.9815346047152707,0.9892597359253318,edu,4,0.9999999999999999,1,29197102,St. Joseph Area Transportation Study Organization,6,79804
+St. Joseph Area Transportation Study Organization,2,0.9997904846184167,0.9498684922675156,0.32050902758167554,0.98097793455255,race,13,1,1,29197102,St. Joseph Area Transportation Study Organization,6,79804
+St. Joseph Area Transportation Study Organization,NA,NA,0.9706601992579762,0.7952808900309547,0.9841955018016606,overall,NA,NA,NA,29197102,St. Joseph Area Transportation Study Organization,6,79804

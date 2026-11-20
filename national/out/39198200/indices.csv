@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Licking County Area Transportation Study,2,0.9999228246820454,0.9815752253402211,0.9815752253402211,0.9881463567951404,age,4,0.9999999999999998,1,39198200,Licking County Area Transportation Study,7,146288
+Licking County Area Transportation Study,2,0.9992996101192622,0.9436317091219888,0.8027109819269607,0.9552181327066432,income,8,1,1,39198200,Licking County Area Transportation Study,7,146288
+Licking County Area Transportation Study,2,0.9993468255990822,0.9430483191275263,0.9430483191275263,0.969647297741925,edu,4,1.0000000000000002,1,39198200,Licking County Area Transportation Study,7,146288
+Licking County Area Transportation Study,2,0.9999577661773439,0.8726676962654484,-0.4535609233693012,0.9906826624403766,race,12,1,1,39198200,Licking County Area Transportation Study,7,146288
+Licking County Area Transportation Study,NA,NA,0.9352307374637961,0.5684434007563517,0.9759236124210213,overall,NA,NA,NA,39198200,Licking County Area Transportation Study,7,146288

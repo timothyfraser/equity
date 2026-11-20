@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo
+Southwestern Pennsylvania Commission,2,0.9998790434426111,0.9804776373776519,0.9804776373776519,0.9867158520327013,age,4,1,1,42197400,Southwestern Pennsylvania Commission,4,2570583
+Southwestern Pennsylvania Commission,2,0.999655822564474,0.9629871026618427,0.8704548593164495,0.9717554555265114,income,8,1,1,42197400,Southwestern Pennsylvania Commission,4,2570583
+Southwestern Pennsylvania Commission,2,0.9998039656932838,0.9812038140587462,0.9812038140587462,0.9836447643837913,edu,4,1,1,42197400,Southwestern Pennsylvania Commission,4,2570583
+Southwestern Pennsylvania Commission,2,0.9999761222522225,0.9398298791511245,0.553021959408353,0.9925655291634701,race,14,1,1,42197400,Southwestern Pennsylvania Commission,4,2570583
+Southwestern Pennsylvania Commission,NA,NA,0.9661246083123414,0.8462895675403002,0.9836704002766186,overall,NA,NA,NA,42197400,Southwestern Pennsylvania Commission,4,2570583
