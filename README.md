@@ -28,9 +28,11 @@ The worked example in `index/` covers New York State; the code is written to ext
 2. [Data sources](#data-sources)
 3. [Method summary](#method-summary)
 4. [Repository layout](#repository-layout)
-5. [How to cite](#how-to-cite)
-6. [Contributors](#contributors)
-7. [Changelog](#changelog)
+5. [National extension](#national-extension)
+6. [Uncertainty](#uncertainty)
+7. [How to cite](#how-to-cite)
+8. [Contributors](#contributors)
+9. [Changelog](#changelog)
 
 ## Quick start
 
@@ -74,6 +76,23 @@ The exact definitions live in the code and the paper; this summary is deliberate
 | [`CLAUDE.md`](CLAUDE.md) | Instructions for coding agents working in this repository. |
 | [`index/api_proxy.sh`](index/api_proxy.sh) | Retired: the old Cloud Run proxy for emissions. Kept for history. |
 | [`equity.Rproj`](equity.Rproj) | RStudio project file. |
+
+## National extension
+
+The same equal-group index is also computed for every multi-county metropolitan planning organization (MPO) in the
+United States, with a national figure and a regression of the index on emissions rate. See
+[`national/README.md`](national/README.md) for what it computes and how to rerun it (`bash national/run_national.sh`
+and the steps after it).
+
+## Uncertainty
+
+Two checks sit beside every MPO index. A **permutation test** asks whether the MPO is more uneven than random
+allocation of group labels would give, and **ACS intervals** show how much of the index could be sampling error in the
+Census estimates. Both are described in [`national/README.md`](national/README.md#uncertainty). To run all tests:
+
+```bash
+Rscript index/tests/run_all.R    # every index/tests/test_*.R, one line per file, exits non-zero on any failure
+```
 
 ## How to cite
 
