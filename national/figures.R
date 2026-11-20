@@ -51,8 +51,9 @@ tile_map = function(v, sub = NULL){
 }
 pfmt = function(p) if (p < 0.001) "p < 0.001" else sprintf("p = %.3f", p)
 scatter = function(v){
-  m = js$models[[v]]; b = m$beta$value; se = m$se$value; p = m$p$value
-  lab = paste0(beta, sprintf(" = %.3f (SE %.3f), ", b, se), pfmt(p))   # paste0 keeps the UTF-8 mark; sprintf drops it in a C locale
+  m = js$models[[v]]; b = m$beta$value; lo95 = m$ci_low$value; hi95 = m$ci_high$value; p = m$p$value
+  # Tim 2026-11-20: ordinary standard errors, reported as a 95% CI
+  lab = paste0(beta, sprintf(" = %.3f (95%% CI %.3f to %.3f), ", b, lo95, hi95), pfmt(p))   # paste0 keeps the UTF-8 mark; sprintf drops it in a C locale
   e = ext_tbl(v) |> left_join(d |> select(mpo_id, kg, y = all_of(v)), by = "mpo_id")
   ggplot(d, aes(lkg, .data[[v]])) +
     geom_smooth(method = "lm", formula = y ~ x, se = TRUE, color = ink, fill = "#c9ced4", linewidth = 0.6) +

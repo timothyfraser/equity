@@ -34,10 +34,13 @@ retrieve_emissions_bulk = function(geoid, year, pollutant,
   read_one_year = function(y){
     path = file.path(cache_dir, paste0(y, ".parquet"))
     if(!file.exists(path)){
+      # atomic: download to a temporary file, then rename, so a reader never sees a half-written file
+      tmp = tempfile(tmpdir = cache_dir, fileext = ".part")
       resp = httr::GET(
         url = paste0(base, "/year/", y, ".parquet"),
-        httr::write_disk(path, overwrite = TRUE))
+        httr::write_disk(tmp, overwrite = TRUE))
       httr::stop_for_status(resp)
+      file.rename(tmp, path)
     }
     nanoparquet::read_parquet(path) |>
       as_tibble() |>

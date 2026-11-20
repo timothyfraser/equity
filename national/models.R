@@ -27,6 +27,8 @@ fit_one = function(ix) {
   list(beta = leaf(ct[term, 1], ev("classical OLS coefficient")),
        se = leaf(ct[term, 2], ev("classical SE")),
        p = leaf(ct[term, 4], ev("classical p")),
+       ci_low = leaf(confint(m, level = 0.95)[term, 1], ev("classical 95% CI, lower (confint)")),
+       ci_high = leaf(confint(m, level = 0.95)[term, 2], ev("classical 95% CI, upper (confint)")),
        r2 = leaf(summary(m)$r.squared, ev("R-squared")),
        n = leaf(nobs(m), ev("MPOs in fit")),
        se_hc3 = leaf(ct3[term, 2], ev("HC3 SE, sandwich::vcovHC")),
@@ -37,7 +39,7 @@ fit_one = function(ix) {
 }
 
 fits = lapply(indices, fit_one) |> setNames(indices)
-models = lapply(fits, \(f) f[c("beta","se","p","r2","n","se_hc3","p_hc3","se_cluster_state","p_cluster_state")])
+models = lapply(fits, \(f) f[c("beta","se","p","ci_low","ci_high","r2","n","se_hc3","p_hc3","se_cluster_state","p_cluster_state")])
 extremes = lapply(fits, \(f) f[c("min", "max")])
 
 cnt = \(s) sum(ledger$status == s)

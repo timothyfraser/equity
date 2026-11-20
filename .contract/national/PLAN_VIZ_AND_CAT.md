@@ -186,3 +186,23 @@ Placing any order (C-1 live), publishing any order (C-2), changing the manuscrip
 - Accept: rebuilds from `mpo_wide.csv`, `mpo_tiles.csv`, `results_national.json` alone; looked at as a rendered PNG at 2x: no overlapping labels, extremes labels legible and outside the block, legend titles present, both maps and both scatters on 0.70-1.00.
 
 Order: R-1 and V-2 in parallel → V-1 → V-4 → V-3. Paper text (V-6, "Scaling up") waits for the CAT runs.
+
+## R2.2 V-5 restated precisely: random-allocation benchmark for the equal-group index (proposed; needs Tim)
+
+**Why the index has a small-group floor.** For MPO m with groups g = 1..n, tracts t, tract exposed share a_t = area_roads_t / area_total_t, and county rate r_c(t) (county emissions / county exposed residents, Eq. 7), the estimator sets group g's exposed residents to A_g = Σ_t N_gt a_t and emissions to E_g = Σ_t N_gt a_t r_c(t). With e_g = E_g / Σ_h E_h, p_g = N_g / N and s_g = (e_g / p_g) / Σ_h (e_h / p_h), the index is I = 1 − n / (2(n − 1)) Σ_g |s_g − 1/n|. Every term is deterministic given the ACS counts, so I < 1 only because groups are sorted unevenly across tracts with different a_t r_c(t). A group of 30 people lives in a handful of tracts, so its exposure ratio e_g / p_g is far from 1 even if its members were placed with no regard to roads. Because |·| is convex, that dispersion lowers E[I] for small groups. The equal-group index is the right estimand (ND12); the benchmark only says how much unevenness a group of that size would show by chance.
+
+**Null (random allocation).** Hold fixed each group's size N_g, every tract's population N_t, a_t and r_c(t). Allocate each group's members to the MPO's tracts at random with probability proportional to tract population: (N_g1, ..., N_gT) ~ Multinomial(N_g, π), π_t = N_t / N. This removes residential sorting by group and keeps everything else. Draw b = 1..B (B = 1,000, seed 1), recompute I^(b) with the same estimator.
+
+**Reported per MPO and per dimension (race, income, edu, age):**
+- I_obs (unchanged, the headline).
+- E0[I] (mean of I^(b)) and its 2.5th and 97.5th percentiles: the index expected from chance alone at this MPO's group sizes.
+- p0 = (1 + #{b: I^(b) ≤ I_obs}) / (B + 1): one-sided Monte Carlo p for "more uneven than random allocation".
+- Chance-adjusted index, after Carrington and Troske's (1997) correction for the dissimilarity index in small units (citation to verify): with U = 1 − I, U* = max(0, (U_obs − E0[U]) / (1 − E0[U])), I* = 1 − U*. I* = 1 means no more unevenness than chance; it is a companion, not a replacement.
+
+**Use in the paper.** The text keeps the equal-group index as the result and adds one sentence: "x of 220 MPOs are less even on race than random allocation would produce (p0 < 0.05)", plus the correlation of I_obs and I* with log population, showing how much of the size pattern is chance. New York's ten regions get the same check (answers reviewer item NEW-A5 on small groups).
+
+**Not covered.** ACS sampling error. That needs tract margins of error (`_M` columns, not pulled yet) and a parametric bootstrap N_gt ~ Normal(est, (MOE / 1.645)^2) truncated at 0, giving a 95% interval for I_obs itself. Proposed as a separate task (V-7) if Tim wants intervals on the indices.
+
+**Cost.** Vectorised over draws: about 220 MPOs x 4 dimensions x 1,000 draws; minutes, no new data.
+
+**Owns:** `national/null_sim.R`, `national/tables/mpo_null.csv`, a `null` block in `national/results_national.json` (contract extended before use). **Depends:** V-1. **Tier:** O design review, S build. **Accept:** with B = 1,000 the Monte Carlo SE of E0[I] < 0.002 for every MPO; E0[I] rises with log population (Spearman > 0); for a synthetic MPO where every group has identical tract shares, I_obs = 1 and p0 = 1; New York regions reproduced through the same code.
