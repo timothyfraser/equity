@@ -1100,7 +1100,7 @@ get_bars = function(region_group_values, metric = "epshare"){
 #' @name get_bars2
 #' @description
 #' Revised function for pretty two-panel bar charts
-get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", beta = FALSE, hjust = 0.5, xmin = 0, verbose = FALSE){
+get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", beta = FALSE, hjust = 0.5, xmin = NULL, verbose = FALSE){
   # Testing values
   # mylist = read_rds("test/stat_income.rds"); metric = "epshare"; ylab = "Income Bracket"; beta = TRUE; hjust = 1; verbose = TRUE
 
@@ -1243,6 +1243,8 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
   limits_gg2 = get_limits(region_group_values[[metric]])
   
   limits_gg1 = get_limits(x = joined$indicator2)
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  if(is.null(xmin)){ xmin = floor(min(joined$indicator2, na.rm = TRUE) * 20) / 20 - 0.05 }
     
   colors = viridis::plasma(n = length(unique(region_group_values$group)), begin = 0.1, end = 0.9)
   
@@ -1304,16 +1306,16 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
     #          mapping = aes(x = reorder(region, indicator2), y = indicator2)) +
     # Right-hand expansion leaves room for value labels now that corrected scores sit near 1 (2026-11-19)
     scale_y_continuous(limits = c(xmin,1), oob = scales::squish, expand = expansion(mult = c(0, 0.10)),
-                       breaks = seq(from = xmin, to = 1, length.out = 5)) +
+                       breaks = seq(from = xmin, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01)) +
     coord_flip() +
     labs(x = NULL, y = paste0(
-      ylab, " Equity Index (0 to 1)<br><sup>[Even Emissions Exposure = 1]</sup>"),
+      ylab, " Equity Index<br><sup>[1 = even exposure; axis starts at ", sprintf("%.2f", xmin), "]</sup>"),
       title = paste0(ylab, " Equity by Region")) +
     theme_minimal(base_size = 12) +
     theme(panel.grid = element_blank(),plot.title.position = "plot",
           panel.border = element_rect(fill = NA, color = "black"),
           plot.title = element_text(hjust = 0.5, size = 12),
-          axis.title.x = ggtext::element_markdown(size = 12, hjust = 0.5))
+          axis.title.x = ggtext::element_markdown(size = 10, hjust = 0.5))
   
   
   output = ggpubr::ggarrange(plotlist = list(gg1, gg2), labels = c("A", "B"), ncol = 2, widths = c(0.33, 0.66))   
@@ -1341,7 +1343,10 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
               .groups = "drop")
   
   
-  limits = c(min(bands$ymin) - sd(data$value)/2, 1)
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$value, na.rm = TRUE) * 20) / 20 - 0.05
+  limits = c(axis_min, 1)
+  axis_breaks = seq(from = axis_min, to = 1, by = 0.05)
   
   data = data %>%
     left_join(by = "region", y = bands)
@@ -1375,7 +1380,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
       breaks = c( "race", "income", "edu", "age", "total"),
       option = "plasma", discrete = TRUE, begin = 0.9, end = 0.1
     ) +
-    scale_y_continuous(limits = limits, oob = scales::squish, expand = expansion(c(0, 0.02))) +
+    scale_y_continuous(limits = limits, breaks = axis_breaks, labels = scales::label_number(accuracy = 0.01), oob = scales::squish, expand = expansion(c(0, 0.02))) +
     coord_flip() +
     theme_minimal(base_size = 14) +
     theme(panel.border = element_rect(fill = NA, color = "#373737"),
@@ -1391,7 +1396,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
       fill = "Type of Equity",
       x = NULL,
       title = NULL,
-      y = "Relative Emissions Exposure Equity Index [0-1]")
+      y = paste0("Relative Emissions Exposure Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"))
   
   
   gg2 = ggplot() +
@@ -1406,7 +1411,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
       breaks = c("total", "income", "race", "edu", "age"),
       option = "plasma", discrete = TRUE, begin = 0.9, end = 0.1
     ) +
-    scale_x_continuous(limits = limits, oob = scales::squish, expand = expansion(c(0, 0.02)))  +
+    scale_x_continuous(limits = limits, breaks = axis_breaks, oob = scales::squish, expand = expansion(c(0, 0.02)))  +
     scale_y_continuous(expand = expansion(c(0,0)), trans = "sqrt") +
     theme_minimal(base_size = 14) +
     theme(panel.border = element_blank(), #element_rect(fill = NA, color = "#373737"),
@@ -1471,6 +1476,8 @@ get_emissions_slopes = function(
   # As emissions increases, overall equity increases by +0.02 (p = 0.001)
   
   
+  axis_min = floor(min(data$y, na.rm = TRUE) * 20) / 20 - 0.05
+  
   # How does emissions trend with burden? 
   gg = ggplot() +
     geom_point(
@@ -1508,6 +1515,9 @@ get_emissions_slopes = function(
       guide = "none"
     ) +
     scale_x_continuous(labels = scales::label_number(scale_cut = scales::cut_si(""))) +
+    # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+    scale_y_continuous(breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01)) +
+    coord_cartesian(ylim = c(axis_min, 1)) +
     facet_wrap(~xtype, scales = "free_x") +
     theme_minimal(base_size = 14) +
     theme(panel.border = element_rect(fill = NA, color = "#373737"),
@@ -1519,7 +1529,7 @@ get_emissions_slopes = function(
           plot.title = element_text(hjust = 0.5),
           plot.caption = ggtext::element_markdown(hjust = 0, size = 10)) +
     labs(x = "Emissions (tons)",
-         y = "Relative Emissions Exposure Equity Index [0-1]",
+         y = paste0("Relative Emissions Exposure Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
          color = NULL, fill = "Index Type",
          title = "Relationships between Emissions and Equity",
          caption = message)
@@ -1717,7 +1727,7 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
                        data_equity = read_rds("test/stat_overall.rds"),
                        myyear = 2022,
                        .pollutant = 110,
-                       xmin = 0
+                       xmin = NULL
 ){
   data  = data_emissions %>% 
     filter(pollutant == .pollutant) %>%
@@ -1732,6 +1742,9 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
   
   # ggplot() +
   #   geom_point(data = data, mapping = aes(x = emissions, y= total))
+  
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  if(is.null(xmin)){ xmin = floor(min(data$race, na.rm = TRUE) * 20) / 20 - 0.05 }
   
   emissionsrange = -range(data$emissions) %>% rev() %>% {c(.[1] - 10, .[2] + 5)}
   
@@ -1757,7 +1770,7 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
     scale_y_continuous(oob = scales::oob_squish,
                        limits = emissionsrange, 
                        expand = expansion(c(0.1,0))) +
-    labs(y = "Total PM2.5 Emissions (kilotons)")
+    labs(y = "Total PM2.5 Emissions (tons)")
   
   
   g2 = ggplot() +
@@ -1781,9 +1794,10 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
     ) +
     scale_y_continuous(
       oob = scales::oob_squish, limits = c(xmin, 1),
+      breaks = seq(from = xmin, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01),
       # wider right margin so left-aligned labels near 1 are not clipped (2026-11-19)
       expand = expansion(mult = c(0, 0.14))) +
-    labs(y = "Race/Ethnicity Equity Index (0 to 1)")
+    labs(y = paste0("Race Equity Index (axis from ", sprintf("%.2f", xmin), ")"))
   
   gg = ggpubr::ggarrange(
     plotlist = list(g1,g2), 
@@ -1828,6 +1842,8 @@ get_sensitivity_distance1 = function(
     filter(year == .year) %>% 
     group_by(region) %>%
     mutate(ymin = min(total, na.rm = TRUE))
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
   
   #.pollutant = 110
   gg = ggplot() +
@@ -1837,6 +1853,7 @@ get_sensitivity_distance1 = function(
     geom_line(
       data = data,
       mapping = aes(x = reorder(region, -ymin), y = total, color = factor(dist/1000), group = factor(dist)), linewidth = 1.2) +
+    scale_y_continuous(limits = c(axis_min, 1), breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01), oob = scales::squish) +
     coord_flip() +
     theme_bw(base_size = 14) +
     theme(axis.ticks = element_blank()) +
@@ -1844,7 +1861,7 @@ get_sensitivity_distance1 = function(
     theme(panel.grid.minor.y = element_blank(), 
           panel.grid.major.y = element_blank()) +
     viridis::scale_color_viridis(option = "plasma", begin = 0.2, end = 0.8, discrete = TRUE, direction = 1) +
-    labs(color = 'Exposure Zone\nRadius (km)', x = NULL, y = "Overall Equity Index (1 = perfectly even exposure)",
+    labs(color = 'Exposure Zone\nRadius (km)', x = NULL, y = paste0("Overall Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
          title = "Sensitivity of Regional Equity Patterns",
          subtitle = "to changes in Exposure Zone Radius")
   return(gg)
@@ -1864,6 +1881,8 @@ get_sensitivity_distance2 = function(
   
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::tidy()
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::glance()
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
   
   gg = ggplot() +
     geom_line(data = data, mapping = aes(x = dist/1000, y = total, group = region),
@@ -1874,9 +1893,10 @@ get_sensitivity_distance2 = function(
     theme_bw(base_size = 14) +
     theme(axis.ticks = element_blank(),
           panel.grid.minor = element_blank()) +
-    scale_y_continuous(n.breaks = 9) +
+    scale_y_continuous(breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01)) +
+    coord_cartesian(ylim = c(axis_min, 1)) +
     labs(x = "Exposure Zone Buffer Radius (km)",
-         y = "Overall Equity Index (0-1)")
+         y = paste0("Overall Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"))
   return(gg)
   
 }
@@ -1899,6 +1919,8 @@ get_sensitivity_distance3 = function(
     summarize(ymin = min(y, na.rm = TRUE),
               ymax = max(y, na.rm = TRUE),
               ymain = y[pollutant == 110])
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$ymin, na.rm = TRUE) * 20) / 20 - 0.05
   
   # How much do things change by distance?
   # data = sensitivity_data %>%
@@ -1921,6 +1943,7 @@ get_sensitivity_distance3 = function(
     geom_line(
       data = data,
       mapping = aes(x = reorder(region, -ymin), y = ymain, color = factor(dist/1000), group = factor(dist)), linewidth = 1.2) +
+    scale_y_continuous(limits = c(axis_min, 1), breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01), oob = scales::squish) +
     coord_flip() +
     theme_bw(base_size = 14) +
     theme(axis.ticks = element_blank()) +
@@ -1929,7 +1952,7 @@ get_sensitivity_distance3 = function(
           panel.grid.major.y = element_blank()) +
     viridis::scale_fill_viridis(option = "plasma", begin = 0.2, end = 0.8, discrete = TRUE, direction = 1) +
     viridis::scale_color_viridis(option = "plasma", begin = 0.2, end = 0.8, discrete = TRUE, direction = 1, guide = "none") +
-    labs(fill = 'Exposure Zone\nRadius (km)', x = NULL, y = "Overall Equity Index (1 = perfectly even exposure)",
+    labs(fill = 'Exposure Zone\nRadius (km)', x = NULL, y = paste0("Overall Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
          color = NULL,
          title = "Sensitivity of Regional Equity Patterns",
          subtitle = "to changes in Exposure Zone Radius")
