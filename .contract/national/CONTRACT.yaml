@@ -1,21 +1,52 @@
-# National equity index — CONTRACT (PROPOSED 2026-11-20; nothing starts before Tim rules on PLAN_NATIONAL.md section 7)
+# National MPO section — CONTRACT (PROPOSED; nothing starts before Tim rules on PLAN_NATIONAL.md section 7)
 meta:
   plan: .contract/national/PLAN_NATIONAL.md
+  revision: 2
   repo: timothyfraser/equity (branch dev)
-  status: proposed
-decisions: {}
+  status: proposed (revision 2, MPO ranking; revision 1 county-first design rejected by Tim 2026-11-20)
+decisions:
+  ND1: 'National section ranks MPOs; emissions weighting kept (Tim, 2026-11-20: ''we''re not going to do it at the
+    county level and cancel out the emissions term'')'
+  ND2: 'Goes into the JTG paper (Tim, 2026-11-20: Add to this paper)'
+  ND3: Equal-group index stays the headline; population-weighted and small-group robustness beside it (Tim's fairness
+    justification, 2026-11-20)
 tasks:
-  - {id: N-000, title: "Tim rulings Q1-Q8", status: proposed}
-  - {id: N-001, title: "Allow www2.census.gov (+ ers.usda.gov, apps.bea.gov, geodata.bts.gov)", owner: "Tim + orchestrator", status: proposed}
-  - {id: N-002, title: "Benchmark geometry engine (s2 lon/lat vs EPSG:5070 planar) on DE, VT, GA", model: opus, status: proposed, depends: [N-001]}
-  - {id: N-003, title: "State-aware library with NY regression gate", model: sonnet, status: proposed, depends: [N-002]}
-  - {id: N-004, title: "National ACS 2022 pull incl. margins of error", model: sonnet, status: proposed, depends: [N-000]}
-  - {id: N-005, title: "National emissions 2020-2025, 2022 interpolation, FIPS crosswalk", model: sonnet, status: proposed, depends: [N-000]}
-  - {id: N-006, title: "National geometry run, per-county tallies at 300 m (background)", model: sonnet, status: proposed, depends: [N-002, N-003, N-004, N-005]}
-  - {id: N-007, title: "County and state indices (+ bootstrap if Q5)", model: sonnet, status: proposed, depends: [N-006]}
-  - {id: N-008, title: "Region crosswalks (state, CBSA, CZ, BEA EA, MPO, NY REDC)", model: sonnet, status: proposed, depends: [N-001]}
-  - {id: N-009, title: "Regional indices per scheme; NY REDC regression", model: sonnet, status: proposed, depends: [N-007, N-008]}
-  - {id: N-010, title: "National figures", model: sonnet, status: proposed, depends: [N-009]}
-  - {id: N-011, title: "Sensitivity on a stratified state sample", model: sonnet, status: proposed, depends: [N-007]}
-  - {id: N-012, title: "Paper framing and outline", model: opus, status: proposed, depends: [N-009]}
-  - {id: N-013, title: "Release asset and docs", model: sonnet, status: proposed, depends: [N-010]}
+- id: N-000
+  title: Tim rulings Q1-Q6
+  status: proposed
+- id: N-001
+  title: 'Data access: TIGER + BTS NTAD MPO layer'
+  status: proposed
+- id: N-002
+  title: Geometry engine benchmark
+  status: proposed
+- id: N-003
+  title: State-aware library with NY regression gate
+  status: proposed
+- id: N-004
+  title: MPO tract crosswalk
+  status: proposed
+- id: N-005
+  title: Census pull for MPO states
+  status: proposed
+- id: N-006
+  title: Emissions for MPO counties (+ road type if Q3b)
+  status: proposed
+- id: N-007
+  title: Geometry run for MPO counties (background)
+  status: proposed
+- id: N-008
+  title: MPO indices + results_national.json
+  status: proposed
+- id: N-009
+  title: Ranked MPO chart and table
+  status: proposed
+- id: N-010
+  title: Sensitivity
+  status: proposed
+- id: N-011
+  title: Paper section edit proposals (T-015)
+  status: proposed
+- id: N-012
+  title: Release and docs
+  status: proposed
