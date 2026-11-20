@@ -4,7 +4,7 @@ meta:
   method: docs/ROADTYPE_METHOD.md
   revision: 3
   repo: timothyfraser/equity (branch dev)
-  status: PLAN_SCALING_UP.md proposed and Q1-Q4 ruled 2026-11-20; waiting on Tim's go to implement
+  status: 'Scaling up: analysis, figure, results contract and docs done; paper section T-014 previewed, waiting on Tim (2026-11-20)'
   plans:
   - .contract/national/PLAN_NATIONAL.md
   - .contract/national/PLAN_VIZ_AND_CAT.md
@@ -53,8 +53,8 @@ decisions:
   ND22: 'Paper section "Scaling up": 2-3 paragraphs at the end of Results, written after the CAT runs land.'
   ND23: 'CAT orders placed by Tim''s local CAT session from .contract/national/CAT_ORDERS_HANDOFF.md: 61 counties (37 with
     only a 2020 run + 24 NY), year 2022, no Puerto Rico.'
-  ND24: 'Map layout: state abbreviation on every tile; maps about two thirds of the page height; extremes labels above/below
-    the map (Tim, 2026-11-20).'
+  ND24: 'Map layout: square tiles, state abbreviation on every tile, the two maps side by side above the two scatters (Tim,
+    2026-11-20); extremes labels above/below the map.'
   ND25: Scatter y-axes use the data extent; both maps keep the shared 0.70-1.00 colour scale (Tim confirmed, Q1).
   ND26: Ordinary SEs, reported as 95% confidence intervals (done 2026-11-20).
   ND27: Run the exact permutation test (random allocation of group labels, fixed margins); report "x of 224 MPOs are significantly
@@ -377,27 +377,27 @@ tasks:
 - id: U-0
   title: Shared estimator core
   tier: O
-  status: proposed
+  status: done (receipt U-0.md)
   depends: []
   definition_of_done: PLAN_SCALING_UP.md section 2, task U-0
 - id: U-1
   title: Permutation test
   tier: S
-  status: proposed
+  status: done (receipt U-1.md)
   depends:
   - U-0
   definition_of_done: PLAN_SCALING_UP.md section 2, task U-1
 - id: U-2
   title: ACS sampling-error intervals
   tier: O/S
-  status: proposed
+  status: done (receipt U-2.md)
   depends:
   - U-0
   definition_of_done: PLAN_SCALING_UP.md section 2, task U-2
 - id: U-3
   title: Results contract and New York
   tier: S
-  status: proposed
+  status: done (receipt U-3.md)
   depends:
   - U-1
   - U-2
@@ -405,13 +405,13 @@ tasks:
 - id: U-4
   title: Figure refinement
   tier: S
-  status: proposed
+  status: done (receipt U-4.md; maps side by side with square tiles per Tim)
   depends: []
   definition_of_done: PLAN_SCALING_UP.md section 2, task U-4
 - id: U-5
   title: Paper section Scaling up (proposals)
   tier: O
-  status: proposed
+  status: preview built, waiting on Tim (receipt U-5.md)
   depends:
   - U-3
   - U-4
@@ -419,7 +419,7 @@ tasks:
 - id: U-6
   title: Docs and tests wiring
   tier: S
-  status: proposed
+  status: done (receipt U-6.md)
   depends:
   - U-1
   - U-2

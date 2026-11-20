@@ -21,3 +21,18 @@
 
 - 2026-11-20 fixes: parallel workers corrupted a shared CAT year file on the first rerun; `run_national.sh` now prefetches the year files before workers start, and `cat_bulk.R` downloads atomically. `models.R` takes the manifest from `done` MPOs only (single-county MPOs keep their first-run manifest).
 - V-5 (random-allocation benchmark) is specified exactly in `PLAN_VIZ_AND_CAT.md` R2.2; not started, waiting on Tim.
+
+## Update: Scaling up (2026-11-20, PLAN_SCALING_UP.md)
+
+Done:
+- U-0 shared matrix estimator `index/uncertainty_core.R` (reproduces indicator2 / indicator_pw to 1e-10; 0.9 ms per call on NYMTC).
+- U-1 exact permutation test (fixed-margin `r2dtable`, B = 1,000): race 222 of 224 MPOs have p0 < 0.05 (raw, ND31); income 224, edu 223, age 222. Least even MPO (Staunton-Augusta-Waynesboro, VA): observed 0.708 vs chance expectation 0.959. Size gradient persists after the chance adjustment (Spearman with log pop 0.588 for I, 0.463 for I*). New York: every region p0 = 0.001 (the floor).
+- U-2 ACS intervals (B = 500, zero cells held at 0): median 95% widths race 0.060, income 0.019, edu 0.019, age 0.013; widths shrink with population.
+- U-3 paper `results.json` gains `national.*`, `robustness.permutation.*`, `robustness.acs_interval.*`; every older key byte-identical.
+- U-4 figure: maps side by side with square tiles and a state label on every tile; extremes labelled above/below; scatters on their own y-range with β and 95% CI.
+- U-6 `national/README.md`, root README sections, `index/tests/run_all.R` (4 files, 123 checks, 0 failures).
+
+Waiting on Tim:
+- T-014 preview (`paper_equity/.contract/r0/build/T-014_changes_yellow.pdf`). On approval: `python3 -I .contract/r0/preview/apply_t014.py --target` in paper_equity, copy `equity/national/fig/mpo_national.png` to `paper_equity/fig/`, recompile.
+- Open points: "emissions term cancels" wording for single-county MPOs; p and CI number format (renderer prints p = 0.0443 and -0.000254; Tim's rule is three decimals); Methods subsubsection is 448 words and carries the New York findings (move to Results?); two TODO citations (BTS NTAD MPO layer; Carrington and Troske 1997); three contract paths to add (total MPOs 411, permutation B, ACS B).
+- 23 New York counties still missing from CAT 2022: the New York rebuild waits; all scripts rerun.
