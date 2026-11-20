@@ -373,9 +373,11 @@ if(length(missing_in) > 0) stop("U-3 inputs missing, no output written: ", paste
 read_leafs = function(f) read_json(f, simplifyVector = FALSE)
 NAT = read_leafs(NAT_FILES[["national"]])
 J$national = c(
-  NAT[c("models", "extremes", "coverage", "cat_manifest", "n_mpos")],
-  list(permutation = read_leafs(NAT_FILES[["permutation"]]) %>% discard_at("_meta"),
-       acs = read_leafs(NAT_FILES[["acs"]]) %>% discard_at("_meta")))
+  NAT[c("models", "extremes", "coverage", "cat_manifest", "n_mpos", "typical", "distribution")],
+  list(permutation = c(read_leafs(NAT_FILES[["permutation"]]) %>% discard_at("_meta"),
+                       list(B = list(value = read_leafs(NAT_FILES[["permutation"]])$`_meta`$B, status = "computed", evidence = "national/results_permutation.json: _meta$B"))),
+       acs = c(read_leafs(NAT_FILES[["acs"]]) %>% discard_at("_meta"),
+               list(B = list(value = read_leafs(NAT_FILES[["acs"]])$`_meta`$B, status = "computed", evidence = "national/results_acs.json: _meta$B")))))
 # New York permutation and ACS interval leaves, region x type
 unc_leaf = function(value, csv, script) list(value = value, status = "computed", evidence = sprintf("%s via %s", csv, script))
 PERM = read_csv(UNC_FILES[["perm"]], show_col_types = FALSE)

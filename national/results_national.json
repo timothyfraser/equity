@@ -5,7 +5,7 @@
     "purpose": "National MPO scatter models: index ~ log(emissions per resident); extremes; ledger coverage."
   },
   "generated_utc": {
-    "value": "2026-11-20T22:13:35Z",
+    "value": "2026-11-20T23:58:03Z",
     "status": "computed",
     "evidence": "national/models.R: Sys.time()"
   },
@@ -39,6 +39,11 @@
       "value": 0,
       "status": "computed",
       "evidence": "national/models.R: count of status in national/LEDGER.csv"
+    },
+    "total": {
+      "value": 411,
+      "status": "computed",
+      "evidence": "national/models.R: rows of national/LEDGER.csv"
     }
   },
   "models": {
@@ -346,6 +351,11 @@
           "status": "computed",
           "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO state"
         },
+        "state_name": {
+          "value": "Virginia",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
+        },
         "value": {
           "value": 0.707526406884911,
           "status": "computed",
@@ -367,6 +377,11 @@
           "value": "RI",
           "status": "computed",
           "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "state_name": {
+          "value": "Rhode Island",
+          "status": "computed",
+          "evidence": "national/models.R: lm(race ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
         },
         "value": {
           "value": 0.980604997182832,
@@ -392,6 +407,11 @@
           "status": "computed",
           "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO state"
         },
+        "state_name": {
+          "value": "Oregon",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
+        },
         "value": {
           "value": 0.874870480569616,
           "status": "computed",
@@ -413,6 +433,11 @@
           "value": "MA",
           "status": "computed",
           "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "state_name": {
+          "value": "Massachusetts",
+          "status": "computed",
+          "evidence": "national/models.R: lm(income ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
         },
         "value": {
           "value": 0.993719587922704,
@@ -438,6 +463,11 @@
           "status": "computed",
           "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO state"
         },
+        "state_name": {
+          "value": "Washington",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
+        },
         "value": {
           "value": 0.88373576571067,
           "status": "computed",
@@ -459,6 +489,11 @@
           "value": "GA",
           "status": "computed",
           "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "state_name": {
+          "value": "Georgia",
+          "status": "computed",
+          "evidence": "national/models.R: lm(edu ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
         },
         "value": {
           "value": 0.998206846667296,
@@ -484,6 +519,11 @@
           "status": "computed",
           "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO state"
         },
+        "state_name": {
+          "value": "Virginia",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
+        },
         "value": {
           "value": 0.878867823328019,
           "status": "computed",
@@ -505,6 +545,11 @@
           "value": "MO",
           "status": "computed",
           "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO state"
+        },
+        "state_name": {
+          "value": "Missouri",
+          "status": "computed",
+          "evidence": "national/models.R: lm(age ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
         },
         "value": {
           "value": 0.997564259292031,
@@ -530,6 +575,11 @@
           "status": "computed",
           "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO state"
         },
+        "state_name": {
+          "value": "Oregon",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
+        },
         "value": {
           "value": 0.885945208007498,
           "status": "computed",
@@ -552,11 +602,239 @@
           "status": "computed",
           "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO state"
         },
+        "state_name": {
+          "value": "Illinois",
+          "status": "computed",
+          "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme MPO state name, datasets::state.name"
+        },
         "value": {
           "value": 0.984310097789195,
           "status": "computed",
           "evidence": "national/models.R: lm(overall ~ log(emissions_rate_mpo)), extreme index value"
         }
+      }
+    }
+  },
+  "typical": {
+    "race": {
+      "mpo_id": {
+        "value": "26202300",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), MPO id"
+      },
+      "mpo_name": {
+        "value": "Traverse Transportation Coordinating Initiative",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), MPO name"
+      },
+      "state": {
+        "value": "MI",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), state"
+      },
+      "state_name": {
+        "value": "Michigan",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), state name, datasets::state.name"
+      },
+      "value": {
+        "value": 0.904952615618115,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), index value"
+      },
+      "fitted": {
+        "value": 0.904441822283591,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), fitted index"
+      },
+      "residual": {
+        "value": 0.000510793334523943,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), residual"
+      },
+      "emissions_rate_kg": {
+        "value": 0.155962344390004,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for race (IQR on log rate and index, extremes excluded, min |residual| of lm(race ~ log(emissions_rate_mpo))), emissions per resident, kg (rate * 1000)"
+      }
+    },
+    "income": {
+      "mpo_id": {
+        "value": "12200300",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), MPO id"
+      },
+      "mpo_name": {
+        "value": "Lake-Sumter MPO",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), MPO name"
+      },
+      "state": {
+        "value": "FL",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), state"
+      },
+      "state_name": {
+        "value": "Florida",
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), state name, datasets::state.name"
+      },
+      "value": {
+        "value": 0.95105354139058,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), index value"
+      },
+      "fitted": {
+        "value": 0.95118766994474,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), fitted index"
+      },
+      "residual": {
+        "value": -0.000134128554160749,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), residual"
+      },
+      "emissions_rate_kg": {
+        "value": 0.168864312784908,
+        "status": "computed",
+        "evidence": "national/models.R: ND33 typical MPO for income (IQR on log rate and index, extremes excluded, min |residual| of lm(income ~ log(emissions_rate_mpo))), emissions per resident, kg (rate * 1000)"
+      }
+    }
+  },
+  "distribution": {
+    "race": {
+      "median": {
+        "value": 0.915055991219741,
+        "status": "computed",
+        "evidence": "national/models.R: median of race across MPOs"
+      },
+      "share_lt_095": {
+        "value": 0.888392857142857,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.95 of race across MPOs"
+      },
+      "share_lt_090": {
+        "value": 0.352678571428571,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.90 of race across MPOs"
+      },
+      "n_lt_095": {
+        "value": 199,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.95 of race across MPOs"
+      },
+      "n_lt_090": {
+        "value": 79,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.90 of race across MPOs"
+      }
+    },
+    "income": {
+      "median": {
+        "value": 0.957395298299428,
+        "status": "computed",
+        "evidence": "national/models.R: median of income across MPOs"
+      },
+      "share_lt_095": {
+        "value": 0.348214285714286,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.95 of income across MPOs"
+      },
+      "share_lt_090": {
+        "value": 0.0401785714285714,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.90 of income across MPOs"
+      },
+      "n_lt_095": {
+        "value": 78,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.95 of income across MPOs"
+      },
+      "n_lt_090": {
+        "value": 9,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.90 of income across MPOs"
+      }
+    },
+    "edu": {
+      "median": {
+        "value": 0.968130590118393,
+        "status": "computed",
+        "evidence": "national/models.R: median of edu across MPOs"
+      },
+      "share_lt_095": {
+        "value": 0.241071428571429,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.95 of edu across MPOs"
+      },
+      "share_lt_090": {
+        "value": 0.00892857142857143,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.90 of edu across MPOs"
+      },
+      "n_lt_095": {
+        "value": 54,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.95 of edu across MPOs"
+      },
+      "n_lt_090": {
+        "value": 2,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.90 of edu across MPOs"
+      }
+    },
+    "age": {
+      "median": {
+        "value": 0.978644753682752,
+        "status": "computed",
+        "evidence": "national/models.R: median of age across MPOs"
+      },
+      "share_lt_095": {
+        "value": 0.0758928571428571,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.95 of age across MPOs"
+      },
+      "share_lt_090": {
+        "value": 0.00446428571428571,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.90 of age across MPOs"
+      },
+      "n_lt_095": {
+        "value": 17,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.95 of age across MPOs"
+      },
+      "n_lt_090": {
+        "value": 1,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.90 of age across MPOs"
+      }
+    },
+    "overall": {
+      "median": {
+        "value": 0.952530651395102,
+        "status": "computed",
+        "evidence": "national/models.R: median of overall across MPOs"
+      },
+      "share_lt_095": {
+        "value": 0.424107142857143,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.95 of overall across MPOs"
+      },
+      "share_lt_090": {
+        "value": 0.0178571428571429,
+        "status": "computed",
+        "evidence": "national/models.R: share of MPOs below 0.90 of overall across MPOs"
+      },
+      "n_lt_095": {
+        "value": 95,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.95 of overall across MPOs"
+      },
+      "n_lt_090": {
+        "value": 4,
+        "status": "computed",
+        "evidence": "national/models.R: count of MPOs below 0.90 of overall across MPOs"
       }
     }
   }
