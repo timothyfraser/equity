@@ -235,3 +235,23 @@ Wave 5: N-009  N-010  N-011  N-012
 ```
 
 Still standing: ND10 (equal-group ranking, flagging groups under 1,000) and ND5 (multi-county MPOs only on the chart).
+
+## 12. Staged pilot before any national run (Tim, 2026-11-20)
+
+Tim: "do it for one MPO ... a second ... a third ... compare results and make sure that your approach works, and only scale up after you've got it working for 1, then 3."
+
+The pilot runs the whole chain for one MPO at a time: the polygon from BTS NTAD, tracts assigned to the MPO, ACS 2022 tract and county data, TIGER 2022 primary and secondary roads, the 300 m buffers, exposed-area shares, CAT emissions interpolated to 2022, and the four indices plus the overall index. It uses PM2.5 (110) at 300 m, the paper's headline. Nothing is scaled until stage P4 passes and Tim approves.
+
+| Stage | MPO | Why this one | Must show |
+|---|---|---|---|
+| P0 | (the paper's Capital District REDC region) | The math check | The new MPO code, given the paper's cached New York inputs and whole counties, reproduces `results.json` `table2.rerun["Capital District"]` for all five indices to 1e-9 |
+| P1 | Capital District Transportation Committee (Albany, NY) | Overlaps the paper's region; may have a partial county | Freshly downloaded tracts, census, roads and areas for its counties equal the cached New York inputs; the MPO result is computed with tract-level membership |
+| P2 | A multi-county MPO in another state | First test outside New York | Same chain with no New York caches; sanity checks below |
+| P3 | A multi-state MPO | Tests state joins and boundary tracts | Same chain; tracts from two or more states |
+| P4 | Compare P1-P3 | Does the approach work? | A comparison table and Tim's go before the national waves |
+
+Checks at every stage: each tract in at most one MPO; every member county has emissions for 2022 (exact or interpolated); exposed residents 0 < affected <= population per county; group shares sum to 1; indices in [0, 1]; timing per county recorded so the national run time can be estimated.
+
+Partial counties (ND-pilot): when the MPO covers only part of a county, that county's emissions rate per exposed resident is computed over the whole county (Eq. 7), and only the tracts inside the MPO add exposed residents and population to the MPO. MPO population shares come from tract sums.
+
+Code lives in `national/pilot/` and is promoted to the wave tasks only after P4.
