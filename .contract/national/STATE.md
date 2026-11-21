@@ -51,3 +51,11 @@ Blocked:
 - 2026-11-21: Methods subsubsection rewritten in plain language per Tim (T-015, paper commit f58f65a): 534 -> 443 words, Connecticut sentence dropped, chance-adjusted index in words with the formula in parentheses. Manuscript compiles: 0 errors, 0 undefined citations, 33 pages.
 
 - 2026-11-21 (ND45): Tim ruled New York stays on interpolated 2022; no NY rerun. The 23-county "blocked" item above is closed. National: all 37 ordered counties are in year/2022.parquet (MANIFEST-6b77a4af); the four MPOs they blocked (El Paso, Richmond, Tri Cities, Hampton Roads) are done.
+
+## 2026-11-21: cover letter and co-author email
+
+- Cover letter (paper_equity f92b05e): addressed to Dr. Isabelle Nilsson, Co-Editor-in-Chief, JTG (Tim's pick, editor on his
+  earlier JTG bike-share paper). Signers: Fraser; Y. Gina Park, PhD (Air Pollution Specialist, CARB); H. Oliver Gao. One page.
+- Email to Gina Park: reply draft in Tim's Outlook, threaded on her 2026-11-19 status question. NOT sent: the Outlook tools
+  cannot attach files, and the manuscript (7.5 MB) is over the 1 MB OneDrive upload cap. Tim attaches the two PDFs and sends.
+- Resubmission planned Monday 2026-11-23.
