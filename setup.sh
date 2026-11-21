@@ -23,7 +23,8 @@ options(
   HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(),
                           paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"]))
 )
-need = c("nanoparquet", "ggtext", "shadowtext", "ggspatial", "censusapi", "tigris")
+need = c("nanoparquet", "ggtext", "shadowtext", "ggspatial", "censusapi", "tigris",
+         "patchwork", "ragg", "clue", "lmtest", "sandwich")   # national/: figure, tile grid, models
 missing = need[!vapply(need, requireNamespace, logical(1), quietly = TRUE)]
 if (length(missing) > 0) install.packages(missing)
 still = need[!vapply(need, requireNamespace, logical(1), quietly = TRUE)]

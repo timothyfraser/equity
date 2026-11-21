@@ -14,7 +14,8 @@
 #     type    race, income, edu or age
 #   acs_interval(inputs, type, B = 500, seed, cells = NULL, return_draws = FALSE)
 #     cells   optional output of acs_cells_for() (tests pass modified copies, e.g. all MOE = 0)
-#   Raw cells come from cache/national/census_moe/<state_fips>.rds (E and M per cell, ACS 2022).
+#   Raw cells come from cache/national/census_moe/<state_fips>.rds (E and M per cell, ACS 2022; built by
+#   index/make_census_moe.R), falling back to test/census_moe/<state_fips>.rds (New York ships with the repo).
 #
 # Method (the same for every unit)
 #   X = est                              if est == 0 (ND32: zero cells stay 0)
@@ -90,7 +91,13 @@ acs_map = function(type){
 # ---- 2. Raw cells aligned to the input rows ---------------------------------------------------
 .moe_cache = new.env()
 .moe_state = function(st, root){
-  if(is.null(.moe_cache[[st]])) .moe_cache[[st]] = read_rds(file.path(root, paste0(st, ".rds")))
+  if(is.null(.moe_cache[[st]])){
+    p = file.path(root, paste0(st, ".rds"))
+    if(!file.exists(p)) p = file.path("test/census_moe", paste0(st, ".rds"))   # New York ships with the repo
+    if(!file.exists(p)) stop("No ACS margin-of-error cache for state ", st,
+                             ": run Rscript index/make_census_moe.R ", st, " (needs CENSUS_API_KEY)")
+    .moe_cache[[st]] = read_rds(p)
+  }
   .moe_cache[[st]]
 }
 
