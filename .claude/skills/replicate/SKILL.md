@@ -24,7 +24,9 @@ against the committed copy.
 
 ## Reading a difference
 
-- **Different CAT manifest, small New York differences**: expected. CAT is a live database; a rerun pulls the latest
+- **Default run**: New York uses the frozen inputs in `index/data/cat_MANIFEST-e2ccfae4/`, so every number should
+  match (0 differ). Any difference is a regression.
+- **`EMISSIONS=live`, small New York differences**: expected. CAT is a live database; a live rerun pulls the latest
   release. Report the manifests and the size of the largest differences. Do not "fix" the numbers.
 - **Same manifest, any difference**: a real regression. Find the commit that changed the method (`git log -p
   index/functions.R`) and report it before touching anything.
@@ -36,4 +38,5 @@ against the committed copy.
 - Edit anything in `index/test/`, `index/runs/`, `national/out/` or `results/` by hand.
 - Commit a rerun's `results/results.json` or figures unless Tim asked for the paper's numbers to be updated.
   `git checkout -- index/test index/runs results national` restores the paper's copies.
-- Commit raw CAT emissions (`index/test/emissions_*` are gitignored for that reason).
+- Commit raw CAT emissions (`index/test/emissions_*` are gitignored for that reason), or edit the frozen New York
+  copy in `index/data/cat_MANIFEST-e2ccfae4/` (ND46).

@@ -30,8 +30,8 @@ got matches what we report. The short version is in the [README](../README.md#re
   ```
 - **Windows:** use WSL with Ubuntu 24.04. The uncertainty and national stages use `parallel::mclapply`, which does not
   fork on native Windows.
-- **Network access** to `api.cat-apps.com` (emissions, no key). The national stage also reaches the Census API and
-  TIGER/Line.
+- **Network access** to `api.cat-apps.com` only with `EMISSIONS=live` and for the national stage, which also reaches
+  the Census API and TIGER/Line. The default New York run reads its emissions from the repo.
 - **A Census API key only for the national stage** (or to rebuild the New York Census caches). Get one free at
   <https://api.census.gov/data/key_signup.html> and `export CENSUS_API_KEY=...` in your shell. Never write it to a
   file in the repository.
@@ -52,7 +52,7 @@ in an order that respects their inputs. With no arguments it runs `ny uncertaint
 
 | Stage | What it does | Key needed |
 |---|---|---|
-| `ny` | Pulls CAT emissions, computes the New York indices, draws the New York figures | no |
+| `ny` | Loads the paper's frozen New York emissions (`EMISSIONS=live` pulls the latest from CAT), computes the New York indices, draws the New York figures | no |
 | `uncertainty` | Permutation test and ACS margin-of-error intervals for New York | no |
 | `national` | Every MPO in the BTS layer (411: 224 computed, 186 single-county, 1 in Puerto Rico, excluded): ledger, indices, models, national figure, uncertainty | yes |
 | `results` | Writes [`results/results.json`](../results/results.json) | no |
@@ -72,7 +72,7 @@ Measured on a fresh clone, 4 vCPU cloud machine, November 2026, except the natio
 
 | Stage | Time |
 |---|---|
-| `ny` | about 65 s (including the CAT download) |
+| `ny` | about 65 s |
 | `uncertainty` | about 45 s (3 cores) |
 | `results` | about 7 s |
 | `compare` | under 1 s |
@@ -86,20 +86,17 @@ Measured on a fresh clone, 4 vCPU cloud machine, November 2026, except the natio
 compares every number the two share at three decimals, the precision the paper prints. It reports matches by block,
 the largest differences, and the CAT manifest behind each file.
 
-**Expect New York differences if CAT has published new runs since we pulled.** CAT is a live database. The year files
-at `https://api.cat-apps.com/objects/year/<YYYY>.parquet` always serve the latest release; older manifests are listed
-but their bytes are not kept. The paper's New York numbers come from `MANIFEST-e2ccfae4`. On 21 November 2026, while CAT was
-publishing new 2022 runs for New York counties, two fresh-clone runs pulled `MANIFEST-bc415e6f` and
-`MANIFEST-1fef182e`. Most differences were in the `exact_2022_38` check, which uses only counties with exact 2022
-runs and so now covers more counties. In the headline variant (`rerun`), 5 and 7 of the 50 index values in Table 2
-changed in the third decimal; the largest change was 0.0015. A CI run a few hours later, after more New York runs
-had landed, differed more (for example, the ANOVA F for education across regions moved from 8.15 to 6.65). Expect
-the drift to grow with each CAT release until New York's 2022 runs are complete.
+**On the default settings your New York numbers match ours exactly.** The paper's New York emissions (CAT
+`MANIFEST-e2ccfae4`) are frozen in [`index/data/cat_MANIFEST-e2ccfae4/`](../index/data/cat_MANIFEST-e2ccfae4/), with
+checksums, and the `ny` stage loads them. A fresh clone on 21 November 2026 matched all 2,383 numbers, and every
+figure and intermediate file came out byte-identical to the committed copies.
 
-Because the old bytes are gone, no rerun can now pull `MANIFEST-e2ccfae4` again. On the paper's own inputs the code is
-exact: rerunning the `results` stage on the cached `MANIFEST-e2ccfae4` emissions reproduced every number in
-`results.json` (checked 21 November 2026). If you find a difference that the CAT release does not explain, please
-open an issue with the `compare` output.
+**`EMISSIONS=live bash replicate.sh` pulls the latest CAT release instead.** CAT is a live database: the year files at
+`https://api.cat-apps.com/objects/year/<YYYY>.parquet` always serve the latest release, and old releases are not
+kept. Expect differences, which `compare` reports with the manifest behind each file. On 21 November 2026, while CAT
+was publishing new 2022 runs for New York counties, live reruns moved up to 7 of the 50 headline Table 2 values in
+the third decimal (largest change 0.0015), and later more (the ANOVA F for education across regions went from 8.15
+to 6.65). Most differences were in the `exact_2022_38` check, which uses only counties with exact 2022 runs.
 
 `compare` is a report, not a test: it always exits 0. The CI badge on the README therefore means "the code runs from
 a clean checkout and the unit tests pass", not "the numbers equal the paper's".
@@ -114,7 +111,7 @@ boundary polygons are not archived.
 | Stage | Reads | Writes |
 |---|---|---|
 | `census` | Census API | `index/test/census_tracts.rds`, `census_counties.rds` (refuses to change existing columns) |
-| `ny` | CAT year files; `index/test/census_*.rds`, `shapes_*.rds`, `area_roads*.rds`; `index/data/regions_ny_data.rds` | `index/test/emissions_*` (gitignored), `emissions_provenance.txt`, `stat_*.rds`, every New York figure |
+| `ny` | `index/data/cat_MANIFEST-e2ccfae4/` (or the CAT year files with `EMISSIONS=live`); `index/test/census_*.rds`, `shapes_*.rds`, `area_roads*.rds`; `index/data/regions_ny_data.rds` | `index/test/emissions_*` (gitignored), `emissions_provenance.txt`, `stat_*.rds`, every New York figure |
 | `uncertainty` | the `ny` outputs; `index/test/census_moe/36.rds` | `index/runs/uncertainty/ny_permutation.csv`, `ny_acs_intervals.csv` |
 | `national` | BTS MPO layer, CAT, Census API, TIGER/Line | `national/out/<MPO>/`, `LEDGER.*`, `tables/`, `fig/mpo_national.png`, `results_*.json` |
 | `results` | all of the above | `results/results.json`, `index/runs/<variant>/`, `index/runs/summary_numbers.rds` |
@@ -139,11 +136,10 @@ for a county that blocked an MPO, the next rerun picks it up. Details: [`nationa
 
 | Not stored | Why | How the code gets it |
 |---|---|---|
-| Raw county emissions | Public, keyless, and large; storing a copy would fork the source of truth (decision ND21) | Pulled from CAT at run time; the manifest is recorded |
+| National county emissions | Public, keyless, and large; storing a copy would fork the source of truth (ND21). New York's are the exception (ND46): 85 KB, frozen so the paper reproduces exactly | Pulled from CAT at run time; the manifest is recorded |
 | National Census and geometry caches (`index/cache/`) | About 1 GB, and fully reproducible | Rebuilt by the national stage |
 | The 2025 paper's full outputs (`index/published/`) | They hold raw emissions | Region-level copies used by the tests are in `index/tests/fixtures/published_2025/` |
 | The manuscript | Under review | The paper's numbers are in `results/results.json` |
-| The exact CAT inputs behind the paper | Raw emissions are not stored (ND21), and CAT serves only its latest release | Not recoverable from CAT; see [Check your numbers](#check-your-numbers-against-ours) |
 
 Tests that need a cache a fresh clone does not have print `SKIP` with the stage that creates it, rather than failing.
 After `bash replicate.sh`, only the national-cache checks are skipped.

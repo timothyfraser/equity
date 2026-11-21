@@ -10,6 +10,7 @@ Communities* (Fraser, Park, Li, Tang, Gao; submitted to the *Journal of Transpor
 |---|---|
 | `replicate.sh` | The one entry point. Stages: `census ny uncertainty national results compare test`. |
 | `setup.sh` | Installs R and the packages (Ubuntu 24.04). |
+| `index/data/cat_MANIFEST-e2ccfae4/` | The paper's New York CAT emissions, frozen (ND46). `replicate.sh` loads them; `EMISSIONS=live` pulls the latest. |
 | `index/` | The New York analysis (62 counties, 10 regions, 2022) and the index library `index/functions.R`. Script table: `index/README.md`. |
 | `index/test/` | Cached inputs (Census, shapes) and derived outputs (indices, figures). |
 | `index/runs/` | Results per emissions variant; `index/runs/uncertainty/` holds the New York uncertainty scripts and outputs. |
@@ -22,8 +23,10 @@ Communities* (Fraser, Park, Li, Tang, Gao; submitted to the *Journal of Transpor
 
 ## Rules
 
-1. **No raw CAT emissions in git** (ND21). The code pulls them from `https://api.cat-apps.com/objects/` at run time.
-   Keep only derived totals (`emissions_mpo`, `emissions_rate_mpo`). The `index/test/emissions_*` files are gitignored.
+1. **No raw CAT emissions in git** (ND21), with one exception (ND46): the paper's New York inputs are frozen in
+   `index/data/cat_MANIFEST-e2ccfae4/` (checksummed; never edit them). National MPO emissions are pulled at run time;
+   keep only derived totals (`emissions_mpo`, `emissions_rate_mpo`). The working copies `index/test/emissions_*` are
+   gitignored.
 2. **No hand-typed numbers.** Every number in the paper traces to `results/results.json`, and every leaf there is
    `{value, status, evidence}` with `evidence` naming the script and file (Table A2's `descriptives.rows` carry
    `mean_pct`/`sd_pct` with a status and evidence per row; `_meta.checks` holds author-audit diagnostics). To change a number, change the code and
