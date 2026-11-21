@@ -72,11 +72,11 @@ the largest differences, and the CAT manifest behind each file.
 
 **Expect New York differences if CAT has published new runs since we pulled.** CAT is a live database. The year files
 at `https://api.cat-apps.com/objects/year/<YYYY>.parquet` always serve the latest release; older manifests are listed
-but their bytes are not kept. The paper's New York numbers come from `MANIFEST-e2ccfae4`. A fresh clone run on 21
-November 2026 pulled `MANIFEST-bc415e6f`, which added 2022 model runs for New York counties. The compare stage then
-matched 2,112 of 2,321 numbers at three decimals. The largest differences were in the `exact_2022_38` check, which
-uses only counties with exact 2022 runs, so it now covers more counties. In the headline variant (`rerun`), 5 of the
-50 index values in Table 2 changed in the third decimal; the largest change was 0.0014.
+but their bytes are not kept. The paper's New York numbers come from `MANIFEST-e2ccfae4`. On 21 November 2026, while CAT was
+publishing new 2022 runs for New York counties, two fresh-clone runs pulled `MANIFEST-bc415e6f` and
+`MANIFEST-1fef182e`. Most differences were in the `exact_2022_38` check, which uses only counties with exact 2022
+runs and so now covers more counties. In the headline variant (`rerun`), 5 and 7 of the 50 index values in Table 2
+changed in the third decimal; the largest change was 0.0015.
 
 If your manifest matches ours and a number still differs, that is a real discrepancy. Please open an issue with the
 `compare` output.
