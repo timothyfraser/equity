@@ -59,3 +59,17 @@ Blocked:
 - Email to Gina Park: reply draft in Tim's Outlook, threaded on her 2026-11-19 status question. NOT sent: the Outlook tools
   cannot attach files, and the manuscript (7.5 MB) is over the 1 MB OneDrive upload cap. Tim attaches the two PDFs and sends.
 - Resubmission planned Monday 2026-11-23.
+
+## 2026-11-21: replication repo pass (Tim: "make it clear how to run all of these analyses")
+
+- Portable: no machine paths; make_results.R writes results/results.json in-repo (author-mode output identical to the
+  paper contract; public mode drops only the published/fix_only audit). make_census_moe.R replaces an ad hoc pull;
+  New York's MOE cache ships. replicate.sh (stages census ny uncertainty national results compare test),
+  scripts/compare_results.R, scripts/check.sh, CI (static + New York replication via setup.sh).
+- Fresh clone, no key: bash replicate.sh runs in about 2 minutes; 4 test files pass, 5 national-cache checks SKIP.
+- CAT moved twice during the day (bc415e6f, 1fef182e: New York 2022 runs publishing). Headline Table 2: at most 7 of
+  50 values moved in the third decimal (max 0.0015). The paper stays on e2ccfae4 (ND45); its bytes are not
+  recoverable from CAT.
+- Open for Tim: archive the paper's New York CAT inputs (a frozen copy, e.g. Zenodo with a DOI; conflicts with ND21 as
+  worded); tag a release and mint a DOI for CITATION.cff; renv lockfile.
+- PRs: paper_equity #1 and revisions #7 merged; equity #1 merges when CI is green.
