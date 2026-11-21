@@ -36,7 +36,12 @@ need = c("nanoparquet", "ggtext", "shadowtext", "ggspatial", "censusapi", "tigri
 missing = need[!vapply(need, requireNamespace, logical(1), quietly = TRUE)]
 if (length(missing) > 0) install.packages(missing)
 need = c(need, "patchwork", "ragg", "clue", "lmtest", "sandwich", "ggpubr", "sf")
-still = need[!vapply(need, requireNamespace, logical(1), quietly = TRUE)]
-if (length(still) > 0) stop("Failed to install: ", paste(still, collapse = ", "))
+# Load each package and report the real error, not just its name
+err = vapply(need, function(p) tryCatch({ loadNamespace(p); "" }, error = function(e) conditionMessage(e)), character(1))
+if (any(nzchar(err))) {
+  for (p in names(err)[nzchar(err)]) message(p, ": ", err[[p]])
+  print(utils::installed.packages()[c("rlang", "scales", "gtable", "S7", "ggplot2", "vctrs", "cli", "lifecycle"), c("Version", "LibPath"), drop = FALSE])
+  stop("Failed to load: ", paste(names(err)[nzchar(err)], collapse = ", "))
+}
 cat("All required R packages present.\n")
 RSCRIPT
