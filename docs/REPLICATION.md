@@ -81,7 +81,9 @@ but their bytes are not kept. The paper's New York numbers come from `MANIFEST-e
 publishing new 2022 runs for New York counties, two fresh-clone runs pulled `MANIFEST-bc415e6f` and
 `MANIFEST-1fef182e`. Most differences were in the `exact_2022_38` check, which uses only counties with exact 2022
 runs and so now covers more counties. In the headline variant (`rerun`), 5 and 7 of the 50 index values in Table 2
-changed in the third decimal; the largest change was 0.0015.
+changed in the third decimal; the largest change was 0.0015. A CI run a few hours later, after more New York runs
+had landed, differed more (for example, the ANOVA F for education across regions moved from 8.15 to 6.65). Expect
+the drift to grow with each CAT release until New York's 2022 runs are complete.
 
 Because the old bytes are gone, no rerun can now pull `MANIFEST-e2ccfae4` again. On the paper's own inputs the code is
 exact: rerunning the `results` stage on the cached `MANIFEST-e2ccfae4` emissions reproduced every number in
