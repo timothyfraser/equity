@@ -82,6 +82,8 @@ decisions:
   ND42: 'Citations verified: Carrington and Troske 1997 (DOI 10.1080/07350015.1997.10524718), Patefield 1981 (DOI 10.2307/2346669),
     BTS NTAD MPO layer (geodata.bts.gov, 200).'
   ND43: National figure placed before the Scaling Up subsection with \FloatBarrier.
+  ND44: 'Scaling Up methods rewritten in plain language (T-015, paper commit f58f65a): no Connecticut detail in the text (the
+    crosswalk stays in the code); chance-adjusted index explained in words with the formula in parentheses (Tim, 2026-11-21).'
 gates:
   G1: Removed by ND11 (no road-type variant).
 open_questions:
