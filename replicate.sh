@@ -7,7 +7,7 @@
 #
 # Stages
 #   census       rebuild the ACS 2022 tract and county caches   (needs CENSUS_API_KEY; the caches are already in git)
-#   ny           pull CAT emissions, compute the New York indices, draw the New York figures (map, lines, two-way bars, bar charts, sensitivity)
+#   ny           load the paper's frozen New York emissions (EMISSIONS=live pulls the latest CAT release), compute the New York indices, draw the New York figures (map, lines, two-way bars, bar charts, sensitivity)
 #   uncertainty  New York permutation test and ACS intervals
 #   national     every multi-county MPO: ledger, indices, table, models, tile grid, national figure, permutation,
 #                ACS intervals (needs CENSUS_API_KEY: it pulls ACS data for every state an MPO touches)
@@ -27,8 +27,19 @@ stage_census() {
   fi
   (cd index && Rscript make_census.R)
 }
+# New York emissions: by default the frozen copy the paper used (CAT MANIFEST-e2ccfae4, index/data/), so a rerun
+# reproduces the paper exactly. EMISSIONS=live pulls the latest CAT release instead (CAT keeps no old releases).
+FROZEN=index/data/cat_MANIFEST-e2ccfae4
 stage_ny() {
-  (cd index && Rscript make_emissions.R && Rscript run_ny.R)
+  if [ "${EMISSIONS:-frozen}" = "live" ]; then
+    (cd index && Rscript make_emissions.R)
+  else
+    if command -v sha256sum >/dev/null; then sha="sha256sum"; else sha="shasum -a 256"; fi   # macOS has shasum
+    (cd "$FROZEN" && $sha -c SHA256SUMS >/dev/null) || { echo "ny: frozen emissions fail their checksums" >&2; return 1; }
+    cp "$FROZEN"/emissions*.rds "$FROZEN"/emissions_all_pollutants.csv "$FROZEN"/emissions_provenance.txt index/test/
+    echo "ny: using the paper's frozen New York emissions (CAT MANIFEST-e2ccfae4); EMISSIONS=live pulls the latest"
+  fi
+  (cd index && Rscript run_ny.R)
 }
 stage_uncertainty() {
   Rscript index/runs/uncertainty/ny_permutation.R
