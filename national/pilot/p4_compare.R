@@ -3,7 +3,7 @@
 #   B  whole member counties, tract-sum population   (isolates ACS tract-vs-county tables)
 #   C  MPO tracts only, tract-sum population          (the pilot method; C - B isolates partial counties)
 suppressPackageStartupMessages({library(dplyr); library(readr); library(sf); library(tidyr); library(purrr)})
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity"); setwd(file.path(root, "index"))
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else "..")); setwd(file.path(root, "index"))
 source("functions.R"); source("../national/pilot/pilot_functions.R")
 ids = c("36197300", "37198001", "21197300")
 run = function(id){

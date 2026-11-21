@@ -5,7 +5,7 @@ suppressPackageStartupMessages({library(dplyr); library(readr); library(sf); lib
 args = commandArgs(trailingOnly = TRUE); mpo_id = args[1]
 extrap = if(length(args) > 1) args[2] else "none"   # none | nearest (counties with no CAT year on one side of 2022)
 tag = if(extrap == "none") mpo_id else paste0(mpo_id, "_", extrap)
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("functions.R"); source("cat_bulk.R"); source("../national/pilot/pilot_functions.R")
 options(tigris_use_cache = TRUE)

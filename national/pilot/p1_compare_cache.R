@@ -2,7 +2,7 @@
 # and the whole-county index from fresh data equals the index from cached data.
 suppressPackageStartupMessages({library(dplyr); library(readr); library(sf); library(tidyr)})
 mpo_id = commandArgs(trailingOnly = TRUE)[1]
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity"); setwd(file.path(root, "index"))
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else "..")); setwd(file.path(root, "index"))
 source("functions.R"); source("../national/pilot/pilot_functions.R")
 c_ = function(n) read_rds(file.path("cache/national/pilot", mpo_id, paste0(n, ".rds")))
 fresh_tr = c_("census_tracts"); fresh_co = c_("census_counties"); fresh_ex = c_("area_roads300"); fresh_em = c_("emissions")

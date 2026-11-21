@@ -5,7 +5,7 @@
 # Outputs   index/runs/uncertainty/ny_acs_intervals.csv  (region, type, I_obs, lo95, hi95, width, B, seed)
 # How to run  Rscript index/runs/uncertainty/ny_acs_intervals.R   (from the repo root)
 # ---------------------------------------------------------------------------------------------
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("uncertainty_acs.R")
 B = 500

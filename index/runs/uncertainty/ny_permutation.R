@@ -7,7 +7,7 @@
 #           p0, I_star, n_groups, B, seed)
 # How to run  From the repo root:  Rscript index/runs/uncertainty/ny_permutation.R
 # ---------------------------------------------------------------------------------------------
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("uncertainty_core.R"); source("uncertainty_permutation.R")
 regions = read_rds("data/regions_ny_data.rds") |> distinct(region) |> pull(region)

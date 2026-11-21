@@ -2,7 +2,7 @@
 # Run from the repo root:  Rscript index/tests/test_uncertainty_permutation.R   (setwd()s into index/)
 # Checks: margins preserved; mixed unit -> I=1,p0=1,I*=1; segregated unit -> p0 = 1/(B+1);
 # same seed -> identical output; MPO 36197300 race I_obs == indicator2. Exits 1 on any failure.
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("uncertainty_core.R"); source("uncertainty_permutation.R")
 n_fail = 0

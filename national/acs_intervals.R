@@ -7,7 +7,7 @@
 # How to run  Rscript national/acs_intervals.R   (from the repo root; it setwd()s into index/)
 # Method    index/uncertainty_acs.R (500 independent-cell draws, zero cells held at 0).
 # ---------------------------------------------------------------------------------------------
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("uncertainty_acs.R")
 t0 = proc.time()[["elapsed"]]

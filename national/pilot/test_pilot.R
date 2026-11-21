@@ -1,6 +1,6 @@
 # Synthetic tests for the pilot unit function: drop-and-flag behaviour.
 suppressPackageStartupMessages({library(dplyr); library(readr)})
-setwd(file.path(Sys.getenv("EQUITY_ROOT", "/home/user/equity"), "index"))
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else "..")); setwd(file.path(root, "index"))
 source("functions.R"); source("../national/pilot/pilot_functions.R")
 regions = read_rds("data/regions_ny_data.rds"); cd = regions %>% filter(region == "Capital District") %>% pull(geoid)
 ex = read_rds("test/area_roads300.rds") %>% filter(geoid_county %in% cd); tr = read_rds("test/census_tracts.rds")

@@ -6,7 +6,7 @@
 # older CAT manifest (so blocked MPOs are picked up automatically once new CAT runs are published).
 # single_county MPOs are never rerun (their membership does not depend on CAT).
 suppressPackageStartupMessages({library(dplyr); library(readr); library(purrr); library(jsonlite); library(tidyr)})
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity"); setwd(root)
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else "..")); setwd(root)
 args = commandArgs(trailingOnly = TRUE); mode = args[1]
 read_status = function(){
   f = list.files("national/out", pattern = "^status.json$", recursive = TRUE, full.names = TRUE)

@@ -5,7 +5,7 @@
 #   - paper_equity/.contract/r0/results.json (table2.rerun) for two New York regions, four types
 #   - synthetic units (identical group mix -> 1; an empty group is absent)
 # and reports the mean time of one call for NYMTC (race). Prints PASS/FAIL; exits 1 on any failure.
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("uncertainty_core.R")
 
@@ -34,7 +34,7 @@ for(id in c("36197300", "37198001", "21197300")){
 }
 
 # 2. New York regions: equal to the paper's results contract (variant rerun)
-res = read_json("/home/user/paper_equity/.contract/r0/results.json")$table2$rerun
+res = read_json(file.path(root, "results/results.json"))$table2$rerun
 for(r in c("Capital District", "Mohawk Valley")){
   for(t in TYPES){
     got = do.call(index_from_tracts, unit_inputs_ny(r, t))

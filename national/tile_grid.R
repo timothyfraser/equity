@@ -18,7 +18,7 @@
 #      warped state), subject to one block, zero holes and order preservation >= 0.90 both ways.
 # Deterministic: no randomness; same input, same output.
 suppressPackageStartupMessages({library(dplyr); library(readr); library(sf); library(ggplot2); library(purrr); library(patchwork)})
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity"); setwd(root)
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else "..")); setwd(root)
 options(tigris_use_cache = TRUE)
 
 # ---- inputs -------------------------------------------------------------------------------------------------------

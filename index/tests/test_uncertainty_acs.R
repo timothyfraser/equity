@@ -5,7 +5,7 @@
 #  (c) cells with est 0 are 0 in every draw
 #  (d) same seed -> identical output
 #  (e) a tiny synthetic unit gives an interval that contains I_obs
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("uncertainty_acs.R")
 n_fail = 0

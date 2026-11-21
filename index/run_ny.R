@@ -1,7 +1,7 @@
 # run_ny.R
 # Lead Developer: Tim Fraser
 
-if (interactive()) { setwd(paste0(rstudioapi::getActiveProject(), "/index")) }
+if (interactive() && requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) { setwd(paste0(rstudioapi::getActiveProject(), "/index")) }
 # Load environmental variables
 if (file.exists("secret/.env")) { readRenviron("secret/.env") }
 

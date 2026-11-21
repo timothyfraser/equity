@@ -10,7 +10,7 @@
 # Downloads and geometry are cached under index/cache/ (census by state; emissions by CAT manifest).
 suppressPackageStartupMessages({library(dplyr); library(readr); library(sf); library(purrr); library(stringr); library(tidyr); library(jsonlite)})
 mpo_id = commandArgs(trailingOnly = TRUE)[1]
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("functions.R"); source("cat_bulk.R"); source("../national/pilot/pilot_functions.R")
 options(tigris_use_cache = TRUE)

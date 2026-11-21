@@ -10,7 +10,7 @@
 # Every number in the JSON is computed here from files, never typed.
 # ---------------------------------------------------------------------------------------------
 suppressPackageStartupMessages({library(dplyr); library(readr); library(purrr); library(jsonlite); library(parallel)})
-root = Sys.getenv("EQUITY_ROOT", "/home/user/equity")
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else ".."))
 setwd(file.path(root, "index"))
 source("uncertainty_core.R"); source("uncertainty_permutation.R")
 B = 1000L; TYPES = c("race", "income", "edu", "age")

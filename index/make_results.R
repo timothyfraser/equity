@@ -1,23 +1,35 @@
 # make_results.R
-# Compute every number the paper prints, under the published method and under the
-# corrected index with new emissions (six variants), and write
-#   paper_equity/.contract/r0/results.json
-# plus the tidy numbers used by RERUN_DIFF.md (index/runs/summary_numbers.rds).
+# Compute every number the paper prints and write them, each with its evidence, to
+#   results/results.json            (tracked; the single source of truth for the manuscript)
+# plus the tidy numbers in index/runs/summary_numbers.rds.
 # Run headless from index/:   Rscript make_results.R
-# Does not touch index/published/ or index/test/ (read-only inputs).
+# Inputs (read-only): index/test/*.rds (run_ny.R), index/runs/uncertainty/*.csv, national/results_*.json.
+#
+# Variants: the paper reports `rerun` (corrected index, 2022 emissions). The others are sensitivity checks.
+# Author-only audit: `published` and `fix_only` compare against the 2025 as-submitted manuscript. They need the
+# private paper repo (env PAPER_DIR) and the gitignored snapshot index/published/, which holds raw CAT emissions
+# and so is not distributed (ND21). Without them the audit is skipped and every paper number is still produced.
+# Env: EQUITY_RESULTS_DIR (default ../results), PAPER_CONTRACT_DIR (also write a copy there), PAPER_DIR.
 
 suppressMessages({
   library(dplyr); library(sf); library(purrr); library(readr); library(stringr)
   library(tidyr); library(ggplot2); library(viridis); library(jsonlite)
 })
-stopifnot(file.exists("functions.R"), dir.exists("published"), dir.exists("test"))
+stopifnot(file.exists("functions.R"), dir.exists("test"))
 source("functions.R")
 
-CONTRACT = "/home/user/paper_equity/.contract/r0"
-MS_TEX   = "/home/user/paper_equity/baseline_cas/manuscript_cas.tex"   # frozen as-submitted manuscript: "published" is compared with what was printed then, not the edited v2
+OUT_DIR  = Sys.getenv("EQUITY_RESULTS_DIR", "../results")
+PAPER_CONTRACT_DIR = Sys.getenv("PAPER_CONTRACT_DIR", "")
+PAPER_DIR = Sys.getenv("PAPER_DIR", "")
+DESC_TEX = file.path(PAPER_DIR, "baseline_cas/blocks/tab_descriptives2.tex")
+MS_TEX   = file.path(PAPER_DIR, "baseline_cas/manuscript_cas.tex")   # frozen as-submitted manuscript: "published" is compared with what was printed then, not the edited v2
 DIST = 300; POLL = 110
 TYPES = c("income", "race", "edu", "age")
 VARIANTS = c("published", "fix_only", "rerun", "rerun_race10", "rerun_endpoints", "exact_2020", "exact_2025", "exact_2022_38")
+AUDIT = nzchar(PAPER_DIR) && dir.exists("published") && file.exists(MS_TEX) && file.exists(DESC_TEX)
+message(if(AUDIT) "Author audit ON: comparing with the as-submitted manuscript and index/published/." else
+        "Author audit OFF (needs PAPER_DIR and index/published/): variants `published` and `fix_only` are skipped.")
+if(!AUDIT) VARIANTS = setdiff(VARIANTS, c("published", "fix_only"))
 regions_all = read_rds("data/regions_ny_data.rds")
 
 # ---- 1. Runs --------------------------------------------------------------
@@ -34,6 +46,7 @@ cfg = list(
                        regions = regions_all %>% filter(geoid %in% (read_rds("test/emissions_2022_exact.rds") %>%
                                                                       filter(pollutant == POLL) %>% pull(geoid))))
 )
+if(!AUDIT) cfg$fix_only = NULL
 runs = list()
 for(v in names(cfg)){
   k = cfg[[v]]; od = file.path("runs", k$dir); dir.create(od, showWarnings = FALSE, recursive = TRUE)
@@ -47,6 +60,8 @@ for(v in names(cfg)){
   runs[[v]] = list(overall = overall, lst = lst, cfg = k,
                    n_counties = k$regions %>% count(region, name = "n_counties"))
 }
+chk_legacy = chk_t2 = chk_fix = printed_t2 = NULL
+if(AUDIT){
 # published = the paper's own saved objects
 pub_overall = read_rds("published/stat_overall.rds")
 pub_lst = map(set_names(TYPES), ~read_rds(sprintf("published/stat_%s.rds", .x)))
@@ -75,6 +90,7 @@ chk_t2 = pub_overall %>% select(region, total, income, race, edu, age) %>%
 chk_fix = full_join(pub_overall %>% select(region, edu, age), runs$fix_only$overall %>% select(region, edu, age),
                     by = "region", suffix = c("_pub", "_fix")) %>%
   summarize(max_abs_diff = max(abs(c(edu_pub - edu_fix, age_pub - age_fix))))
+}
 
 # ---- 2. Numbers per variant ------------------------------------------------
 # Table 2 per variant: published = legacy values (as stored); others = corrected equal-group
@@ -105,15 +121,15 @@ CORR = map(set_names(VARIANTS), function(v){
        r_emissions_race = cf(d$emissions, d$race))
 })
 # get_corr-form (lm emissions~year across the CSV years, predicted at the year) for the two year-2022 runs with 2020/2025 data
-CORR_getcorr = list(
+CORR_getcorr = c(list(
   rerun    = get_corr(data_regions = regions_all, data_emissions = read_csv("test/emissions_all_pollutants.csv", show_col_types = FALSE),
                       data_equity = runs$rerun$overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r),
   rerun_endpoints = get_corr(data_regions = regions_all, data_emissions = read_rds("test/emissions_2020_2025_endpoints.rds"),
-                      data_equity = runs$rerun_endpoints$overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r),
-  fix_only = get_corr(data_regions = regions_all, data_emissions = read_csv("published/emissions_all_pollutants.csv", show_col_types = FALSE),
+                      data_equity = runs$rerun_endpoints$overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r)),
+  if(AUDIT) list(fix_only = get_corr(data_regions = regions_all, data_emissions = read_csv("published/emissions_all_pollutants.csv", show_col_types = FALSE),
                       data_equity = runs$fix_only$overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r),
   published = get_corr(data_regions = regions_all, data_emissions = read_csv("published/emissions_all_pollutants.csv", show_col_types = FALSE),
-                       data_equity = pub_overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r)
+                       data_equity = pub_overall, myyear = 2022, .pollutant = POLL) %>% summarize(r = cor(emissions, race)) %>% pull(r))
 )
 
 # Emissions slopes: lm(index ~ log(emissions)) across regions, emissions = joined$emissions from the income run
@@ -150,10 +166,10 @@ sens_fit = function(path){
   m = lm(total ~ log(dist/1000), data = d)
   list(intercept = unname(coef(m)[1]), slope_log_km = unname(coef(m)[2]), sigma = sigma(m), n = nrow(d), r2 = summary(m)$r.squared)
 }
-SENS_PUB = sens_fit("published/stat_overall_sensitivity.rds")
+SENS_PUB = if(AUDIT) sens_fit("published/stat_overall_sensitivity.rds") else NULL
 sens_mtime = file.info("test/stat_overall_sensitivity.rds")$mtime
 # Rerun fit only if the sensitivity grid has been regenerated (content differs from the as-published snapshot).
-sens_regenerated = file.exists("test/stat_overall_sensitivity.rds") && unname(tools::md5sum("test/stat_overall_sensitivity.rds")) != unname(tools::md5sum("published/stat_overall_sensitivity.rds"))
+sens_regenerated = file.exists("test/stat_overall_sensitivity.rds") && (!AUDIT || unname(tools::md5sum("test/stat_overall_sensitivity.rds")) != unname(tools::md5sum("published/stat_overall_sensitivity.rds")))
 SENS_RERUN = if(sens_regenerated) sens_fit("test/stat_overall_sensitivity.rds") else NULL
 
 # Descriptives (tab_descriptives2.tex): mean and sd of county shares, in percent.
@@ -172,12 +188,14 @@ DESC = bind_rows(
 # Printed values, in table order, to mark matches
 printed_desc = tibble(variable = c("total_population", inc, race[c(1,2,3,4,5,6,7,8,9,10)][0], edu, age),
                       mean_pct = NA_real_, sd_pct = NA_real_)
-dl = readLines("/home/user/paper_equity/baseline_cas/blocks/tab_descriptives2.tex")
-dl = dl[str_detect(dl, "\\\\% & .*\\\\% \\\\\\\\")]
-pr = map_dfr(dl, function(l){
-  p = str_trim(str_split(str_remove(l, "\\\\\\\\.*$"), "&")[[1]])
-  tibble(group = p[1], label = p[2], mean_pct = as.numeric(str_remove(p[4], "\\\\%")), sd_pct = as.numeric(str_remove(p[5], "\\\\%")))
-})
+pr = if(AUDIT){
+  dl = readLines(DESC_TEX)
+  dl = dl[str_detect(dl, "\\\\% & .*\\\\% \\\\\\\\")]
+  map_dfr(dl, function(l){
+    p = str_trim(str_split(str_remove(l, "\\\\\\\\.*$"), "&")[[1]])
+    tibble(group = p[1], label = p[2], mean_pct = as.numeric(str_remove(p[4], "\\\\%")), sd_pct = as.numeric(str_remove(p[5], "\\\\%")))
+  })
+} else tibble(group = character(), label = character(), mean_pct = numeric(), sd_pct = numeric())
 # Map printed rows to DESC rows by table order (same order as the constructed DESC for Income, Edu, Age; Race by label)
 race_label = c(White_alone_Not_Hispanic_or_Latino_Population = "White", Black_or_African_American_Not_Hispanic_or_Latino_Population = "Black",
                American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population = "Nat. Am.", Asian_Not_Hispanic_or_Latino_Population = "Asian",
@@ -250,7 +268,7 @@ n_exact22 = em_all %>% filter(year == 2022) %>% pull(geoid) %>% n_distinct()
 urls = str_trim(prov[str_detect(prov, "^\\s+https://")])
 manifest = str_trim(str_remove(prov[str_detect(prov, "^manifest:")], "manifest:"))
 dl_time = str_trim(str_remove(prov[str_detect(prov, "^downloaded")], "downloaded \\(UTC\\):"))
-sha = system2("git", c("-C", "/home/user/equity", "rev-parse", "HEAD"), stdout = TRUE)
+sha = system2("git", c("-C", "..", "rev-parse", "HEAD"), stdout = TRUE)
 
 EV = c(published = "index/published/stat_*.rds (as-published snapshot); legacy index, old emissions",
        fix_only = "index/runs/fix_only (corrected index, published emissions; make_results.R)",
@@ -300,7 +318,7 @@ J[["_meta"]] = list(
     `TODO-tim` = "value needed from Tim before it can be stated in the manuscript",
     `TODO-recompute` = "must be recomputed from the underlying data this revision",
     not_reproduced = "the published method and data do not reproduce the printed value; printed value in note"),
-  checks = list(
+  checks = if(!AUDIT) list(note = "author audit skipped (needs PAPER_DIR and index/published/)") else list(
     legacy_formula_on_published_region_group_values_max_abs_diff = as.list(chk_legacy),
     published_stat_overall_vs_printed_table2_max_abs_diff = chk_t2$max_abs_diff_vs_printed_rounded,
     published_vs_fix_only_edu_age_max_abs_diff = chk_fix$max_abs_diff)
@@ -338,17 +356,17 @@ J$anova = map(set_names(VARIANTS), function(v) map(ANOVA[[v]], function(t) map(t
   map(term, function(x) leaf(x, v)))))
 J$region_slopes = map(set_names(VARIANTS), function(v) map(RSLOPES[[v]], function(d)
   map(set_names(d$region), function(rg) list(beta = leaf(d$beta[d$region == rg], v), p = leaf(d$p[d$region == rg], v)))))
-J$sensitivity = list(
-  published = map(SENS_PUB, function(x) leaf(x, "published", status = "recomputed")),
+J$sensitivity = c(if(AUDIT) list(
+  published = map(SENS_PUB, function(x) leaf(x, "published", status = "recomputed"))), list(
   rerun = if(!is.null(SENS_RERUN)) map(SENS_RERUN, function(x) leaf(x, "rerun")) else
     list(status = "TODO-recompute", note = "test/stat_overall_sensitivity.rds is identical to the published snapshot; run run_ny.R first.")
-)
+))
 J$sensitivity$`_note` = "lm(total ~ log(dist/1000)) over regions x {100,300,500,1000,2000} m, pollutant 110, year 2022 (get_sensitivity_distance2). Paper prints equity = 0.03 x log(km) + 0.91, sigma 0.05."
 J$descriptives = list(
   `_note` = "ACS 2022 5-year, cached; not refetched. Mean and SD across 62 counties of each county's share (percent): population = county / state total; income = bracket / sum of brackets; race = group / total_population; education and age = group / sum of its groups.",
   rows = pmap(DESC, function(group, variable, mean_pct, sd_pct, label, printed_mean, printed_sd, match_printed)
     list(group = group, variable = variable, label = label, mean_pct = mean_pct, sd_pct = sd_pct, printed_mean_pct = printed_mean,
-         printed_sd_pct = printed_sd, status = if(isTRUE(match_printed)) "reported_in_manuscript" else "not_reproduced",
+         printed_sd_pct = printed_sd, status = if(!AUDIT) "recomputed" else if(isTRUE(match_printed)) "reported_in_manuscript" else "not_reproduced",
          evidence = "index/test/census_counties.rds via make_results.R")))
 
 ROB_EV = "index/runs/variant_A inputs (rerun: corrected index, 2022 interpolated); county-group values re-joined to regions, (region, group) pairs with region population below the threshold dropped, then get_region_group_values + get_index (make_results.R)"
@@ -388,8 +406,10 @@ by_rt = function(d, cols, csv, script) map(set_names(unique(d$region)), function
 J$robustness$permutation = by_rt(PERM, c("I_obs", "E0", "q025", "q975", "p0", "I_star", "n_groups"), UNC_FILES[["perm"]], "index/runs/uncertainty/ny_permutation.R")
 J$robustness$acs_interval = by_rt(ACSI, c("I_obs", "lo95", "hi95", "width"), UNC_FILES[["acs"]], "index/runs/uncertainty/ny_acs_intervals.R")
 
-write(toJSON(J, pretty = TRUE, auto_unbox = TRUE, digits = NA, na = "null", null = "null"), file.path(CONTRACT, "results.json"))
-cat("\nWrote", file.path(CONTRACT, "results.json"), "\n")
+js = toJSON(J, pretty = TRUE, auto_unbox = TRUE, digits = NA, na = "null", null = "null")
+dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
+write(js, file.path(OUT_DIR, "results.json")); cat("\nWrote", file.path(OUT_DIR, "results.json"), "\n")
+if(nzchar(PAPER_CONTRACT_DIR)){ write(js, file.path(PAPER_CONTRACT_DIR, "results.json")); cat("Wrote", file.path(PAPER_CONTRACT_DIR, "results.json"), "\n") }
 cat("legacy-formula check (max abs diff vs stored published):\n"); print(chk_legacy)
 cat("published table2 vs printed (3dp) max abs diff:\n"); print(chk_t2)
 cat("published vs fix_only edu/age max abs diff:\n"); print(chk_fix)

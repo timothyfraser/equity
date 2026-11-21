@@ -1,6 +1,6 @@
 # P0: the unit function reproduces the paper's Capital District rerun values from cached NY inputs.
 suppressPackageStartupMessages({library(dplyr); library(readr); library(jsonlite)})
-setwd(file.path(Sys.getenv("EQUITY_ROOT", "/home/user/equity"), "index"))
+root = Sys.getenv("EQUITY_ROOT", normalizePath(if (file.exists("index/functions.R")) "." else "..")); setwd(file.path(root, "index"))
 source("functions.R"); source("../national/pilot/pilot_functions.R")
 regions = read_rds("data/regions_ny_data.rds")
 cd = regions %>% filter(region == "Capital District") %>% pull(geoid)
@@ -10,7 +10,7 @@ res = get_unit_indices("Capital District",
   county_emissions = read_rds("test/emissions_all_pollutants.rds"),
   census_counties = read_rds("test/census_counties.rds"),
   unit_tracts = exposure$geoid, myyear = 2022, .pollutant = 110, pop_source = "counties")
-rj = fromJSON(Sys.getenv("RESULTS_JSON", "/home/user/paper_equity/.contract/r0/results.json"), simplifyVector = FALSE)
+rj = fromJSON(Sys.getenv("RESULTS_JSON", file.path(root, "results/results.json")), simplifyVector = FALSE)
 ref = rj$table2$rerun[["Capital District"]]
 cmp = res %>% transmute(type, new = indicator2, ref = sapply(type, function(t) ref[[t]]$value), diff = new - ref)
 print(cmp, digits = 12)
