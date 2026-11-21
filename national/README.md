@@ -96,8 +96,8 @@ later may differ slightly from the ones behind the paper.
 
 ## For agents
 
-- Run everything from the repo root. Scripts `setwd()` via `EQUITY_ROOT` (default `/home/user/equity`); set it if the
-  checkout lives elsewhere.
+- Run everything from the repo root (or through `bash replicate.sh national`). Scripts find the repo root from
+  `EQUITY_ROOT` if set, otherwise from the working directory.
 - `run_national.sh` is idempotent and prefetches CAT year files before starting parallel workers (concurrent first downloads
   once corrupted a file). Do not run several copies at once.
 - Order matters: `mpo_table.R` writes `tables/mpo_wide.csv`; `models.R`, `tile_grid.R`, `figures.R`, `permutation.R` and

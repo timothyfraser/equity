@@ -38,8 +38,10 @@ check(sprintf("segregated: p0 = 1/(B+1) (%.6f vs %.6f)", r$p0, 1/(B+1)), abs(r$p
 check("same seed gives identical output", identical(permute_index(mk(Ns), B, 99), permute_index(mk(Ns), B, 99)))
 
 # (e) MPO 36197300 race equals indicator2
+if(!have_mpo_cache("36197300")){ skip("MPO 36197300 race I_obs check (no national cache)") } else {
 idx = read_csv("../national/out/36197300/indices.csv", show_col_types = FALSE) |> filter(type == "race")
 r = permute_index(unit_inputs_mpo("36197300", "race"), 50, unit_seed("36197300", "race"))
 check(sprintf("MPO 36197300 race I_obs %.12f == indicator2 %.12f", r$I_obs, idx$indicator2), abs(r$I_obs - idx$indicator2) < 1e-10)
+}
 
 cat(sprintf("\n%d failure(s)\n", n_fail)); quit(status = if(n_fail > 0) 1 else 0)

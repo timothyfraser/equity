@@ -1,6 +1,7 @@
 # tests/test_uncertainty_acs.R -- U-2: the ACS bootstrap is wired correctly.
 # Run from the repo root:  Rscript index/tests/test_uncertainty_acs.R
 #  (a) aggregating the raw ESTIMATES reproduces the input builder's matrix N (one MPO, four types)
+# (a)-(d) use MPO 36197300 when its national cache exists, otherwise New York's Capital District region.
 #  (b) with every MOE = 0, every draw equals I_obs exactly
 #  (c) cells with est 0 are 0 in every draw
 #  (d) same seed -> identical output
@@ -15,15 +16,21 @@ check = function(name, ok){
 }
 TYPES = c("race", "income", "edu", "age")
 id = "36197300"
+use_mpo = have_mpo_cache(id)
+if(!use_mpo && !have_ny_emissions()){
+  skip("(a)-(d) need either the national cache or New York emissions (bash replicate.sh ny)")
+} else {
+inputs = function(t) if(use_mpo) unit_inputs_mpo(id, t) else unit_inputs_ny("Capital District", t)
+cat("unit for (a)-(d):", if(use_mpo) paste("MPO", id) else "New York, Capital District", "\n")
 
 for(t in TYPES){
-  x = unit_inputs_mpo(id, t); cl = acs_cells_for(x, t)
+  x = inputs(t); cl = acs_cells_for(x, t)
   Nhat = cl$E %*% cl$G
   check(sprintf("(a) %s: sum of estimates == N (%d tracts, max |diff| %g)", t, nrow(Nhat), max(abs(Nhat - x$N))),
         identical(dim(Nhat), dim(x$N)) && identical(colnames(Nhat), colnames(x$N)) && max(abs(Nhat - x$N)) == 0)
 }
 
-x = unit_inputs_mpo(id, "income"); cl = acs_cells_for(x, "income")
+x = inputs("income"); cl = acs_cells_for(x, "income")
 I_obs = do.call(index_from_tracts, x)[["I"]]
 r0 = acs_interval(x, "income", B = 20, seed = 7, cells = modifyList(cl, list(SE = cl$SE * 0)), return_draws = TRUE)
 check("(b) all MOE = 0: every draw == I_obs exactly", all(r0$I_b == I_obs))
@@ -40,6 +47,7 @@ a3 = acs_interval(x, "income", B = 30, seed = 12)
 check("(d) same seed -> identical output", identical(a1, a2))
 check("(d) different seed -> different output", !identical(a1, a3))
 check("(d) acs_seed is deterministic", acs_seed("36197300", "race") == acs_seed("36197300", "race"))
+}
 
 # (e) synthetic: 6 tracts, 2 counties, 4 age cells x ... use the age map with 48 cells filled in
 set.seed(5)

@@ -20,6 +20,7 @@ TYPES = c("race", "income", "edu", "age")
 
 # 1. National MPOs: equal to the national engine's committed indices.csv
 for(id in c("36197300", "37198001", "21197300")){
+  if(!have_mpo_cache(id)){ skip(sprintf("MPO %s checks (no national cache; run bash replicate.sh national)", id)); next }
   idx = read_csv(file.path("../national/out", id, "indices.csv"), show_col_types = FALSE)
   for(t in TYPES){
     got = do.call(index_from_tracts, unit_inputs_mpo(id, t))
@@ -36,6 +37,7 @@ for(id in c("36197300", "37198001", "21197300")){
 # 2. New York regions: equal to the paper's results contract (variant rerun)
 res = read_json(file.path(root, "results/results.json"))$table2$rerun
 for(r in c("Capital District", "Mohawk Valley")){
+  if(!have_ny_emissions()){ skip(sprintf("NY %s checks (no CAT emissions yet; run bash replicate.sh ny)", r)); next }
   for(t in TYPES){
     got = do.call(index_from_tracts, unit_inputs_ny(r, t))
     w_i = res[[r]][[t]]$value; w_pw = res[[r]][[paste0(t, "_pw")]]$value
@@ -85,6 +87,7 @@ s3 = do.call(index_from_tracts, syn3)
 check("county with no emissions is dropped and named", identical(attr(s3, "dropped"), "00002"))
 
 # 4. Timing: NYMTC (36198201), race, 100 calls
+if(!have_mpo_cache("36198201")){ skip("NYMTC timing (no national cache)") } else {
 x = unit_inputs_mpo("36198201", "race")
 invisible(do.call(index_from_tracts, x))   # warm up
 t0 = proc.time()[["elapsed"]]
@@ -92,6 +95,7 @@ for(i in 1:100) invisible(do.call(index_from_tracts, x))
 ms = (proc.time()[["elapsed"]] - t0) / 100 * 1000
 cat(sprintf("TIMING NYMTC race: %d tracts x %d groups, mean %.2f ms per call (100 calls)\n", nrow(x$N), ncol(x$N), ms))
 check(sprintf("NYMTC race one call < 10 ms (%.2f ms)", ms), ms < 10)
+}
 
 cat(sprintf("\n%d failure(s)\n", n_fail))
 quit(status = if(n_fail > 0) 1 else 0)

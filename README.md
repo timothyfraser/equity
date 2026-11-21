@@ -1,121 +1,179 @@
-# equity: exposure to transportation emissions across American communities
+# equity: who lives next to the road, and who breathes its emissions?
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![R 4.3+](https://img.shields.io/badge/R-4.3%2B-276DC3?logo=r&logoColor=white)
-[![data: CAT public API](https://img.shields.io/badge/data-CAT%20public%20API-0b7285)](https://api.cat-apps.com/objects/LATEST)
-![paper: in preparation](https://img.shields.io/badge/paper-in%20preparation-orange)
-[![reproducible research](https://img.shields.io/badge/reproducible-research-brightgreen)](https://github.com/timothyfraser/equity)
+[![data: CAT public objects](https://img.shields.io/badge/data-CAT%20public%20objects-0b7285)](https://api.cat-apps.com/objects/LATEST)
+[![checks](https://github.com/timothyfraser/equity/actions/workflows/check.yml/badge.svg)](https://github.com/timothyfraser/equity/actions/workflows/check.yml)
 
-This repository holds the code that computes **population-adjusted exposure equity indices** for the paper
-*Measuring Burden and Disparity of Exposure to Transportation Emissions in American Communities*.
-It combines county-level transportation emissions from the Cornell CAT public object store, demographics from the
-American Community Survey (ACS), and road-network buffers from TIGER/Line, then summarizes how evenly the burden of
-exposure is shared across race and ethnicity, household income, educational attainment, and age.
-The worked example in `index/` covers New York State; the code is written to extend to other states.
+Replication code for **Fraser, T., Park, Y. G., Li, Y., Tang, Y., & Gao, H. O. *Measuring Burden and Disparity of
+Exposure to Transportation Emissions in American Communities*** (submitted to the *Journal of Transport Geography*).
 
-## Quick links
+When a region's on-road emissions concentrate along its major roads, which groups of people live next to those roads?
+This repository builds a **population-adjusted equity index** that answers that question for any group of counties.
+It scores how evenly the near-road burden of transportation PM<sub>2.5</sub> falls across race and ethnicity
+(14 groups), household income, educational attainment, and age, from 0 (all burden on one group) to 1 (perfectly even).
+The paper applies it to all 62 counties of New York State in 2022, grouped into 10 economic development regions, and
+then to 224 multi-county metropolitan planning organizations (MPOs) across the United States.
 
-- Paper: in preparation for submission (no public preprint yet).
-- Emissions data: [CAT object store, latest pointer](https://api.cat-apps.com/objects/LATEST) (one parquet file per year, e.g. [2020](https://api.cat-apps.com/objects/year/2020.parquet)). Raw emissions are not stored in this repo; see [`index/test/EMISSIONS_SOURCES.md`](index/test/EMISSIONS_SOURCES.md).
-- Pipeline scripts: [`index/`](index/) and its [script table](index/README.md).
-- Index method: [`index/functions.R`](index/functions.R).
-- Instructions for coding agents: [`CLAUDE.md`](CLAUDE.md).
-- Research group: [Gao Labs, Cornell](https://gao.cee.cornell.edu/) and [GitHub organization](https://github.com/Gao-Labs).
+Everything runs on public data. No raw emissions are stored here: the code pulls them from the Cornell CAT public
+object store at run time, and every number the paper prints is written by code to
+[`results/results.json`](results/results.json).
 
-## Table of contents
+## Contents
 
-1. [Quick start](#quick-start)
-2. [Data sources](#data-sources)
-3. [Method summary](#method-summary)
-4. [Repository layout](#repository-layout)
-5. [National extension](#national-extension)
-6. [Uncertainty](#uncertainty)
+1. [Replicate the paper in three commands](#replicate-the-paper-in-three-commands)
+2. [What each figure and table comes from](#what-each-figure-and-table-comes-from)
+3. [The method in one page](#the-method-in-one-page)
+4. [Data sources](#data-sources)
+5. [Repository layout](#repository-layout)
+6. [How this code was built and checked](#how-this-code-was-built-and-checked)
 7. [How to cite](#how-to-cite)
-8. [Contributors](#contributors)
-9. [Changelog](#changelog)
 
-## Quick start
+## Replicate the paper in three commands
 
-You need R 4.3 or newer and a free [Census API key](https://api.census.gov/data/key_signup.html).
+You need R 4.3 or newer on Linux or macOS (tested on Ubuntu 24.04, R 4.3.3; full package versions in
+[`docs/sessionInfo.txt`](docs/sessionInfo.txt)). The New York analysis needs no API key: the Census data it uses are
+cached in [`index/test/`](index/test/). Only the national stage pulls new Census data.
 
 ```bash
-bash setup.sh                                   # installs R and every package the code calls (Ubuntu 24.04)
-export CENSUS_API_KEY=your-census-api-key-here  # placeholder: paste your own key; never commit it
-cd index && Rscript make_emissions.R && Rscript run_ny.R
+git clone https://github.com/timothyfraser/equity && cd equity
+bash setup.sh          # Ubuntu 24.04: installs R and every package the code calls (macOS: see docs/REPLICATION.md)
+bash replicate.sh      # New York analysis, uncertainty checks, results.json, and the tests
 ```
 
-`make_data.R` (census) and `make_shapes.R` (roads, tracts, buffers) are the other two workflow steps; see the
-[script table](index/README.md) for the order and what each one writes.
+`replicate.sh` runs in stages, so you can rerun one piece at a time:
+
+| Stage | Command | What it does | Time |
+|---|---|---|---|
+| `ny` | `bash replicate.sh ny` | Pulls CAT emissions, computes the New York indices, draws the New York figures | see [REPLICATION.md](docs/REPLICATION.md#runtimes) |
+| `uncertainty` | `bash replicate.sh uncertainty` | Permutation test and ACS margin-of-error intervals for New York | about 1 min |
+| `national` | `bash replicate.sh national` | All 411 MPOs: ledger, indices, models, national figure, uncertainty (needs a free [Census API key](https://api.census.gov/data/key_signup.html)) | hours on a first run; minutes after |
+| `results` | `bash replicate.sh results` | Writes [`results/results.json`](results/results.json) | about 10 s |
+| `compare` | `bash replicate.sh compare` | Compares your `results.json` with the paper's, number by number | seconds |
+| `test` | `bash replicate.sh test` | Unit tests for the index and the uncertainty code | about 30 s |
+| `census` | `bash replicate.sh census` | Optional: rebuilds the New York ACS caches (needs the key) | a few min |
+
+`bash replicate.sh` with no arguments runs `ny uncertainty results compare test`; `bash replicate.sh all` adds `national`.
+The full guide, with expected outputs and how to check your numbers against ours, is
+[`docs/REPLICATION.md`](docs/REPLICATION.md).
+
+**One caveat.** CAT is a live database that is updated as new model runs are published. If you rerun later, CAT may
+serve slightly different emissions than the ones behind the paper. The manifest we used is recorded in
+[`index/test/emissions_provenance.txt`](index/test/emissions_provenance.txt) and in `results.json`, and the
+`compare` stage reports, number by number, how your rerun differs from the paper and which CAT release each came from.
+
+## What each figure and table comes from
+
+| In the paper | File | Made by | Numbers in `results.json` |
+|---|---|---|---|
+| Figure 1, research design flowchart | drawn by hand | none | none |
+| Figure 2, step-by-step index calculation | drawn by hand | none | none |
+| Figure 3, Albany County roads and exposure zones | `index/test/map.png` | `index/run_ny.R` | none |
+| Figure 4, regional variation in equity | `index/test/lines_overall.png` | `index/run_ny.R` | `table2.rerun`, `summary.rerun` |
+| Figure 5, emissions vs. racial equity by region | `index/test/twoway_bars.png` | `index/run_ny.R` | `correlations.rerun` |
+| Figures 6 and 7, race and income equity by region | `index/test/bars_race.png`, `bars_income.png` | `index/run_ny.R` | `anova.rerun`, `region_slopes.rerun` |
+| Figure 8, MPOs across the United States | `national/fig/mpo_national.png` | `national/figures.R` | `national.*` |
+| Figures B1 and B2, age and education equity | `index/test/bars_age.png`, `bars_edu.png` | `index/run_ny.R` | `anova.rerun`, `region_slopes.rerun` |
+| Figures C1 and C2, sensitivity to zone radius and pollutant | `index/test/sensitivity_scatterplot.png`, `sensitivity_distance_pollutant.png` | `index/run_ny.R` | `sensitivity.rerun` |
+| Figure C3, emissions vs. equity across regions | `index/test/slopes_by_type.png` | `index/run_ny.R` | `emissions_slopes.rerun` |
+| Table 1 and Table A1, literature review | written by hand | none | none |
+| Table 2, equity index scores by region | none (typeset from JSON) | `index/make_results.R` | `table2.rerun` |
+| Table A2, descriptive statistics | none (typeset from JSON) | `index/make_results.R` | `descriptives.rows` |
+| Uncertainty sentences (permutation, ACS intervals) | `index/runs/uncertainty/*.csv`, `national/tables/mpo_*.csv` | `index/runs/uncertainty/*.R`, `national/permutation.R`, `national/acs_intervals.R` | `robustness.*`, `national.permutation`, `national.acs` |
+
+Every leaf in `results.json` has the form `{"value": ..., "status": ..., "evidence": ...}`, where `evidence` names the
+file and script that produced it.
+
+## The method in one page
+
+1. **Exposure zone.** Buffer every primary and secondary road (TIGER/Line, 2022) by 0.3 km.
+2. **Who lives there.** Intersect census tracts with the zone and apportion each tract's ACS group counts by the share
+   of its land area inside the zone (area weighting).
+3. **Emissions per exposed resident.** Divide each county's on-road PM<sub>2.5</sub> (CAT, 2022) by the number of
+   people living in its zones, so each exposed resident in a county carries the same share of that county's emissions.
+4. **Relative burden.** Within a region, divide each group's share of the emissions burden by its share of the
+   population, then rescale these ratios to sum to 1 across groups. Call the result *s<sub>g</sub>*.
+5. **Index.** The equal-group index for *n* groups is
+   *I* = 1 − *n* / (2(*n* − 1)) × Σ<sub>g</sub> |*s<sub>g</sub>* − 1/*n*|.
+   It is 1 when every group carries the same relative burden and 0 when one group carries all of it
+   (`get_index()` in [`index/functions.R`](index/functions.R)). A population-weighted companion,
+   1 − ½ Σ<sub>g</sub> |*e<sub>g</sub>* − *p<sub>g</sub>*| over each group's emissions and population shares, is also
+   computed for reviewers; the paper reports the equal-group index.
+6. **Is it more than chance?** An exact permutation test shuffles group labels among residents while holding every
+   tract's population and every group's total fixed (1,000 draws), and reports how often chance alone is as uneven as
+   what we observe.
+7. **How much is sampling error?** Every ACS cell is redrawn 500 times from its published margin of error, and the
+   index is rescored to give a 95% interval.
+
+The national extension repeats steps 1 to 7 for each multi-county MPO, assigning each tract to the MPO that contains
+its interior point; a county partly inside an MPO keeps its whole-county emissions rate. Details:
+[`national/README.md`](national/README.md).
 
 ## Data sources
 
-| Data | Source | How the code reads it | Key needed |
+| Data | Source | Read by | Key |
 |---|---|---|---|
-| Transportation emissions, every US county, one file per year | [CAT public object store](https://api.cat-apps.com/objects/LATEST) (`https://api.cat-apps.com/objects/year/<YYYY>.parquet`) | `index/cat_bulk.R`, called by `index/make_emissions.R`; not stored in this repo, rerun `cd index && Rscript make_emissions.R` (manifest `MANIFEST-e2ccfae4.tsv`; CAT is updated over time, so values pulled later may differ slightly from the ones behind the paper) | No |
-| Demographics: race and ethnicity, income, education, age | [ACS 5-year, 2022](https://www.census.gov/data/developers/data-sets/acs-5year.html) | [`censusapi`](https://cran.r-project.org/package=censusapi) in `index/make_data.R` | Yes, `CENSUS_API_KEY` environment variable |
-| Roads and census tracts | [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) | [`tigris`](https://cran.r-project.org/package=tigris) in `index/make_shapes.R` | No |
+| On-road emissions, every US county, 2020-2025 | [CAT public object store](https://api.cat-apps.com/objects/LATEST), one Parquet file per year (`https://api.cat-apps.com/objects/year/<YYYY>.parquet`) | [`index/cat_bulk.R`](index/cat_bulk.R) | none |
+| Race and ethnicity, income, education, age, with margins of error | [ACS 5-year 2022](https://www.census.gov/data/developers/data-sets/acs-5year.html) via [`censusapi`](https://cran.r-project.org/package=censusapi) | [`index/make_census.R`](index/make_census.R), `retrieve_census2()` | `CENSUS_API_KEY` (only to rebuild the cache) |
+| Roads, tracts, counties | [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) via [`tigris`](https://cran.r-project.org/package=tigris) | [`index/make_shapes.R`](index/make_shapes.R), [`national/run_mpo.R`](national/run_mpo.R) | none |
+| MPO boundaries | [BTS National Transportation Atlas Database, MPO layer](https://geodata.bts.gov/) | [`national/pilot/pilot_functions.R`](national/pilot/pilot_functions.R) | none |
 
-## Method summary
-
-1. **Buffer.** Roads are buffered by **0.3 km (300 m)** to represent the exposure zone around each road.
-2. **Area weighting.** Each census tract is intersected with the buffers, and demographic counts are apportioned by the share of tract area that falls inside the buffer.
-3. **Emissions weights.** County emissions from CAT are allocated to buffered areas, so that each area carries a share of its county's emissions.
-4. **Index.** For each demographic group, the index compares the group's share of emissions exposure with an equal split, and `get_indicator` / `get_overall` in [`index/functions.R`](index/functions.R) summarize it. A value of 1 means the burden is shared evenly across groups; lower values mean it is concentrated on fewer groups. A population-weighted companion measure is also computed (see the [changelog](#changelog)).
-
-The exact definitions live in the code and the paper; this summary is deliberately short.
+New York emissions for 2022 are interpolated per county between the nearest CAT years where a county has no 2022 run;
+how many counties that touches is recorded in `results.json` (`_meta.emissions`). Emissions sources and the exact
+URLs: [`index/test/EMISSIONS_SOURCES.md`](index/test/EMISSIONS_SOURCES.md).
 
 ## Repository layout
 
 | Path | What it is |
 |---|---|
-| [`index/`](index/) | The pipeline the paper uses: `make_data.R`, `make_shapes.R`, `make_emissions.R`, `run_ny.R`, plus the library `functions.R` and the loader `cat_bulk.R`. |
-| [`index/test/`](index/test/) | Derived outputs (rds, figures) written by the pipeline; safe to regenerate. |
-| `index/published/` | Local, gitignored snapshot of the as-published outputs; not in the repository. |
-| [`demo/`](demo/) | Early prototypes, not used by the paper. |
-| [`setup.sh`](setup.sh) | Installs R and the required packages on Ubuntu 24.04. |
-| [`CLAUDE.md`](CLAUDE.md) | Instructions for coding agents working in this repository. |
-| [`index/api_proxy.sh`](index/api_proxy.sh) | Retired: the old Cloud Run proxy for emissions. Kept for history. |
-| [`equity.Rproj`](equity.Rproj) | RStudio project file. |
+| [`replicate.sh`](replicate.sh) | One entry point for every stage of the analysis. |
+| [`setup.sh`](setup.sh) | Installs R and the packages (Ubuntu 24.04). |
+| [`index/`](index/) | The New York analysis and the index library ([`functions.R`](index/functions.R)). Script table: [`index/README.md`](index/README.md). |
+| [`index/test/`](index/test/) | Cached inputs (Census, shapes) and derived outputs (indices, figures). Regenerate; never hand-edit. |
+| [`index/runs/`](index/runs/) | Results for each emissions variant and the uncertainty checks. |
+| [`index/tests/`](index/tests/) | Unit tests: `Rscript index/tests/run_all.R`. |
+| [`national/`](national/) | The MPO extension: ledger, per-MPO outputs, models, national figure. See [`national/README.md`](national/README.md). |
+| [`results/results.json`](results/results.json) | Every number in the paper, with its evidence. |
+| [`docs/`](docs/) | [Replication guide](docs/REPLICATION.md), [session info](docs/sessionInfo.txt), a [road-type weighting spec](docs/ROADTYPE_METHOD.md) (not used in the paper). |
+| [`scripts/check.sh`](scripts/check.sh) | Repository checks: R parses, tests pass, links resolve, no secrets or machine paths. |
+| [`.contract/`](.contract/) | The project's decision log, plans, and receipts. See [`.contract/README.md`](.contract/README.md). |
+| [`demo/`](demo/) | Early prototypes from 2025. Not used by the paper. |
+| [`CLAUDE.md`](CLAUDE.md), [`.claude/skills/`](.claude/skills/) | Instructions for coding agents. |
 
-## National extension
+## How this code was built and checked
 
-The same equal-group index is also computed for every multi-county metropolitan planning organization (MPO) in the
-United States, with a national figure and a regression of the index on emissions rate. See
-[`national/README.md`](national/README.md) for what it computes and how to rerun it (`bash national/run_national.sh`
-and the steps after it).
+The original New York pipeline (`index/`) was written by the authors in 2025. The 2026 revision corrected the index
+normaliser, moved emissions to the CAT public object store, added four race groups, and added the national MPO
+extension and the uncertainty checks. Much of that revision was written with Claude Code (Anthropic) working under
+Tim Fraser's direction, so we built in safeguards that do not depend on trusting the code's author:
 
-## Uncertainty
-
-Two checks sit beside every MPO index. A **permutation test** asks whether the MPO is more uneven than random
-allocation of group labels would give, and **ACS intervals** show how much of the index could be sampling error in the
-Census estimates. Both are described in [`national/README.md`](national/README.md#uncertainty). To run all tests:
-
-```bash
-Rscript index/tests/run_all.R    # every index/tests/test_*.R, one line per file, exits non-zero on any failure
-```
+- **Every decision is logged.** [`.contract/national/CONTRACT.yaml`](.contract/national/CONTRACT.yaml) records each
+  analytic decision (ND1-ND45) with who made it and why; [`STATE.md`](.contract/national/STATE.md) is the running log.
+- **Every number is generated.** Nothing in the paper is typed by hand. `index/make_results.R` writes
+  `results/results.json`, and the manuscript is filled from it.
+- **Every step leaves a receipt.** [`.contract/national/receipts/`](.contract/national/receipts/) records what each
+  step did, the checks it ran, and their results.
+- **Tests guard the math.** `Rscript index/tests/run_all.R` checks the index against hand-computed cases, the
+  permutation test against its exact null, and the ACS draws against their distributions.
+- **The corrected index reproduces the old one.** With the legacy normaliser restored, the code reproduces the values
+  printed in the 2025 version of the paper (`_meta.checks` in `results.json`).
 
 ## How to cite
 
-If you use this code, please cite:
+Citation metadata: [`CITATION.cff`](CITATION.cff). Until the paper is published, please cite:
 
-Fraser, T., Park, Y. G., Li, Y., Tang, Y., & Gao, H. O. *Measuring Burden and Disparity of Exposure to Transportation Emissions in American Communities.* In preparation for submission. Code: https://github.com/timothyfraser/equity
+> Fraser, T., Park, Y. G., Li, Y., Tang, Y., & Gao, H. O. (2026). *Measuring Burden and Disparity of Exposure to
+> Transportation Emissions in American Communities.* Submitted to the *Journal of Transport Geography*.
+> Code: https://github.com/timothyfraser/equity
 
-## Contributors
+An earlier version was presented at the Complex Adaptive Systems Conference, University of Tokyo, June 2026.
 
-- Timothy Fraser (lead developer)
-- Yeonkyeong Gina Park
-- Yifei Li
-- Yuchen Tang
-- H. Oliver Gao
+**Authors.** Timothy Fraser (Cornell University, lead developer), Yeonkyeong Gina Park (California Air Resources
+Board), Yifei Li, Yuchen Tang, and H. Oliver Gao (Cornell University). License: [MIT](LICENSE).
 
-Institution: Gao Labs, Cornell University.
+---
 
-## Changelog
+## For agents
 
-- **2026-11-19**
-  - Emissions now come from the public CAT object store through the new loader `index/cat_bulk.R` and the updated `index/make_emissions.R`; the old `api_proxy.sh` workflow is retired.
-  - The README now states the 0.3 km buffer used in the paper (it previously said 1 km) and no longer links to a login-gated host.
-  - The index normaliser in `index/functions.R` is corrected: the equal-group index uses `n / (2 (n - 1))`. The previous version is kept as `get_index_legacy`, and a population-weighted companion measure is added.
-  - Added `setup.sh` and `CLAUDE.md`.
-
-License: [MIT](LICENSE).
+Read [`CLAUDE.md`](CLAUDE.md). It lists the rules (no raw CAT emissions in git, no hand-typed numbers, never edit
+`index/test/` by hand) and the three skills in [`.claude/skills/`](.claude/skills/).

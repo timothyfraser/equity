@@ -150,3 +150,10 @@ unit_inputs_ny = function(region, type){
               a = ex$area_roads / ex$area_total, unit = TRUE)
   build_inputs(tr, census, vars, set_names(em$emissions, em$geoid))
 }
+
+# Test helpers. The national geometry and emissions caches (cache/national/mpo_work/<id>/) are written by
+# national/run_mpo.R and are gitignored, because they hold raw CAT emissions (ND21). Tests that need them print SKIP,
+# not FAIL, in a fresh clone; `bash replicate.sh national` creates them.
+have_mpo_cache = function(id, cache_root = "cache/national") file.exists(file.path(cache_root, "mpo_work", id, "tracts.rds"))
+have_ny_emissions = function() file.exists("test/emissions_all_pollutants.rds")   # written by make_emissions.R
+skip = function(name) cat("SKIP ", name, "\n", sep = "")

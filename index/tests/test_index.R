@@ -41,10 +41,11 @@ x = rexp(6); x = x / sum(x)
 check("get_index(c(x, NA)) == get_index(x)", abs(get_index(c(x, NA)) - get_index(x)) < tol)
 check("fewer than 2 groups -> NA_real_", is.na(get_index(c(1, NA))) && is.na(get_index(numeric(0))))
 
-# 5. Regression on the saved (published) results
+# 5. Regression on the 2025 paper's saved results (region-level only; shipped in tests/fixtures/published_2025/)
 types = c("age", "income", "edu", "race")
-pub = lapply(setNames(types, types), function(t) readRDS(file.path("published", paste0("stat_", t, ".rds"))))
-overall = readRDS("published/stat_overall.rds")
+pub_dir = "tests/fixtures/published_2025"
+pub = lapply(setNames(types, types), function(t) readRDS(file.path(pub_dir, paste0("stat_", t, ".rds"))))
+overall = readRDS(file.path(pub_dir, "stat_overall.rds"))
 ind = lapply(setNames(types, types), function(t) get_indicator(pub[[t]]$region_group_values, type = t))
 
 for(t in types){
