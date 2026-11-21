@@ -36,3 +36,14 @@ Waiting on Tim:
 - T-014 preview (`paper_equity/.contract/r0/build/T-014_changes_yellow.pdf`). On approval: `python3 -I .contract/r0/preview/apply_t014.py --target` in paper_equity, copy `equity/national/fig/mpo_national.png` to `paper_equity/fig/`, recompile.
 - Open points: "emissions term cancels" wording for single-county MPOs; p and CI number format (renderer prints p = 0.0443 and -0.000254; Tim's rule is three decimals); Methods subsubsection is 448 words and carries the New York findings (move to Results?); two TODO citations (BTS NTAD MPO layer; Carrington and Troske 1997); three contract paths to add (total MPOs 411, permutation B, ACS B).
 - 23 New York counties still missing from CAT 2022: the New York rebuild waits; all scripts rerun.
+
+## Update 2026-11-21: Scaling up applied
+
+Done (receipts W-1..W-3):
+- Results contract: on-the-line MPO per map (race: Traverse Transportation Coordinating Initiative, MI, 0.905; income: Lake-Sumter MPO, FL, 0.951), state names, counts below 0.95 / 0.90, total MPOs (411), draw counts.
+- Figure: maps left (square tiles, state labels, extremes solid, on-the-line dashed), scatters right (on-the-line as a diamond), β with 95% CI.
+- Paper (paper_equity commit 1a39f70): Methods subsubsection "Scaling Up to Metropolitan Planning Organizations" (methods only); Results subsection "Scaling Up" after the national figure (results only); two sentences in the New York race paragraph (p0 = 0.001 for every region and dimension; Mohawk Valley 0.854 vs a chance expectation of 0.985, ACS range 0.813-0.884); availability sentence. Three verified citations. Renderer prints three decimals (ND41); the only already-applied number that changed is the Long Island income slope (-0.000181 -> -0.0002). Compiles: 0 errors, 0 undefined citations, 32 pages.
+
+Blocked:
+- New York exact 2022 (measured 2026-11-21, MANIFEST-6b77a4af): none of the 23 ordered NY counties has a 2022 run in `detail/<geoid>.parquet` or `year/2022.parquet`; 12 have a new 2023 run; 11 have neither. Check: `curl -s https://api.cat-apps.com/objects/detail/36019.parquet -o x.parquet` then list `unique(year)` (2020 and 2023 present, 2022 absent).
+- Exact next step once they publish: `cd index && Rscript make_emissions.R && Rscript run_ny.R && Rscript make_results.R && Rscript make_diff.R`; `Rscript runs/uncertainty/ny_permutation.R && Rscript runs/uncertainty/ny_acs_intervals.R`; rerun make_results.R; then in paper_equity `python3 -I .contract/r0/preview/rerender.py` (preview), Tim approves, `--target`. Note: the paper's NY numbers use emissions from MANIFEST-e2ccfae4 cached in index/test; `make_emissions.R` will pull the current manifest (which now also has the 12 new 2023 runs), so NY numbers will move slightly even before 2022 lands.

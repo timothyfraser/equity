@@ -4,7 +4,7 @@ meta:
   method: docs/ROADTYPE_METHOD.md
   revision: 3
   repo: timothyfraser/equity (branch dev)
-  status: 'Scaling up: analysis, figure, results contract and docs done; paper section T-014 previewed, waiting on Tim (2026-11-20)'
+  status: Scaling up applied to the manuscript (2026-11-21); NY exact-2022 data still missing from CAT public objects
   plans:
   - .contract/national/PLAN_NATIONAL.md
   - .contract/national/PLAN_VIZ_AND_CAT.md
@@ -66,10 +66,27 @@ decisions:
   ND31: 'Permutation test headline: raw count with p0 < 0.05, no multiplicity adjustment (Tim, Q3: "I don''t think adj is
     necessary").'
   ND32: ACS draws hold zero-estimate cells at 0 (Tim, Q4).
+  ND33: 'On-the-line MPO per map: within the IQR of log emissions per resident and of the index, not an extreme, smallest
+    absolute OLS residual (ties: larger population); highlighted on maps (dashed) and in scatters (diamond).'
+  ND34: 'Figure layout: maps in the left column (race above income, about 62% of width), scatters in the right column; square
+    tiles.'
+  ND35: Single-county MPOs excluded because the method compares counties with different emissions rates; reasoning lives in
+    Methods.
+  ND36: New York permutation and Mohawk Valley chance expectation reported in Results, not Methods.
+  ND37: No statistics in Results that Methods does not introduce (no Spearman, no size-gradient sentences).
+  ND38: 'ACS sentence: for the median MPO, sampling error moves its index within a 95% range of x on race, ...'
+  ND39: Report counts of MPOs below 0.95 and 0.90 for race and income.
+  ND40: Place names as "in Virginia's Staunton-Augusta-Waynesboro MPO".
+  ND41: Three decimals everywhere; p as "p = 0.044" or "p < 0.001"; a non-zero value rounding to 0.000 shows one significant
+    figure.
+  ND42: 'Citations verified: Carrington and Troske 1997 (DOI 10.1080/07350015.1997.10524718), Patefield 1981 (DOI 10.2307/2346669),
+    BTS NTAD MPO layer (geodata.bts.gov, 200).'
+  ND43: National figure placed before the Scaling Up subsection with \FloatBarrier.
 gates:
   G1: Removed by ND11 (no road-type variant).
 open_questions:
-  Q5: 'Permutation test and ACS intervals for the NY regions too: proceeding on the recommendation (yes) unless Tim objects.'
+  NY-CAT: '23 NY counties ordered for 2022 have no 2022 run in CAT public objects (MANIFEST-6b77a4af): 12 have a new 2023
+    run, 11 have neither. Tim says the runs were done; ask the CAT session whether they ran 2023 or are unpublished.'
 tasks:
 - id: N-000
   title: Tim rulings
@@ -411,7 +428,7 @@ tasks:
 - id: U-5
   title: Paper section Scaling up (proposals)
   tier: O
-  status: preview built, waiting on Tim (receipt U-5.md)
+  status: 'done: superseded by W-3, applied in W-4'
   depends:
   - U-3
   - U-4
@@ -424,3 +441,27 @@ tasks:
   - U-1
   - U-2
   definition_of_done: PLAN_SCALING_UP.md section 2, task U-6
+- id: W-1
+  title: Results contract extension
+  tier: S
+  status: done (receipt W-1.md)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-1
+- id: W-2
+  title: 'Figure: layout and on-the-line case'
+  tier: S
+  status: done (receipt W-2.md)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-2
+- id: W-3
+  title: Text, citations, number format
+  tier: O
+  status: done (receipt W-3.md)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-3
+- id: W-4
+  title: Apply T-014
+  tier: O
+  status: 'done: applied to manuscript_v2.tex (paper commit 1a39f70)'
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-4
