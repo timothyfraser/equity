@@ -1,0 +1,14 @@
+{
+  "mpo_id": "13196401",
+  "mpo_name": "Columbus-Phenix City Metropolitan Planning Organization (C-PC-MPO)",
+  "status": "done",
+  "n_counties": 4,
+  "n_states": 2,
+  "n_tracts_in": 85,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:09:15",
+  "seconds": 1.9
+}

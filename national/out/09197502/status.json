@@ -1,0 +1,14 @@
+{
+  "mpo_id": "09197502",
+  "mpo_name": "Naugatuck Valley Council of Governments",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 1,
+  "n_tracts_in": 79,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:08:54",
+  "seconds": 1.8
+}

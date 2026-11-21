@@ -1,0 +1,14 @@
+{
+  "mpo_id": "53197100",
+  "mpo_name": "Benton-Franklin Council of Governments",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 67,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:12:25",
+  "seconds": 1.3
+}

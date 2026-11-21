@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite the paper below."
+title: "equity: replication code for Measuring Burden and Disparity of Exposure to Transportation Emissions in American Communities"
+type: software
+license: MIT
+repository-code: "https://github.com/timothyfraser/equity"
+authors:
+  - family-names: Fraser
+    given-names: Timothy
+    affiliation: Cornell University
+  - family-names: Park
+    given-names: Yeonkyeong Gina
+    affiliation: California Air Resources Board
+  - family-names: Li
+    given-names: Yifei
+  - family-names: Tang
+    given-names: Yuchen
+  - family-names: Gao
+    given-names: H. Oliver
+    affiliation: Cornell University
+keywords:
+  - environmental justice
+  - transportation emissions
+  - equity index
+  - metropolitan planning organizations
+  - PM2.5
+preferred-citation:
+  type: article
+  title: "Measuring Burden and Disparity of Exposure to Transportation Emissions in American Communities"
+  authors:
+    - family-names: Fraser
+      given-names: Timothy
+    - family-names: Park
+      given-names: Yeonkyeong Gina
+    - family-names: Li
+      given-names: Yifei
+    - family-names: Tang
+      given-names: Yuchen
+    - family-names: Gao
+      given-names: H. Oliver
+  year: 2026
+  notes: "Submitted to the Journal of Transport Geography."

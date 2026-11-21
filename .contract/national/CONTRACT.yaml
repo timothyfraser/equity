@@ -1,0 +1,470 @@
+# National MPO section — CONTRACT (PROPOSED, revision 3; nothing implemented)
+meta:
+  plan: .contract/national/PLAN_NATIONAL.md
+  method: docs/ROADTYPE_METHOD.md
+  revision: 3
+  repo: timothyfraser/equity (branch dev)
+  status: Scaling up applied (2026-11-21); national CAT runs complete (37 of 37 counties in MANIFEST-6b77a4af; 224 MPOs done,
+    only Puerto Rico out of scope); NY interpolated by decision ND45
+  plans:
+  - .contract/national/PLAN_NATIONAL.md
+  - .contract/national/PLAN_VIZ_AND_CAT.md
+  - .contract/national/PLAN_SCALING_UP.md
+decisions:
+  ND1: 'National section ranks MPOs; emissions weighting kept (Tim, 2026-11-20: ''we''re not going to do it at the county
+    level and cancel out the emissions term'')'
+  ND2: 'Goes into the JTG paper (Tim, 2026-11-20: Add to this paper)'
+  ND3: Equal-group index stays the headline; population-weighted and small-group robustness (groups >= 1,000) beside it (Tim's
+    fairness justification, 2026-11-20)
+  ND4: 'SUPERSEDED by ND11. Road-type weighting: split county emissions by CAT by=15 road types and match TIGER road classes;
+    apply to New York too, gate G1 before it replaces the paper''s headline (Tim, 2026-11-20: Yes, use road types)'
+  ND5: Ranked chart includes multi-county MPOs only; single-county MPOs computed and listed in the table (Tim, 2026-11-20)
+  ND6: 'Data access: Tim added www2.census.gov, geodata.bts.gov, services.arcgis.com in environment Settings; all return 200
+    (2026-11-20)'
+  ND7: 'Planning units may use Fable (Tim, 2026-11-20: ''Use Fable to plan''); implementation units stay Opus/Sonnet.'
+  ND8: 'SUPERSEDED by ND11. Road-type split comes from the modern CAT runs only, 2022 and 2023 (MOVES Anywhere style); 2020
+    runs reflect older MOVES road-type distributions and are not used for the split (Tim, 2026-11-20). Coverage measured 2026-11-20
+    from year/2022.parquet and year/2023.parquet: 749 and 768 counties, union 954 of ~3,100, all 50 states. Counties with
+    neither year need a fallback split; N-014 proposes one, Tim rules (Q4).'
+  ND9: SUPERSEDED by ND11. Off-network emissions are spread over the four road classes (Tim, 2026-11-20).
+  ND10: MPO chart ranks by the equal-group index with a marker for groups under 1,000 residents (Tim, 2026-11-20).
+  ND11: 'Road-type split dropped (Tim, 2026-11-20: ''there isn''t a clear mapping of roadways onto urban, rural, and let alone
+    urban restricted, urban unrestricted, rural restricted, and rural unrestricted roads ... I would skip doing the road type
+    split''). Supersedes ND4, ND8, ND9 and gate G1; the national ranking and New York keep the county emissions rate (Eq.
+    7) on by=16 totals. N-013..N-016 cancelled.'
+  ND12: 'Equal-group index is the national headline; population-weighted is only the reviewer-facing companion; the size caveat
+    goes in the text (Tim, 2026-11-20: ''Equal group matters. That is the point of this method.'').'
+  ND13: 'Ranked bar chart retired (Tim, 2026-11-20: ''totally unreasonable and unreadable''); replaced by a four-panel figure,
+    two tile-grid maps and two index-vs-emissions scatters with fitted curves. Full ranking stays as a supplementary table.'
+  ND14: 'Run the missing CAT counties on Cloud MOVES, all orders at once (Tim, 2026-11-20). Blocked on a sign-in token for
+    the private API: see PLAN_VIZ_AND_CAT.md section 1.1.'
+  ND15: Scatter x = emissions per capita, log scale labelled in original units (kg per resident); one model index ~ log(rate).
+    New York keeps its total-emissions figure (Tim, 2026-11-20).
+  ND16: Tile map is one cohesive US-shaped block; no state labels on tiles; not sized by population (Tim, 2026-11-20).
+  ND17: Map title "<Index> equity index per metropolitan planning organization"; subtitle "One tile per MPO, arranged nearest
+    its location."; legend titled with the index name.
+  ND18: 'Scatters: clear titles, no subtitle, y-axis titles; annotation with Greek beta, SE, p exact to 0.001 or "p < 0.001";
+    no GAM, no second model.'
+  ND19: SUPERSEDED in part by ND25 (scatters no longer share the 0.70 floor). Race and income share one 0.70-1.00 scale in
+    maps and scatters.
+  ND20: Most and least equal MPO outlined in black on each map with a leader line to "<name>, <state> (index)"; ringed in
+    the matching scatter.
+  ND21: 'Replication data rule: no raw CAT emissions in GitHub; store produced values (indices, MPO totals) plus query URLs
+    and manifest; note that CAT values may change slightly over time.'
+  ND22: 'Paper section "Scaling up": 2-3 paragraphs at the end of Results, written after the CAT runs land.'
+  ND23: 'CAT orders placed by Tim''s local CAT session from .contract/national/CAT_ORDERS_HANDOFF.md: 61 counties (37 with
+    only a 2020 run + 24 NY), year 2022, no Puerto Rico.'
+  ND24: 'Map layout: square tiles, state abbreviation on every tile, the two maps side by side above the two scatters (Tim,
+    2026-11-20); extremes labels above/below the map.'
+  ND25: Scatter y-axes use the data extent; both maps keep the shared 0.70-1.00 colour scale (Tim confirmed, Q1).
+  ND26: Ordinary SEs, reported as 95% confidence intervals (done 2026-11-20).
+  ND27: Run the exact permutation test (random allocation of group labels, fixed margins); report "x of 224 MPOs are significantly
+    more uneven in emissions burden by race than we would expect by chance".
+  ND28: Run ACS sampling-error intervals (parametric bootstrap on tract MOEs).
+  ND29: Write the national "Scaling up" section now with the permutation and ACS clarifications; analysis reproducible, commented,
+    in Tim's style, tested.
+  ND30: Methods gets a short subsubsection "Scaling Up to Metropolitan Planning Organizations" (Tim, Q2).
+  ND31: 'Permutation test headline: raw count with p0 < 0.05, no multiplicity adjustment (Tim, Q3: "I don''t think adj is
+    necessary").'
+  ND32: ACS draws hold zero-estimate cells at 0 (Tim, Q4).
+  ND33: 'On-the-line MPO per map: within the IQR of log emissions per resident and of the index, not an extreme, smallest
+    absolute OLS residual (ties: larger population); highlighted on maps (dashed) and in scatters (diamond).'
+  ND34: 'Figure layout: maps in the left column (race above income, about 62% of width), scatters in the right column; square
+    tiles.'
+  ND35: Single-county MPOs excluded because the method compares counties with different emissions rates; reasoning lives in
+    Methods.
+  ND36: New York permutation and Mohawk Valley chance expectation reported in Results, not Methods.
+  ND37: No statistics in Results that Methods does not introduce (no Spearman, no size-gradient sentences).
+  ND38: 'ACS sentence: for the median MPO, sampling error moves its index within a 95% range of x on race, ...'
+  ND39: Report counts of MPOs below 0.95 and 0.90 for race and income.
+  ND40: Place names as "in Virginia's Staunton-Augusta-Waynesboro MPO".
+  ND41: Three decimals everywhere; p as "p = 0.044" or "p < 0.001"; a non-zero value rounding to 0.000 shows one significant
+    figure.
+  ND42: 'Citations verified: Carrington and Troske 1997 (DOI 10.1080/07350015.1997.10524718), Patefield 1981 (DOI 10.2307/2346669),
+    BTS NTAD MPO layer (geodata.bts.gov, 200).'
+  ND43: National figure placed before the Scaling Up subsection with \FloatBarrier.
+  ND44: 'Scaling Up methods rewritten in plain language (T-015, paper commit f58f65a): no Connecticut detail in the text (the
+    crosswalk stays in the code); chance-adjusted index explained in words with the formula in parentheses (Tim, 2026-11-21).'
+  ND45: 'New York stays on interpolated 2022 emissions (piecewise between available CAT years); no New York rerun needed (Tim,
+    2026-11-21: "We can just interpolate from what''s already there, so no need to rerun New York").'
+gates:
+  G1: Removed by ND11 (no road-type variant).
+open_questions: {}
+tasks:
+- id: N-000
+  title: Tim rulings
+  wave: 0
+  tier: Tim
+  status: ruled
+  depends: []
+  owns: []
+  definition_of_done: All questions ruled (Q1-Q3 2026-11-20; road-type questions moot after ND11)
+- id: N-001
+  title: 'Data access: TIGER + BTS NTAD MPO layer'
+  wave: 0
+  tier: Tim
+  status: done
+  depends: []
+  owns: []
+  definition_of_done: Hosts return 200 from the container (measured 2026-11-20); NTAD FeatureServer has 411 features
+- id: N-004
+  title: MPO tract crosswalk
+  wave: 1
+  tier: Sonnet
+  status: proposed
+  depends:
+  - N-001
+  owns:
+  - national/make_mpo_xwalk.R
+  - data/national/mpo.gpkg
+  - data/national/mpo_tracts.parquet
+  - data/national/mpo_counties.csv
+  - data/national/fips_crosswalk.csv
+  - data/national/SOURCES.csv
+  definition_of_done: 411 features read; each tract in at most one MPO (interior point; ties by larger area); mpo_tracts and
+    mpo_counties match the PLAN schemas; CT/AK/SD crosswalk written; multi-county and single-county counts and NY MPO membership
+    in the receipt
+- id: N-005
+  title: Census pull, 50 states + DC
+  wave: 1
+  tier: Sonnet
+  status: proposed
+  depends: []
+  owns:
+  - national/make_census.R
+  - data/national/census_tracts.parquet
+  - data/national/census_counties.parquet
+  definition_of_done: NY rows all.equal to index/test/census_tracts.rds and census_counties.rds; _M columns present; row counts
+    per state in the receipt
+- id: N-006
+  title: County emission totals 2020-2025
+  wave: 1
+  tier: Sonnet
+  status: proposed
+  depends: []
+  owns:
+  - national/make_emissions_national.R
+  - data/national/emissions_2020_2025.parquet
+  definition_of_done: Columns geoid, pollutant, year, emissions for all counties and 11 pollutants; NY rows equal index/test/emissions_all_pollutants.rds
+    on shared keys; counties by number of available years reported
+- id: N-002
+  title: Geometry engine benchmark
+  wave: 1
+  tier: Opus design, Sonnet run
+  status: proposed
+  depends: []
+  owns:
+  - national/bench/
+  definition_of_done: 'national/bench/BENCH.md: seconds per county for lon/lat and EPSG:5070 on three NY county sets; 99%
+    of tracts agree within 0.5 points; one engine chosen with crs and s2 setting'
+- id: N-014
+  title: Road-type vintage audit
+  wave: 1
+  tier: Sonnet
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
+  depends: []
+  owns:
+  - national/audit_roadtype.R
+  - data/national/roadtype_audit.csv
+  - .contract/national/scouts/NAT_S3_ROADTYPE.md
+  definition_of_done: 62 NY + 150 sampled counties (seed 1), by=15, pollutant 110, 2020-2025; scout reports per year share
+    with off-network row, share where road types 2-5 sum to the total, median rural share, median weight change 2020 to 2025;
+    one-sentence verdict on comparability
+- id: N-003
+  title: State-aware library with NY regression gate
+  wave: 2
+  tier: Sonnet
+  status: proposed
+  depends:
+  - N-002
+  owns:
+  - index/functions.R (get_state, get_shapes_counties, get_shapes_tracts, get_shapes_roads, get_shapes_buffers, get_area_roads;
+    old bodies kept as _legacy)
+  - index/tests/test_national_refactor.R
+  definition_of_done: Multi-state geoids work; crs and cache_dir arguments; no global write; per-county checkpoints; test_index.R
+    and test_national_refactor.R pass; make_results.R leaves results.json byte-identical (jq -S | sha256sum)
+- id: N-013
+  title: Road-type functions and New York run
+  wave: 2
+  tier: Opus review, Sonnet build
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
+  depends:
+  - N-003
+  - N-014
+  - N-000
+  owns:
+  - 'index/functions.R (new: get_roads_by_class, get_area_roads_by_class, get_roadtype_weights, get_county_group_values_roadtype)'
+  - index/make_roadtype.R
+  - index/tests/test_roadtype.R
+  - index/test/roads_by_class.rds
+  - index/test/area_roads300_by_class.rds
+  - index/test/emissions_roadtype.rds
+  - index/test/roadtype_flags.csv
+  definition_of_done: Implements docs/ROADTYPE_METHOD.md; make_roadtype.R, tests/test_roadtype.R and tests/test_index.R pass;
+    collapsed-class regression equals get_county_group_values to 1e-9; conservation to 1e-9; roadtype_flags.csv has 62 rows;
+    diagnostics in the receipt
+- id: N-015
+  title: NY rerun_roadtype variant and gate G1
+  wave: 3
+  tier: Sonnet
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
+  depends:
+  - N-013
+  owns:
+  - index/make_results.R (one new variant)
+  - index/runs/variant_A_roadtype/
+  - paper_equity/.contract/r0/RERUN_DIFF_ROADTYPE.md
+  definition_of_done: results.json gains rerun_roadtype; existing variants byte-identical; diff table rerun vs rerun_roadtype
+    per region and dimension with rank changes; Tim rules G1
+- id: N-016
+  title: National detail downloads and class weights
+  wave: 3
+  tier: Sonnet
+  status: 'cancelled (ND11: road-type split dropped, Tim 2026-11-20)'
+  depends:
+  - N-004
+  - N-013
+  owns:
+  - national/make_roadtype_national.R
+  - data/national/emissions_roadtype.parquet
+  - data/national/roadtype_flags.csv
+  definition_of_done: Columns geoid, class, w, emissions_class, rt_flag for every MPO county; w sums to 1 per county; flag
+    counts reported; NY rows equal N-013 values; detail files only in cache/
+- id: N-007
+  title: Geometry run for MPO counties, by road class (background)
+  wave: 3
+  tier: Sonnet
+  status: proposed
+  depends:
+  - N-003
+  - N-004
+  owns:
+  - national/run_geometry.R
+  - data/national/area_roads_300_by_class.parquet
+  - national/logs/
+  definition_of_done: Every tract of every MPO county has class all plus classes present; NY rows equal index/test/area_roads300_by_class.rds
+    within the N-002 tolerance; zero failed counties; seconds per state logged; resumable
+- id: N-008
+  title: MPO indices + results_national.json
+  wave: 4
+  tier: Sonnet
+  status: proposed
+  depends:
+  - N-005
+  - N-006
+  - N-007
+  owns:
+  - national/make_mpo_index.R
+  - data/national/index_mpo.parquet
+  - .contract/national/results_national.json
+  definition_of_done: One row per mpo_id x method (county_rate, roadtype) x dimension with index_equal, index_pw, index_equal_min1000,
+    counts and flags; values in [0,1] or NA with reason; JSON validates against revisions/templates/results.schema.json; whole-county
+    NY MPOs equal the region run to 1e-9; threshold 0 reproduces index_equal Method is county_rate only (ND11). A county with
+    no exposed residents is dropped and flagged, not left as NaN.
+- id: N-009
+  title: Ranked MPO chart and table
+  wave: 5
+  tier: Sonnet
+  status: superseded by V-1..V-3 (ND13)
+  depends:
+  - N-008
+  owns:
+  - national/figures.R
+  - national/fig/mpo_rank.png
+  - national/fig/mpo_rank_race.png
+  - national/tables/mpo_index.csv
+  definition_of_done: Multi-county MPOs only in the chart, roadtype method, equal-group rank with population-weighted and
+    >= 1,000 markers; top and bottom 15 labelled; rebuilds from results_national.json alone; legible at full-page width; CSV
+    holds all MPOs and both methods
+- id: N-010
+  title: Sensitivity
+  wave: 5
+  tier: Sonnet
+  status: proposed
+  depends:
+  - N-008
+  owns:
+  - national/sensitivity.R
+  - national/tables/sensitivity.csv
+  definition_of_done: 'Spearman rho: roadtype vs county_rate, equal-group vs >= 1,000, 100 m and 500 m on 30 sampled MPOs
+    (seed 1); written to results_national.json sensitivity'
+- id: N-011
+  title: Paper section edit proposals (T-015)
+  wave: 5
+  tier: Opus
+  status: proposed
+  depends:
+  - N-008
+  - N-009
+  owns:
+  - paper_equity/.contract/r0/edits/T-015.md
+  definition_of_done: Results subsection, Methods paragraph with Eqs. 2c-8c, figure and caption, Discussion sentences, limits;
+    placeholders only; previews cleanly with the T-010a pipeline; net words reported; starts only after G1
+- id: N-012
+  title: Release and docs
+  wave: 5
+  tier: Sonnet
+  status: proposed
+  depends:
+  - N-009
+  owns:
+  - README.md (national section)
+  - national/README.md
+  definition_of_done: Fresh clone plus the release archive rebuilds results_national.json; rebuild steps documented
+- id: C-0
+  title: Access and scope for CAT orders
+  tier: Tim
+  status: 'done: ND23 (orders via Tim''s local CAT session)'
+  depends: []
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-0
+- id: C-1
+  title: Order script (dry run default, capped, ledger)
+  tier: S
+  status: with Tim's CAT session (hand-off sent)
+  depends:
+  - C-0
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-1
+- id: C-2
+  title: Watch and publish orders
+  tier: S
+  status: with Tim's CAT session
+  depends:
+  - C-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-2
+- id: C-3
+  title: Objects rebuilt and new manifest
+  tier: catdashboard
+  status: with Tim's CAT session
+  depends:
+  - C-2
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-3
+- id: C-4
+  title: 'Pick up new runs: national rerun and NY exact 2022'
+  tier: S
+  status: waiting on a new CAT manifest
+  depends:
+  - C-3
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task C-4
+- id: V-1
+  title: MPO wide table
+  tier: S
+  status: done (receipt V-1_V-4.md)
+  depends: []
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-1
+- id: V-2
+  title: Tile grid
+  tier: S
+  status: done (receipts V-2.md, V-2b.md, V-2c.md)
+  depends:
+  - V-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-2
+- id: V-4
+  title: Curve estimates and results_national.json
+  tier: O/S
+  status: done (receipt V-1_V-4.md)
+  depends:
+  - V-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-4
+- id: V-3
+  title: Four-panel figure
+  tier: S
+  status: done (receipt V-3.md; fixes in V-2c commit)
+  depends:
+  - V-2
+  - V-4
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-3
+- id: V-5
+  title: Small-group null simulation (needs Tim)
+  tier: O/S
+  status: superseded by U-1 (exact permutation, ND27)
+  depends:
+  - V-1
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-5
+- id: V-6
+  title: Paper section, edit proposals only
+  tier: O
+  status: superseded by U-5
+  depends:
+  - V-3
+  - V-4
+  definition_of_done: PLAN_VIZ_AND_CAT.md section 2, task V-6
+- id: R-1
+  title: Replication data rule (ND21)
+  tier: S
+  status: done (receipt R-1.md)
+  depends: []
+  definition_of_done: PLAN_VIZ_AND_CAT.md Revision 2, R-1
+- id: U-0
+  title: Shared estimator core
+  tier: O
+  status: done (receipt U-0.md)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 2, task U-0
+- id: U-1
+  title: Permutation test
+  tier: S
+  status: done (receipt U-1.md)
+  depends:
+  - U-0
+  definition_of_done: PLAN_SCALING_UP.md section 2, task U-1
+- id: U-2
+  title: ACS sampling-error intervals
+  tier: O/S
+  status: done (receipt U-2.md)
+  depends:
+  - U-0
+  definition_of_done: PLAN_SCALING_UP.md section 2, task U-2
+- id: U-3
+  title: Results contract and New York
+  tier: S
+  status: done (receipt U-3.md)
+  depends:
+  - U-1
+  - U-2
+  definition_of_done: PLAN_SCALING_UP.md section 2, task U-3
+- id: U-4
+  title: Figure refinement
+  tier: S
+  status: done (receipt U-4.md; maps side by side with square tiles per Tim)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 2, task U-4
+- id: U-5
+  title: Paper section Scaling up (proposals)
+  tier: O
+  status: 'done: superseded by W-3, applied in W-4'
+  depends:
+  - U-3
+  - U-4
+  definition_of_done: PLAN_SCALING_UP.md section 2, task U-5
+- id: U-6
+  title: Docs and tests wiring
+  tier: S
+  status: done (receipt U-6.md)
+  depends:
+  - U-1
+  - U-2
+  definition_of_done: PLAN_SCALING_UP.md section 2, task U-6
+- id: W-1
+  title: Results contract extension
+  tier: S
+  status: done (receipt W-1.md)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-1
+- id: W-2
+  title: 'Figure: layout and on-the-line case'
+  tier: S
+  status: done (receipt W-2.md)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-2
+- id: W-3
+  title: Text, citations, number format
+  tier: O
+  status: done (receipt W-3.md)
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-3
+- id: W-4
+  title: Apply T-014
+  tier: O
+  status: 'done: applied to manuscript_v2.tex (paper commit 1a39f70)'
+  depends: []
+  definition_of_done: PLAN_SCALING_UP.md section 8, task W-4

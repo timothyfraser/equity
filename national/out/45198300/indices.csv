@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Rock Hill-Fort Mill Area Transportation Study,2,0.9992980354574533,0.9558441969856778,0.9558441969856778,0.9677960038434652,age,4,1,1,45198300,Rock Hill-Fort Mill Area Transportation Study,5,259662,27.875955647587944,1.0735477523699248e-4
+Rock Hill-Fort Mill Area Transportation Study,2,0.9984232463804986,0.9186867711576056,0.7154036990516195,0.9300623939137018,income,8,1,1,45198300,Rock Hill-Fort Mill Area Transportation Study,5,259662,27.875955647587944,1.0735477523699248e-4
+Rock Hill-Fort Mill Area Transportation Study,2,0.9991507636712963,0.9463902811133847,0.9463902811133847,0.9645297726661126,edu,4,1,1,45198300,Rock Hill-Fort Mill Area Transportation Study,5,259662,27.875955647587944,1.0735477523699248e-4
+Rock Hill-Fort Mill Area Transportation Study,2,0.9973615402055411,0.9023204391576249,0.27438040517092777,0.9413886922111092,race,14,1,1,45198300,Rock Hill-Fort Mill Area Transportation Study,5,259662,27.875955647587944,1.0735477523699248e-4
+Rock Hill-Fort Mill Area Transportation Study,NA,NA,0.9308104221035732,0.7230046455804024,0.9509442156585972,overall,NA,NA,NA,45198300,Rock Hill-Fort Mill Area Transportation Study,5,259662,27.875955647587944,1.0735477523699248e-4

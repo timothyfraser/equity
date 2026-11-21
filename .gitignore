@@ -3,3 +3,18 @@
 .RData
 .Ruserdata
 .env
+index/published/
+index/secret/.env
+*.Rcheck
+
+# pilot and national downloads
+cache/
+index/cache/
+national/logs/
+
+# NY emissions are pulled from CAT public (ND21); regenerate with: cd index && Rscript make_emissions.R
+index/test/emissions.rds
+index/test/emissions_2020_2025_endpoints.rds
+index/test/emissions_2022_exact.rds
+index/test/emissions_all_pollutants.rds
+index/test/emissions_all_pollutants.csv

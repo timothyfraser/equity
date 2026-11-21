@@ -1,0 +1,14 @@
+{
+  "mpo_id": "45201300",
+  "mpo_name": "Lowcountry Area Transportation Study",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 37,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:11:26",
+  "seconds": 2.2
+}

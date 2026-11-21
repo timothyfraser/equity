@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Southern New Hampshire Planning Commission,2,0.999826293681267,0.9777782275083646,0.9777782275083646,0.9841560551737479,age,4,1,1,33197301,Southern New Hampshire Planning Commission,6,282954,41.689686008194414,1.4733732694428923e-4
+Southern New Hampshire Planning Commission,2,0.9995362996390634,0.961242366081311,0.8643482812845883,0.9643043388011361,income,8,0.9999999999999999,1,33197301,Southern New Hampshire Planning Commission,6,282954,41.689686008194414,1.4733732694428923e-4
+Southern New Hampshire Planning Commission,2,0.9995680260641033,0.9595766482581494,0.9595766482581494,0.9759723882709436,edu,4,1,1,33197301,Southern New Hampshire Planning Commission,6,282954,41.689686008194414,1.4733732694428923e-4
+Southern New Hampshire Planning Commission,2,0.9998952304831478,0.9430712501708071,0.577100715554567,0.9863451558699454,race,14,1,1,33197301,Southern New Hampshire Planning Commission,6,282954,41.689686008194414,1.4733732694428923e-4
+Southern New Hampshire Planning Commission,NA,NA,0.960417123004658,0.8447009681514173,0.9776944845289433,overall,NA,NA,NA,33197301,Southern New Hampshire Planning Commission,6,282954,41.689686008194414,1.4733732694428923e-4

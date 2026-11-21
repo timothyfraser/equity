@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Belmont-Ohio-Marshall Transportation Study,2,0.9999039725609085,0.9810881476829589,0.9810881476829589,0.9880142212132251,age,4,1,1,54197502,Belmont-Ohio-Marshall Transportation Study,10,139287,30.14,2.163877461643944e-4
+Belmont-Ohio-Marshall Transportation Study,2,0.9994774749020204,0.9584829316606205,0.8546902608121717,0.9616511323710014,income,8,1,1,54197502,Belmont-Ohio-Marshall Transportation Study,10,139287,30.14,2.163877461643944e-4
+Belmont-Ohio-Marshall Transportation Study,2,0.9997132711262142,0.9724925875423202,0.9724925875423202,0.9814137949903855,edu,4,1,1,54197502,Belmont-Ohio-Marshall Transportation Study,10,139287,30.14,2.163877461643944e-4
+Belmont-Ohio-Marshall Transportation Study,2,0.9995552615328053,0.874150722328951,-0.2809968636807141,0.9735047035752517,race,13,1,1,54197502,Belmont-Ohio-Marshall Transportation Study,10,139287,30.14,2.163877461643944e-4
+Belmont-Ohio-Marshall Transportation Study,NA,NA,0.9465535973037127,0.6318185330891841,0.9761459630374659,overall,NA,NA,NA,54197502,Belmont-Ohio-Marshall Transportation Study,10,139287,30.14,2.163877461643944e-4

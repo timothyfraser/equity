@@ -1,109 +1,61 @@
-<!-- README.md (or any GitHub-rendered Markdown file) -->
+# index: the New York analysis and the index library
 
-<h1>
-  <code style="font-size: 200%; font-weight: bold;">equity_index</code>
-  <img src="https://github.coecis.cornell.edu/CAT/equity/assets/19536/74379b17-f711-4d4f-8ed5-73290f0afd46"
-       width="260" align="right" alt="Equity Index logo">
-</h1>
+This folder holds the code the paper's New York results come from. To run it, use
+[`../replicate.sh`](../replicate.sh) from the repo root; the full guide is
+[`../docs/REPLICATION.md`](../docs/REPLICATION.md). To run a script by hand, `cd index` first: the scripts here read
+and write paths relative to this folder.
 
+## Scripts, in the order they run
 
-<ul>
-  <li><strong>Lead Developers</strong>: Timothy Fraser</li>
-  <li><strong>Contributors</strong>: Yeonkyeong Gina Park, Yifei Li, Yuchen Tang, Oliver Gao</li>
-  <li><strong>Institution</strong>: Gao Labs @ Cornell University</li>
-  <li><strong>Description</strong>: A toolkit for measuring demographic disparities
-      in exposure to transportation emissions across New York State.</li>
-</ul>
+| Script | Stage | What it does | Writes |
+|---|---|---|---|
+| [`make_census.R`](make_census.R) | census (optional) | Rebuilds the ACS 2022 5-year tract and county caches. Needs `CENSUS_API_KEY`. Refuses to overwrite if an existing column would change. | `test/census_tracts.rds`, `test/census_counties.rds` |
+| [`make_census_moe.R`](make_census_moe.R) | national | Pulls ACS estimates and margins of error for the interval check. Needs `CENSUS_API_KEY`. New York's copy ships in `test/census_moe/`. | `cache/national/census_moe/<state>.rds` |
+| [`make_shapes.R`](make_shapes.R) | (cached) | Builds TIGER roads, tracts, and road buffers at 100-2000 m. Its outputs are in git. | `test/shapes_*.rds`, `test/area_roads*.rds` |
+| [`make_emissions.R`](make_emissions.R) | ny | Pulls CAT county emissions for 2020-2025 and records the manifest. Raw emissions are gitignored. | `test/emissions_*.rds`, `test/emissions_provenance.txt` |
+| [`run_ny.R`](run_ny.R) | ny | Computes the indices for the 10 regions and draws every New York figure, including the distance and pollutant sensitivity grid. | `test/stat_*.rds`, `test/*.png` |
+| [`runs/uncertainty/ny_permutation.R`](runs/uncertainty/ny_permutation.R) | uncertainty | Exact permutation test, 10 regions x 4 dimensions, B = 1,000. | `runs/uncertainty/ny_permutation.csv` |
+| [`runs/uncertainty/ny_acs_intervals.R`](runs/uncertainty/ny_acs_intervals.R) | uncertainty | ACS margin-of-error intervals, B = 500. | `runs/uncertainty/ny_acs_intervals.csv` |
+| [`make_results.R`](make_results.R) | results | Recomputes every number in the paper under each emissions variant and writes them with their evidence. | `../results/results.json`, `runs/<variant>/`, `runs/summary_numbers.rds` |
 
+## Libraries (sourced, not run)
 
+| File | What it holds |
+|---|---|
+| [`functions.R`](functions.R) | The index (`get_index()`, `get_indicator()`, `get_overall()`), data retrieval, geometry, and plotting functions. Superseded versions keep a `_legacy` suffix (for example `get_index_legacy()`, the 2025 normaliser). |
+| [`cat_bulk.R`](cat_bulk.R) | Reads CAT's public Parquet objects and the current manifest. |
+| [`uncertainty_core.R`](uncertainty_core.R) | The index as a matrix calculation on tract-by-group counts, shared by both uncertainty checks. |
+| [`uncertainty_permutation.R`](uncertainty_permutation.R) | The permutation test (fixed-margin tables via `r2dtable`, Patefield 1981). |
+| [`uncertainty_acs.R`](uncertainty_acs.R) | The ACS margin-of-error draws. |
 
-## Welcome!
+## Emissions variants in `runs/`
 
-Welcome to `equity_index`! This repository contains code and documentation to compute **population-adjusted exposure equity indices** for transportation-related air pollution. Developed by Gao Labs at Cornell, this framework helps environmental planners, policy analysts, and researchers identify disparities across:
+The paper reports `variant_A` (`rerun` in `results.json`): the corrected index with 2022 emissions, interpolated per
+county between the nearest CAT years where a county has no 2022 run. The others are checks: `variant_A_endpoints`
+(a straight line between 2020 and 2025 only), `variant_A_race10` (the 2025 paper's ten race groups), `variant_B`
+and `variant_C` (exact 2020 and 2025 emissions), and `variant_D` (exact 2022 emissions, only the counties that have
+them). `fix_only` is an author-only audit; see [`make_results.R`](make_results.R).
 
-- **Race and ethnicity**
-- **Household income**
-- **Educational attainment**
-- **Age demographics**
+## Tests
 
-These indices are calculated using:
-- **CATSERVER emissions estimates**
-- **American Community Survey (ACS) demographic data**
-- **Spatial buffers of road networks (1km exposure zones)**
-
-The methodology is fully documented in the following study:
-
-> Fraser, T., Park, Y.G., Li, Y., Tang, Y., & Gao, H.O. (2025). *Measuring the Burden of Emissions Exposure in American Neighborhoods.*
-
-
-## What is `equity_index` used for?
-
-- **Policy equity monitoring** — Compare how clean transportation investments impact disadvantaged groups.
-- **Regional diagnostics** — Identify counties or metro areas with high exposure disparity.
-- **Academic research** — Supplement environmental justice frameworks with quantitative metrics.
-- **Data science workflows** — Integrate emissions and ACS data in a reproducible way.
-
-## How to use `equity_index`
-
-You can use our outputs to support **statewide equity metrics**, generate **Justice40-style maps**, or prioritize **transport investments**.  
-Run the code to generate your own equity scores in R, or extend the scripts for cross-state analysis.  
-Our modular `.R` scripts support:
-
-- ACS census downloads
-- Spatial buffer generation (`sf`)
-- Equity index computation
-- Optional map visualization
-
-### Script Descriptions
-
-- `make_data.R`: Downloads ACS demographic data (e.g., race, income, education, age) and stores it locally for processing.
-- `make_shapes.R`: Performs spatial visualization by creating shapefiles for map outputs.
-- `run_ny.R`: Chains the entire analysis workflow (data loading → equity index calculation → visualization → summary output), making it easy to conduct full-batch analysis for all counties in New York.
-- `Functions.R`: Contains reusable functions for data processing, equity index computation, and statistical summarization; works like a utility library.
-- `api_proxy.sh`: Sets up a proxy for the CATAPI server locally, useful for debugging or connecting to cloud-based data endpoints during development.
-
-See `make_data.R`, `make_shapes.R`, `run_ny.R`, and other scripts for full workflows.
-
-
-
-## Setup
-
-To use `equity_index`, you will need an active RStudio coding environment.
-
-Install required R packages:
-
-```r
-install.packages(c("tidycensus", "sf", "dplyr", "tigris", "ggplot2", "tidyr", "stringr"))
+```bash
+Rscript index/tests/run_all.R     # from the repo root: every tests/test_*.R in its own process; exits 1 on any failure
 ```
 
-## Register your Census API key:
+| Test file | What it checks |
+|---|---|
+| [`tests/test_index.R`](tests/test_index.R) | The index normaliser, groups with no members, and the companion scores, on hand-computed cases. |
+| [`tests/test_uncertainty_core.R`](tests/test_uncertainty_core.R) | The matrix version of the index equals the paper's values for New York regions and national MPOs. |
+| [`tests/test_uncertainty_permutation.R`](tests/test_uncertainty_permutation.R) | Margins are preserved; a fully mixed unit scores 1 and a fully segregated unit hits the smallest possible p-value. |
+| [`tests/test_uncertainty_acs.R`](tests/test_uncertainty_acs.R) | With zero margins of error every draw equals the observed index; zero cells stay zero; seeds reproduce. |
 
-```r
-library(tidycensus)
-census_api_key("YOUR_API_KEY", install = TRUE)
-```
+## Author-only scripts
 
-## Run the pipeline
+These compare the revision with the 2025 version of the paper. They need the private manuscript repository and the
+gitignored snapshot `published/`, so they are not part of the replication.
 
-These three scripts represent the core workflow of the `equity_index` tool:
-
-```r
-# Step 1: Download and process ACS demographic data
-source("make_data.R")
-
-# Step 2: Generate spatial shapefiles for mapping
-source("make_shapes.R")
-
-# Step 3: Run full pipeline (load data → compute equity index → visualize → summarize results)
-source("run_ny.R")
-```
-
-# Citation
-If you use this code or framework, please cite:
-
-Fraser, T., Park, Y.G., Li, Y., Tang, Y., & Gao, H.O. (2025). Measuring the Burden of Emissions Exposure in American Neighborhoods.
-
-# Links
-GitHub Organization: https://github.com/Gao-Labs
-
-Research Group Website: https://gao.cee.cornell.edu/
+| Script | What it does |
+|---|---|
+| [`make_diff.R`](make_diff.R) | Writes a before/after table of the paper's numbers (`RERUN_DIFF.md`) from `runs/summary_numbers.rds`. |
+| [`make_compare.py`](make_compare.py) | Pairs each 2025 figure with its rerun for side-by-side review. |
+| [`api_proxy.sh`](api_proxy.sh) | Retired. The old Cloud Run proxy for emissions, replaced by the CAT public object store. |

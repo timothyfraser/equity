@@ -1,0 +1,14 @@
+{
+  "mpo_id": "05200302",
+  "mpo_name": "Northeast Arkansas Regional Transportation Planning Commission",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 19,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:07:41",
+  "seconds": 1.7
+}

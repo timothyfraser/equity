@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Herkimer-Oneida Counties Transportation Study,2,0.9998832239455671,0.9847466096328029,0.9847466096328029,0.9890406217195777,age,4,1,1,36197200,Herkimer-Oneida Counties Transportation Study,7,291348,55.7,1.911803067122479e-4
+Herkimer-Oneida Counties Transportation Study,2,0.9995496671231002,0.9561330089746543,0.8464655314112898,0.9653210938976482,income,8,1,1,36197200,Herkimer-Oneida Counties Transportation Study,7,291348,55.7,1.911803067122479e-4
+Herkimer-Oneida Counties Transportation Study,2,0.9998387843449602,0.981290816434961,0.981290816434961,0.984446068793976,edu,4,1,1,36197200,Herkimer-Oneida Counties Transportation Study,7,291348,55.7,1.911803067122479e-4
+Herkimer-Oneida Counties Transportation Study,2,0.9997269352512359,0.8576987469626263,-0.057095022563347975,0.9753010506600495,race,14,1,1,36197200,Herkimer-Oneida Counties Transportation Study,7,291348,55.7,1.911803067122479e-4
+Herkimer-Oneida Counties Transportation Study,NA,NA,0.9449672955012611,0.6888519837289264,0.9785272087678129,overall,NA,NA,NA,36197200,Herkimer-Oneida Counties Transportation Study,7,291348,55.7,1.911803067122479e-4

@@ -1,0 +1,14 @@
+{
+  "mpo_id": "29197300",
+  "mpo_name": "East-West Gateway Council of Government",
+  "status": "done",
+  "n_counties": 8,
+  "n_states": 2,
+  "n_tracts_in": 640,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:10:19",
+  "seconds": 1.5
+}

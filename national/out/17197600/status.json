@@ -1,0 +1,14 @@
+{
+  "mpo_id": "17197600",
+  "mpo_name": "Tri-County Regional Planning Commission",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 1,
+  "n_tracts_in": 73,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:09:33",
+  "seconds": 1.6
+}

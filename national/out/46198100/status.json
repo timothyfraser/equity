@@ -1,0 +1,14 @@
+{
+  "mpo_id": "46198100",
+  "mpo_name": "Rapid City Area MPO",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 24,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:11:28",
+  "seconds": 1.4
+}

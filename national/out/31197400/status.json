@@ -1,0 +1,14 @@
+{
+  "mpo_id": "31197400",
+  "mpo_name": "Metropolitan Area Planning Agency",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 2,
+  "n_tracts_in": 233,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:10:23",
+  "seconds": 1.7
+}

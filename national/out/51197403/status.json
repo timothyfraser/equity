@@ -1,0 +1,14 @@
+{
+  "mpo_id": "51197403",
+  "mpo_name": "Tri Cities Area MPO",
+  "status": "done",
+  "n_counties": 6,
+  "n_states": 1,
+  "n_tracts_in": 42,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:12:13",
+  "seconds": 13.7
+}

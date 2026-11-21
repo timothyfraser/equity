@@ -1,0 +1,14 @@
+{
+  "mpo_id": "48197402",
+  "mpo_name": "Houston-Galveston Area Council",
+  "status": "done",
+  "n_counties": 8,
+  "n_states": 1,
+  "n_tracts_in": 1594,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:11:45",
+  "seconds": 1.7
+}

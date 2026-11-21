@@ -1,0 +1,14 @@
+{
+  "mpo_id": "40202300",
+  "mpo_name": "Chisholm Trail MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 11,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:26:23",
+  "seconds": 2.1
+}

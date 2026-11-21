@@ -1,0 +1,14 @@
+{
+  "mpo_id": "09197501",
+  "mpo_name": "Capital Region COG",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 249,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:08:53",
+  "seconds": 1.5
+}

@@ -1,0 +1,3 @@
+geoid_county,n_tracts,n_in,affected_county,share_county_affected,pop_total,years,emis_method,reason
+20015,19,5,17259.387743596017,0.26493214449151103,19688,"2020,2021,2022,2023,2024,2025",exact,NA
+20173,135,135,128632.43226534063,1,522700,"2020,2025",interpolated,NA

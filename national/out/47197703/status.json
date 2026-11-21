@@ -1,0 +1,14 @@
+{
+  "mpo_id": "47197703",
+  "mpo_name": "Chattanooga-Hamilton County/North Georgia Metropolitan Planning Organization",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 2,
+  "n_tracts_in": 110,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:11:30",
+  "seconds": 1.4
+}

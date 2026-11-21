@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Chelan-Douglas Transportation Council (CDTC),2,0.99956348160532,0.9573678965738839,0.9573678965738839,0.9716225529701399,age,4,1,1,53200302,Chelan-Douglas Transportation Council (CDTC),9,122265,22.1,1.8075491759702287e-4
+Chelan-Douglas Transportation Council (CDTC),2,0.9987061439548234,0.918138873287177,0.7134860565051196,0.9348281534942129,income,8,0.9999999999999999,1,53200302,Chelan-Douglas Transportation Council (CDTC),9,122265,22.1,1.8075491759702287e-4
+Chelan-Douglas Transportation Council (CDTC),2,0.9996581481214106,0.9724004125415737,0.9724004125415737,0.9785898993529456,edu,4,0.9999999999999998,1,53200302,Chelan-Douglas Transportation Council (CDTC),9,122265,22.1,1.8075491759702287e-4
+Chelan-Douglas Transportation Council (CDTC),2,0.999329779785547,0.7938986298760549,-0.5310387494921642,0.9684828188016767,race,14,0.9999999999999999,1,53200302,Chelan-Douglas Transportation Council (CDTC),9,122265,22.1,1.8075491759702287e-4
+Chelan-Douglas Transportation Council (CDTC),NA,NA,0.9104514530696723,0.5280539040321033,0.9633808561547438,overall,NA,NA,NA,53200302,Chelan-Douglas Transportation Council (CDTC),9,122265,22.1,1.8075491759702287e-4

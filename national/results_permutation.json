@@ -1,0 +1,153 @@
+{
+  "_meta": {
+    "schema": "results/v1",
+    "generator": "equity/national/permutation.R",
+    "purpose": "Exact permutation test per MPO and dimension: raw p0 (no multiplicity adjustment), chance-adjusted index.",
+    "B": 1000,
+    "cat_manifest": "MANIFEST-59ea1fac.tsv"
+  },
+  "race": {
+    "n_mpos": {
+      "value": 224,
+      "status": "computed",
+      "evidence": "national/permutation.R: rows of mpo_permutation.csv for this type"
+    },
+    "n_sig_05": {
+      "value": 222,
+      "status": "computed",
+      "evidence": "national/permutation.R: count of p0 < 0.05 (raw)"
+    },
+    "share_sig_05": {
+      "value": 0.991071428571429,
+      "status": "computed",
+      "evidence": "national/permutation.R: share of MPOs with p0 < 0.05 (raw)"
+    },
+    "spearman_Iobs_logpop": {
+      "value": 0.587500533845825,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_obs, log pop_in_mpo)"
+    },
+    "spearman_Istar_logpop": {
+      "value": 0.463341874866539,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_star, log pop_in_mpo)"
+    }
+  },
+  "income": {
+    "n_mpos": {
+      "value": 224,
+      "status": "computed",
+      "evidence": "national/permutation.R: rows of mpo_permutation.csv for this type"
+    },
+    "n_sig_05": {
+      "value": 224,
+      "status": "computed",
+      "evidence": "national/permutation.R: count of p0 < 0.05 (raw)"
+    },
+    "share_sig_05": {
+      "value": 1,
+      "status": "computed",
+      "evidence": "national/permutation.R: share of MPOs with p0 < 0.05 (raw)"
+    },
+    "spearman_Iobs_logpop": {
+      "value": 0.155351270553064,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_obs, log pop_in_mpo)"
+    },
+    "spearman_Istar_logpop": {
+      "value": 0.0906587657484519,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_star, log pop_in_mpo)"
+    }
+  },
+  "edu": {
+    "n_mpos": {
+      "value": 224,
+      "status": "computed",
+      "evidence": "national/permutation.R: rows of mpo_permutation.csv for this type"
+    },
+    "n_sig_05": {
+      "value": 223,
+      "status": "computed",
+      "evidence": "national/permutation.R: count of p0 < 0.05 (raw)"
+    },
+    "share_sig_05": {
+      "value": 0.995535714285714,
+      "status": "computed",
+      "evidence": "national/permutation.R: share of MPOs with p0 < 0.05 (raw)"
+    },
+    "spearman_Iobs_logpop": {
+      "value": 0.10988575699338,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_obs, log pop_in_mpo)"
+    },
+    "spearman_Istar_logpop": {
+      "value": 0.0685543455050182,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_star, log pop_in_mpo)"
+    }
+  },
+  "age": {
+    "n_mpos": {
+      "value": 224,
+      "status": "computed",
+      "evidence": "national/permutation.R: rows of mpo_permutation.csv for this type"
+    },
+    "n_sig_05": {
+      "value": 222,
+      "status": "computed",
+      "evidence": "national/permutation.R: count of p0 < 0.05 (raw)"
+    },
+    "share_sig_05": {
+      "value": 0.991071428571429,
+      "status": "computed",
+      "evidence": "national/permutation.R: share of MPOs with p0 < 0.05 (raw)"
+    },
+    "spearman_Iobs_logpop": {
+      "value": 0.117624386077301,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_obs, log pop_in_mpo)"
+    },
+    "spearman_Istar_logpop": {
+      "value": 0.0739985052316891,
+      "status": "computed",
+      "evidence": "national/permutation.R: Spearman(I_star, log pop_in_mpo)"
+    }
+  },
+  "extremes_race": {
+    "min": {
+      "mpo_id": {
+        "value": "51201200",
+        "status": "computed",
+        "evidence": "national/permutation.R: results_national.json extremes.race"
+      },
+      "p0": {
+        "value": 0.000999000999000999,
+        "status": "computed",
+        "evidence": "national/permutation.R: p0 of this MPO, race"
+      },
+      "E0": {
+        "value": 0.959091177133951,
+        "status": "computed",
+        "evidence": "national/permutation.R: E0 of this MPO, race"
+      }
+    },
+    "max": {
+      "mpo_id": {
+        "value": "44197400",
+        "status": "computed",
+        "evidence": "national/permutation.R: results_national.json extremes.race"
+      },
+      "p0": {
+        "value": 0.000999000999000999,
+        "status": "computed",
+        "evidence": "national/permutation.R: p0 of this MPO, race"
+      },
+      "E0": {
+        "value": 0.996826786944882,
+        "status": "computed",
+        "evidence": "national/permutation.R: E0 of this MPO, race"
+      }
+    }
+  }
+}

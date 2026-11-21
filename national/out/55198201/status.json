@@ -1,0 +1,14 @@
+{
+  "mpo_id": "55198201",
+  "mpo_name": "Chippewa-Eau Claire MPO",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 22,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:12:44",
+  "seconds": 1.4
+}

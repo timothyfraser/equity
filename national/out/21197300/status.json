@@ -1,0 +1,14 @@
+{
+  "mpo_id": "21197300",
+  "mpo_name": "Louisville/Jefferson County KY-IN MPO",
+  "status": "done",
+  "n_counties": 5,
+  "n_states": 2,
+  "n_tracts_in": 300,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:09:44",
+  "seconds": 2.1
+}

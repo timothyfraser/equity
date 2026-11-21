@@ -1,0 +1,14 @@
+{
+  "mpo_id": "13196402",
+  "mpo_name": "Macon Area Transportation Study (MATS)",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 52,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:09:16",
+  "seconds": 1.8
+}

@@ -1,0 +1,14 @@
+{
+  "mpo_id": "35200300",
+  "mpo_name": "Farmington MPO",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 24,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:21:43",
+  "seconds": 1.9
+}

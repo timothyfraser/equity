@@ -1,0 +1,14 @@
+{
+  "mpo_id": "25197601",
+  "mpo_name": "Pioneer Valley MPO",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 139,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:09:59",
+  "seconds": 1.9
+}

@@ -1,0 +1,14 @@
+{
+  "mpo_id": "25199800",
+  "mpo_name": "Southeastern Massachusetts MPO",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 1,
+  "n_tracts_in": 143,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:10:01",
+  "seconds": 2
+}

@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "schema": "results/v1",
+    "generator": "equity/national/acs_intervals.R",
+    "purpose": "ACS sampling-error 95% intervals for the MPO indices (parametric bootstrap on tract MOEs).",
+    "B": 500,
+    "acs": "ACS 2022 5-year, tract, 90% MOE / 1.645",
+    "caveat": "Cells drawn independently; zero-estimate cells held at 0 (ND32); understates uncertainty for rare groups."
+  },
+  "failed_jobs": {
+    "value": 0,
+    "status": "computed",
+    "evidence": "national/acs_intervals.R: jobs that errored"
+  },
+  "runtime_seconds": {
+    "value": 151.6,
+    "status": "computed",
+    "evidence": "national/acs_intervals.R: wall time, 3 cores"
+  },
+  "by_type": {
+    "race": {
+      "n_mpos": {
+        "value": 224,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: rows of mpo_acs_intervals.csv for race"
+      },
+      "median_width": {
+        "value": 0.0595670053055229,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of hi95 - lo95 over MPOs"
+      },
+      "median_I_obs": {
+        "value": 0.915055991219741,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of I_obs over MPOs"
+      },
+      "share_excluding_national_median": {
+        "value": 0.410714285714286,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: share of MPOs whose [lo95, hi95] excludes the median I_obs"
+      },
+      "spearman_width_logpop": {
+        "value": -0.576153106982704,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: Spearman(width, log pop_in_mpo from mpo_wide.csv)"
+      }
+    },
+    "income": {
+      "n_mpos": {
+        "value": 224,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: rows of mpo_acs_intervals.csv for income"
+      },
+      "median_width": {
+        "value": 0.0193743413975461,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of hi95 - lo95 over MPOs"
+      },
+      "median_I_obs": {
+        "value": 0.957395298299428,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of I_obs over MPOs"
+      },
+      "share_excluding_national_median": {
+        "value": 0.566964285714286,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: share of MPOs whose [lo95, hi95] excludes the median I_obs"
+      },
+      "spearman_width_logpop": {
+        "value": -0.845270125987615,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: Spearman(width, log pop_in_mpo from mpo_wide.csv)"
+      }
+    },
+    "edu": {
+      "n_mpos": {
+        "value": 224,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: rows of mpo_acs_intervals.csv for edu"
+      },
+      "median_width": {
+        "value": 0.0192440016544436,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of hi95 - lo95 over MPOs"
+      },
+      "median_I_obs": {
+        "value": 0.968130590118393,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of I_obs over MPOs"
+      },
+      "share_excluding_national_median": {
+        "value": 0.616071428571429,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: share of MPOs whose [lo95, hi95] excludes the median I_obs"
+      },
+      "spearman_width_logpop": {
+        "value": -0.823920563741192,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: Spearman(width, log pop_in_mpo from mpo_wide.csv)"
+      }
+    },
+    "age": {
+      "n_mpos": {
+        "value": 224,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: rows of mpo_acs_intervals.csv for age"
+      },
+      "median_width": {
+        "value": 0.0129833814501428,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of hi95 - lo95 over MPOs"
+      },
+      "median_I_obs": {
+        "value": 0.978644753682752,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: median of I_obs over MPOs"
+      },
+      "share_excluding_national_median": {
+        "value": 0.580357142857143,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: share of MPOs whose [lo95, hi95] excludes the median I_obs"
+      },
+      "spearman_width_logpop": {
+        "value": -0.831549220585095,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: Spearman(width, log pop_in_mpo from mpo_wide.csv)"
+      }
+    }
+  },
+  "extremes_race": {
+    "min": {
+      "mpo_id": {
+        "value": "51201200",
+        "status": "computed",
+        "evidence": "national/results_national.json extremes.race"
+      },
+      "mpo_name": {
+        "value": "Staunton-Augusta-Waynesboro MPO",
+        "status": "computed",
+        "evidence": "national/results_national.json extremes.race"
+      },
+      "I_obs": {
+        "value": 0.707526406884911,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: race interval table"
+      },
+      "lo95": {
+        "value": 0.600699385016482,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: race interval table"
+      },
+      "hi95": {
+        "value": 0.763181035811877,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: race interval table"
+      }
+    },
+    "max": {
+      "mpo_id": {
+        "value": "44197400",
+        "status": "computed",
+        "evidence": "national/results_national.json extremes.race"
+      },
+      "mpo_name": {
+        "value": "State Planning Council",
+        "status": "computed",
+        "evidence": "national/results_national.json extremes.race"
+      },
+      "I_obs": {
+        "value": 0.980604997182832,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: race interval table"
+      },
+      "lo95": {
+        "value": 0.96536111553389,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: race interval table"
+      },
+      "hi95": {
+        "value": 0.98196607396557,
+        "status": "computed",
+        "evidence": "national/acs_intervals.R: race interval table"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Delaware Valley Regional Planning Commission,2,0.9999914294674687,0.993785634158939,0.993785634158939,0.9958875711733527,age,4,1,1,42196501,Delaware Valley Regional Planning Commission,1,5877343,489.45,8.327742655141957e-5
+Delaware Valley Regional Planning Commission,2,0.9998138505389477,0.9752356074863506,0.9133246262022273,0.977598297114674,income,8,1,1,42196501,Delaware Valley Regional Planning Commission,1,5877343,489.45,8.327742655141957e-5
+Delaware Valley Regional Planning Commission,2,0.9999666033433336,0.9800506379484725,0.9800506379484725,0.9934570528703426,edu,4,1,1,42196501,Delaware Valley Regional Planning Commission,1,5877343,489.45,8.327742655141957e-5
+Delaware Valley Regional Planning Commission,2,0.9987054636248323,0.9412324975463996,0.563441410344683,0.9594343978953548,race,14,1,1,42196501,Delaware Valley Regional Planning Commission,1,5877343,489.45,8.327742655141957e-5
+Delaware Valley Regional Planning Commission,NA,NA,0.9725760942850404,0.8626505771635804,0.9815943297634311,overall,NA,NA,NA,42196501,Delaware Valley Regional Planning Commission,1,5877343,489.45,8.327742655141957e-5

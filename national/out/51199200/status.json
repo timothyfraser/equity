@@ -1,0 +1,14 @@
+{
+  "mpo_id": "51199200",
+  "mpo_name": "Fredericksburg Area MPO",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 1,
+  "n_tracts_in": 73,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:12:15",
+  "seconds": 1.4
+}

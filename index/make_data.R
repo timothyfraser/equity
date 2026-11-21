@@ -1,11 +1,13 @@
 # make_data.R
 
 # Set directory to index folder
-setwd(paste0(rstudioapi::getActiveProject(), "/index"))
+# Run from index/ (cd index && Rscript make_data.R); in RStudio, open equity.Rproj first.
+if (interactive() && requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) { setwd(paste0(rstudioapi::getActiveProject(), "/index")) }
 getwd()
 
 # Load environmental variables
-readRenviron("secret/.env") 
+# CENSUS_API_KEY comes from the environment; a local, gitignored secret/.env is read if present
+if (file.exists("secret/.env")) { readRenviron("secret/.env") }
 
 library(dplyr)
 library(sf)

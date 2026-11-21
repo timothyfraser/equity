@@ -1,0 +1,14 @@
+{
+  "mpo_id": "51200301",
+  "mpo_name": "New River Valley MPO",
+  "status": "done",
+  "n_counties": 3,
+  "n_states": 1,
+  "n_tracts_in": 20,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:12:18",
+  "seconds": 1.4
+}

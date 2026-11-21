@@ -1,9 +1,9 @@
 # run_ny.R
 # Lead Developer: Tim Fraser
 
-setwd(paste0(rstudioapi::getActiveProject(), "/index"))
+if (interactive() && requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) { setwd(paste0(rstudioapi::getActiveProject(), "/index")) }
 # Load environmental variables
-readRenviron("secret/.env") 
+if (file.exists("secret/.env")) { readRenviron("secret/.env") }
 
 library(dplyr)
 library(sf)
@@ -75,19 +75,7 @@ get_all(
   index = "race",
   path_emissions = path_emissions,
   path_area_roads = path_area_roads,
-  myvars =  c(
-    "White_alone_Not_Hispanic_or_Latino_Population",
-    "Black_or_African_American_Not_Hispanic_or_Latino_Population",
-    "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population",
-    "Asian_Not_Hispanic_or_Latino_Population",
-    "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population",
-    
-    "Asian_Hispanic_or_Latino_Population",
-    "White_alone_Hispanic_or_Latino_Population",
-    "Black_or_African_American_Hispanic_or_Latino_Population",
-    "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population",
-    "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population"
-  )
+  myvars = RACE_VARS
 ) %>% 
   saveRDS("test/stat_race.rds")
 
@@ -101,19 +89,7 @@ get_all(
 #   select(pollutant) %>%
 #   distinct()
 
-# Measure sensitivity across distance and pollutant
-# tidyr::expand_grid(
-#   pollutant = c(98, 2, 3, 31, 33, 100, 106, 107, 110, 116, 117),
-#   dist = c(100, 300, 500, 1000, 2000),
-#   year = 2022
-# ) %>%
-#   mutate(id = 1:n()) %>%
-#   split(.$id) %>%
-#   purrr::map_dfr(
-#     .f = possibly(.f = ~get_overall(myyear = .$year, pollutant = .$pollutant, dist = .$dist), otherwise = NULL), 
-#     .id = "id") %>% 
-#   saveRDS("test/stat_overall_sensitivity.rds")
-
+# (sensitivity grid runs after the main figures; see below)
 
 ## POLLUTANT #################################
 
@@ -128,45 +104,27 @@ get_all(
 
 
 
-## DISTANCE #################################
-# Review data
-read_rds("test/stat_overall_sensitivity.rds")
-
-gg = get_sensitivity_distance1(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
-ggsave(plot = gg, filename = "test/sensitivity_distance.png", dpi = 500, width = 6, height = 6)
-browseURL("test/sensitivity_distance.png")
-
-
-gg = get_sensitivity_distance2(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
-ggsave(gg, filename = "test/sensitivity_scatterplot.png", dpi = 500, width= 6, height =6)
-browseURL("test/sensitivity_scatterplot.png")
-
-gg = get_sensitivity_distance3(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
-ggsave(plot = gg, filename = "test/sensitivity_distance_pollutant.png", dpi = 500, width = 6, height = 6)
-browseURL("test/sensitivity_distance_pollutant.png")
-
-
 # Bar Plots ###########################################
 
 ## Age ##########################################
 gg = get_bars2(mylist = read_rds("test/stat_age.rds"), metric = "epshare", ylab = "Age Group", beta = TRUE, hjust = 1, verbose = TRUE)
 ggsave(plot = gg, filename = "test/bars_age.png", dpi = 500, width = 10, height = 6)
-browseURL("test/bars_age.png")
+if (interactive()) { browseURL("test/bars_age.png") }
 
 ## Income #######################################
 gg = get_bars2(mylist = read_rds("test/stat_income.rds"), metric = "epshare", ylab = "Income Bracket", beta = TRUE, hjust = 1, verbose = TRUE)
 ggsave(plot = gg, filename = "test/bars_income.png", dpi = 500, width = 10, height = 6)
-browseURL("test/bars_income.png")
+if (interactive()) { browseURL("test/bars_income.png") }
 
 ## Education #######################################
 gg = get_bars2(mylist = read_rds("test/stat_edu.rds"), metric = "epshare", ylab = "Education Level", beta = TRUE, hjust = 1, verbose = TRUE)
 ggsave(plot = gg, filename = "test/bars_edu.png", dpi = 500, width = 10, height = 6)
-browseURL("test/bars_edu.png")
+if (interactive()) { browseURL("test/bars_edu.png") }
 
 ## Race/Ethnicity ##################################
 gg = get_bars2(mylist = read_rds("test/stat_race.rds"), metric = "epshare", ylab = "Race/Ethnicity", beta = FALSE, hjust = 0.5, verbose = TRUE)
 ggsave(plot = gg, filename = "test/bars_race.png", dpi = 500, width = 10, height = 6)
-browseURL("test/bars_race.png")
+if (interactive()) { browseURL("test/bars_race.png") }
 
 
 # Lines/Distributions ###########################
@@ -174,7 +132,7 @@ browseURL("test/bars_race.png")
 ## Overall ##########################################
 gg = get_lines(stat_overall = read_rds("test/stat_overall.rds"), .dist = mydist, .pollutant = mypollutant, .year = myyear)
 ggsave(plot = gg, filename = "test/lines_overall.png", dpi = 500, width = 8, height = 6)
-browseURL("test/lines_overall.png")
+if (interactive()) { browseURL("test/lines_overall.png") }
 
 
 # Slopes ###########################
@@ -183,7 +141,7 @@ gg = get_emissions_slopes(
   stat_overall = read_rds("test/stat_overall.rds"),
   stat_income = read_rds("test/stat_income.rds"))
 ggsave(plot = gg, filename = "test/slopes_by_type.png", dpi = 500, width = 8.5, height = 6)
-browseURL("test/slopes_by_type.png")
+if (interactive()) { browseURL("test/slopes_by_type.png") }
 
 
 # Two-Bars #########################
@@ -193,7 +151,7 @@ gg = get_twobars(data_regions = read_rds("data/regions_ny_data.rds"),
                  myyear = myyear,
                  .pollutant = mypollutant)
 ggsave(gg, filename = "test/twoway_bars.png", dpi = 500, width = 8, height = 6)
-browseURL("test/twoway_bars.png")
+if (interactive()) { browseURL("test/twoway_bars.png") }
 
 
 
@@ -209,7 +167,7 @@ gg = get_viz_buffers(
   buffers = read_rds(path_shapes_buffers)
 )
 ggsave(gg, filename = "test/plot.png", dpi = 300, width =10, height = 10)
-browseURL("test/plot.png")
+if (interactive()) { browseURL("test/plot.png") }
 
 
 ## ALBANY MAP #######################
@@ -220,7 +178,43 @@ gg = get_map(path_shapes_counties = path_shapes_counties,
         path_area_roads = path_area_roads)
 ggsave(plot = gg, filename = "test/map.png", width = 10, height = 5, dpi = 300)
 
-browseURL("test/map.png")
+if (interactive()) { browseURL("test/map.png") }
+
+
+# Sensitivity grid and figures (last) ############
+# Measure sensitivity across distance and pollutant
+sens_grid = tidyr::expand_grid(
+  pollutant = c(98, 2, 3, 31, 33, 100, 106, 107, 110, 116, 117),
+  dist = c(100, 300, 500, 1000, 2000),
+  year = 2022
+) %>%
+  mutate(id = 1:n())
+sens = sens_grid %>%
+  split(.$id) %>%
+  purrr::map_dfr(
+    .f = possibly(.f = ~get_overall(myyear = .$year, pollutant = .$pollutant, dist = .$dist), otherwise = NULL), 
+    .id = "id")
+# A cell whose emissions cannot be computed (for example, a pollutant with too few CAT years) is dropped; say how many
+message("sensitivity grid: ", dplyr::n_distinct(sens$id), " of ", nrow(sens_grid), " pollutant x distance cells computed")
+saveRDS(sens, "test/stat_overall_sensitivity.rds")
+
+## DISTANCE #################################
+# Review data
+read_rds("test/stat_overall_sensitivity.rds")
+
+gg = get_sensitivity_distance1(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
+ggsave(plot = gg, filename = "test/sensitivity_distance.png", dpi = 500, width = 6, height = 6)
+if (interactive()) { browseURL("test/sensitivity_distance.png") }
+
+
+gg = get_sensitivity_distance2(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
+ggsave(gg, filename = "test/sensitivity_scatterplot.png", dpi = 500, width= 6, height =6)
+if (interactive()) { browseURL("test/sensitivity_scatterplot.png") }
+
+gg = get_sensitivity_distance3(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
+ggsave(plot = gg, filename = "test/sensitivity_distance_pollutant.png", dpi = 500, width = 6, height = 6)
+if (interactive()) { browseURL("test/sensitivity_distance_pollutant.png") }
+
 
 
 # Stats ###########################

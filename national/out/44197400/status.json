@@ -1,0 +1,14 @@
+{
+  "mpo_id": "44197400",
+  "mpo_name": "State Planning Council",
+  "status": "done",
+  "n_counties": 6,
+  "n_states": 2,
+  "n_tracts_in": 248,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:11:18",
+  "seconds": 1.6
+}

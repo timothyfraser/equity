@@ -1,0 +1,14 @@
+{
+  "mpo_id": "13200304",
+  "mpo_name": "Hinesville Area MPO (HAMPO)",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 17,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:13:36",
+  "seconds": 1.8
+}

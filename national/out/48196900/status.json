@@ -1,0 +1,14 @@
+{
+  "mpo_id": "48196900",
+  "mpo_name": "Abilene MPO",
+  "status": "done",
+  "n_counties": 2,
+  "n_states": 1,
+  "n_tracts_in": 39,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:11:37",
+  "seconds": 1.5
+}

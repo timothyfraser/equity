@@ -164,6 +164,28 @@ retrieve_census = function(state_fips, year, region = "tract:*", key = Sys.geten
 #' @param region:str code to pass to `censusapi` to tell what type of geography to return. Eg. `"tract:*"` returns every census tract.
 #' @param key:str census API key. By default, passed as environmental variable `CENSUS_API_KEY`. Can skip if already loaded as environmental variable.
 #' @export
+#' @name RACE_VARS
+#' @title Race and ethnicity groups (ACS B03002)
+#' RACE_VARS_10 is the as-published set (five races x Latinx or not). It left out "some other race"
+#' and "two or more races", which hold 24% of New York City residents (Bronx 43%), mostly Latinx.
+#' RACE_VARS (14 groups, Tim 2026-11-20) covers every resident: B03002_003-009 and _013-019.
+RACE_VARS_10 = c(
+  "White_alone_Not_Hispanic_or_Latino_Population",
+  "Black_or_African_American_Not_Hispanic_or_Latino_Population",
+  "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population",
+  "Asian_Not_Hispanic_or_Latino_Population",
+  "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population",
+  "Asian_Hispanic_or_Latino_Population",
+  "White_alone_Hispanic_or_Latino_Population",
+  "Black_or_African_American_Hispanic_or_Latino_Population",
+  "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population",
+  "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population")
+RACE_VARS = c(RACE_VARS_10,
+  "Some_other_race_Not_Hispanic_or_Latino_Population",
+  "Two_or_more_races_Not_Hispanic_or_Latino_Population",
+  "Some_other_race_Hispanic_or_Latino_Population",
+  "Two_or_more_races_Hispanic_or_Latino_Population")
+
 retrieve_census2 = function(state_fips, year, region = "tract:*", key = Sys.getenv("CENSUS_API_KEY")){
   library(dplyr, warn.conflicts = FALSE, quietly = TRUE)
   library(tidyr, warn.conflicts = FALSE, quietly = TRUE)
@@ -207,7 +229,12 @@ retrieve_census2 = function(state_fips, year, region = "tract:*", key = Sys.gete
     White_alone_Hispanic_or_Latino_Population = "B03002_013",
     Black_or_African_American_Hispanic_or_Latino_Population = "B03002_014",
     American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population = "B03002_015",
-    Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population = "B03002_017"
+    Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population = "B03002_017",
+    # Added 2026-11-20 (Tim): without these four, the ten groups missed 24% of NYC residents
+    Some_other_race_Not_Hispanic_or_Latino_Population = "B03002_008",
+    Two_or_more_races_Not_Hispanic_or_Latino_Population = "B03002_009",
+    Some_other_race_Hispanic_or_Latino_Population = "B03002_018",
+    Two_or_more_races_Hispanic_or_Latino_Population = "B03002_019"
   )
   
   
@@ -750,7 +777,8 @@ get_viz_buffers = function(
 }
 
 
-get_emissions_interpolated = function(county_emissions = read_rds(path_emissions), year = 2022){
+# Superseded 2026-11-20 (T-005c): straight-line lm over the years present, replaced by piecewise approx() below.
+get_emissions_interpolated_legacy = function(county_emissions = read_rds(path_emissions), year = 2022){
   myyear = year
   # Add in emissions data by county
   county_emissions  %>%
@@ -761,6 +789,30 @@ get_emissions_interpolated = function(county_emissions = read_rds(path_emissions
       .groups = "drop")
 }
 
+
+
+
+#' @name get_emissions_interpolated
+#' @description
+#' Per county and pollutant, interpolate emissions to `year` piecewise linearly (stats::approx) between the
+#' nearest available years 2020-2025 (exact where `year` exists). Tim, 2026-11-20: "just interpolate 2022 using the
+#' combined set of all available years data for each ny counties 2020 to 2025", and "I said linear interpolation NOT a linear fit."
+#' @param county_emissions data.frame with geoid, pollutant, year, emissions
+#' @param year:int target year. Outside the available range returns NA (rule = 1) with a warning naming the geoid.
+get_emissions_interpolated = function(county_emissions = read_rds(path_emissions), year = 2022){
+  year_target = year
+  out = county_emissions %>%
+    filter(year >= 2020, year <= 2025, !is.na(emissions)) %>%
+    arrange(geoid, pollutant, year) %>%
+    group_by(geoid, pollutant) %>%
+    summarize(
+      emissions = if(dplyr::n() >= 2) stats::approx(x = year, y = emissions, xout = year_target, rule = 1)$y
+                  else if(dplyr::n() == 1 && year[1] == year_target) emissions[1] else NA_real_,
+      .groups = "drop")
+  bad = out %>% filter(is.na(emissions)) %>% pull(geoid) %>% unique()
+  if(length(bad) > 0) warning("get_emissions_interpolated: no bracketing years for year ", year_target, " in geoid(s): ", paste(bad, collapse = ", "))
+  out
+}
 
 
 #' @name get_county_group_values
@@ -925,7 +977,12 @@ get_region_group_values = function(county_group_values, myvars, region = "region
     ) %>%
     # Calculate population-adjusted eshare, called epshare  
     mutate(epshare = eshare / pshare) %>%
-    mutate(epshare = if_else(is.nan(epshare) | is.infinite(epshare), true = 0, false = epshare)) %>%
+    # A group with zero population in the region is absent, not scored: NA (dropped by get_index()).
+    # A group that exists but has no emissions share keeps 0.
+    mutate(epshare = case_when(
+      pshare == 0 ~ NA_real_,
+      is.nan(epshare) | is.infinite(epshare) ~ 0,
+      TRUE ~ epshare)) %>%
     group_by(region) %>%
     mutate(epshare = epshare / sum(epshare, na.rm = TRUE))  %>%
     ungroup()
@@ -978,7 +1035,22 @@ get_diffmax = function(n_groups){
 #' @examples
 #' get_index(x = c(0.25, 0.25, 0.25, 0.25))
 #' get_index(x = c(0.20, 0.20, 0.20, 0.20, 0.20))
-get_index = function(x){ n_x = length(x); 1 - sum( abs( x - 1/n_x ) ) * ( ( n_x - 2 ) / 3 )  }
+get_index_legacy = function(x){ n_x = length(x); 1 - sum( abs( x - 1/n_x ) ) * ( ( n_x - 2 ) / 3 )  }
+
+#' @name get_index
+#' @title Equal-group equity index over n group shares (corrected normaliser)
+#' @description Generalises Moro, Calacci, Dong & Pentland (2021, Nat Commun 12:4633,
+#'   doi 10.1038/s41467-021-24899-8), S = (2/3) * sum_q |tau_q - 1/4| over 4 quartiles, to n groups.
+#'   sum|x_i - 1/n| is convex on the simplex, so its max is at a corner: (1 - 1/n) + (n - 1)/n = 2(n - 1)/n;
+#'   the normaliser is its reciprocal n / (2(n - 1)) (= 2/3 at n = 4), so I is bounded in [0, 1].
+#' @param x numeric shares summing to 1; NA entries (groups absent from the region) are dropped.
+#' @return 1 = equal shares across groups, 0 = one group holds everything; NA_real_ if < 2 groups.
+get_index = function(x){
+  x = x[!is.na(x)]            # groups absent from the region are not scored
+  n_x = length(x)
+  if(n_x < 2){ return(NA_real_) }
+  1 - sum( abs( x - 1/n_x ) ) * ( n_x / (2 * (n_x - 1)) )
+}
 
 #' @name get_indicator
 #' @title Calculate indicator from a data.frame of region-group values
@@ -1011,6 +1083,10 @@ get_indicator = function(region_group_values, type = "race"){
       # By default, this means 1 = perfect homophily - which in this case means inequity
       # So we should flip it so that 1 = perfect equity (heterophily) and 0 = perfect inequity
       indicator2 = get_index(x = epshare),
+      # As published: old normaliser (n - 2)/3, absent groups scored as 0
+      indicator_legacy = get_index_legacy(x = replace(epshare, is.na(epshare), 0)),
+      # Population-weighted companion: 1 - Duncan & Duncan (1955) dissimilarity index
+      indicator_pw = 1 - 0.5 * sum(abs(eshare - pshare), na.rm = TRUE),
       
       type = type,
       .groups = "drop"
@@ -1051,7 +1127,7 @@ get_bars = function(region_group_values, metric = "epshare"){
 #' @name get_bars2
 #' @description
 #' Revised function for pretty two-panel bar charts
-get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", beta = FALSE, hjust = 0.5, xmin = 0, verbose = FALSE){
+get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", beta = FALSE, hjust = 0.5, xmin = NULL, verbose = FALSE){
   # Testing values
   # mylist = read_rds("test/stat_income.rds"); metric = "epshare"; ylab = "Income Bracket"; beta = TRUE; hjust = 1; verbose = TRUE
 
@@ -1120,6 +1196,10 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
       
       
       "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population" = "Pacific Latinx",
+      "Some_other_race_Hispanic_or_Latino_Population" = "Other Latinx",
+      "Two_or_more_races_Hispanic_or_Latino_Population" = "Multiracial Latinx",
+      "Some_other_race_Not_Hispanic_or_Latino_Population" = "Other",
+      "Two_or_more_races_Not_Hispanic_or_Latino_Population" = "Multiracial",
       "Asian_Hispanic_or_Latino_Population" = "Asian Latinx",
       "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population" = "Nat. Am. Latinx",
       "Black_or_African_American_Hispanic_or_Latino_Population" = "Black Latinx",
@@ -1194,6 +1274,8 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
   limits_gg2 = get_limits(region_group_values[[metric]])
   
   limits_gg1 = get_limits(x = joined$indicator2)
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  if(is.null(xmin)){ xmin = floor(min(joined$indicator2, na.rm = TRUE) * 20) / 20 - 0.05 }
     
   colors = viridis::plasma(n = length(unique(region_group_values$group)), begin = 0.1, end = 0.9)
   
@@ -1253,17 +1335,18 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
     ) +
     # geom_point(data = joined,
     #          mapping = aes(x = reorder(region, indicator2), y = indicator2)) +
-    scale_y_continuous(limits = c(xmin,1), oob = scales::squish, expand = expansion(c(0,0)),
-                       breaks = seq(from = xmin, to = 1, length.out = 5)) +
+    # Right-hand expansion leaves room for value labels now that corrected scores sit near 1 (2026-11-19)
+    scale_y_continuous(limits = c(xmin,1), oob = scales::squish, expand = expansion(mult = c(0, 0.10)),
+                       breaks = seq(from = xmin, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01)) +
     coord_flip() +
     labs(x = NULL, y = paste0(
-      ylab, " Equity Index (0 to 1)<br><sup>[Even Emissions Exposure = 1]</sup>"),
+      ylab, " Equity Index<br><sup>[1 = even exposure; axis starts at ", sprintf("%.2f", xmin), "]</sup>"),
       title = paste0(ylab, " Equity by Region")) +
     theme_minimal(base_size = 12) +
     theme(panel.grid = element_blank(),plot.title.position = "plot",
           panel.border = element_rect(fill = NA, color = "black"),
           plot.title = element_text(hjust = 0.5, size = 12),
-          axis.title.x = ggtext::element_markdown(size = 12, hjust = 0.5))
+          axis.title.x = ggtext::element_markdown(size = 10, hjust = 0.5))
   
   
   output = ggpubr::ggarrange(plotlist = list(gg1, gg2), labels = c("A", "B"), ncol = 2, widths = c(0.33, 0.66))   
@@ -1273,14 +1356,16 @@ get_bars2 = function(mylist, metric = "epshare", ylab = "Demographic Group", bet
 #' @name get_lines
 #' @description
 #' Visualization function for viewing the range of index scores by region
-get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 300, .pollutant = 110, .year = 2022){
+get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 300, .pollutant = 110, .year = 2022, sort_by = "race"){
+  # sort_by: index that orders the region axis, worst at the top (Tim, 2026-11-20: Figure 4 sorted by race/ethnicity).
+  # "total" gives the earlier order.
 
   # Testing Values
   # stat_overall = read_rds("test/stat_overall.rds"); .dist = 300; .pollutant = 110; .year = 2022
   
   data = stat_overall %>%
     filter(dist == .dist, pollutant == .pollutant, year == .year) %>%
-    pivot_longer(cols = -c("region", "year", "pollutant", "dist"), names_to = "type", values_to = "value")
+    pivot_longer(cols = c("total", "income", "race", "edu", "age"), names_to = "type", values_to = "value")
   
   bands = data %>%
     group_by(region, pollutant, year, dist) %>%
@@ -1288,10 +1373,14 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
               ymax = max(value, na.rm = TRUE),
               size = ymax - ymin,
               total = value[type == "total"],
+              sort_value = value[type == sort_by],
               .groups = "drop")
   
   
-  limits = c(min(bands$ymin) - sd(data$value)/2, 1)
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$value, na.rm = TRUE) * 20) / 20 - 0.05
+  limits = c(axis_min, 1)
+  axis_breaks = seq(from = axis_min, to = 1, by = 0.05)
   
   data = data %>%
     left_join(by = "region", y = bands)
@@ -1301,19 +1390,19 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
   gg1 = ggplot() +
     geom_col(
       data = data %>% filter(type == "race"),
-      mapping = aes(x = reorder(region, -total), y = value, fill = type),
+      mapping = aes(x = reorder(region, -sort_value), y = value, fill = type),
       color = "white", 
       fill = "lightgrey",
       width = 0.25, alpha = 0.5 #position = position_nudge(x = -0.25)
     ) +
     geom_linerange(
       data = bands,
-      mapping = aes(x = reorder(region, -total), ymin = ymin, ymax = ymax),
+      mapping = aes(x = reorder(region, -sort_value), ymin = ymin, ymax = ymax),
       linewidth = 5, color = "grey"
     ) +
     geom_point(
       data = data,
-      mapping = aes(x = reorder(region, -total), y = value, fill = type),
+      mapping = aes(x = reorder(region, -sort_value), y = value, fill = type),
       color = "white", size = 7, shape = 21, stroke = 1
     ) +
     scale_fill_viridis(
@@ -1325,14 +1414,14 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
       breaks = c( "race", "income", "edu", "age", "total"),
       option = "plasma", discrete = TRUE, begin = 0.9, end = 0.1
     ) +
-    scale_y_continuous(limits = limits, oob = scales::squish, expand = expansion(c(0, 0.02))) +
+    scale_y_continuous(limits = limits, breaks = axis_breaks, labels = scales::label_number(accuracy = 0.01), oob = scales::squish, expand = expansion(c(0, 0.02))) +
     coord_flip() +
     theme_minimal(base_size = 14) +
     theme(panel.border = element_rect(fill = NA, color = "#373737"),
           panel.grid.minor = element_blank(),
           panel.grid.major.y = element_blank(),
           legend.position = "bottom",       
-          plot.margin = unit(x = c(0,0,0,0), units = "lines") 
+          plot.margin = unit(x = c(0,0.5,0,1), units = "lines")  # left room so long region names are not clipped 
           
     ) +
     labs(
@@ -1341,7 +1430,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
       fill = "Type of Equity",
       x = NULL,
       title = NULL,
-      y = "Relative Emissions Exposure Equity Index [0-1]")
+      y = paste0("Relative Emissions Exposure Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"))
   
   
   gg2 = ggplot() +
@@ -1356,7 +1445,7 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
       breaks = c("total", "income", "race", "edu", "age"),
       option = "plasma", discrete = TRUE, begin = 0.9, end = 0.1
     ) +
-    scale_x_continuous(limits = limits, oob = scales::squish, expand = expansion(c(0, 0.02)))  +
+    scale_x_continuous(limits = limits, breaks = axis_breaks, oob = scales::squish, expand = expansion(c(0, 0.02)))  +
     scale_y_continuous(expand = expansion(c(0,0)), trans = "sqrt") +
     theme_minimal(base_size = 14) +
     theme(panel.border = element_blank(), #element_rect(fill = NA, color = "#373737"),
@@ -1421,6 +1510,8 @@ get_emissions_slopes = function(
   # As emissions increases, overall equity increases by +0.02 (p = 0.001)
   
   
+  axis_min = floor(min(data$y, na.rm = TRUE) * 20) / 20 - 0.05
+  
   # How does emissions trend with burden? 
   gg = ggplot() +
     geom_point(
@@ -1458,6 +1549,9 @@ get_emissions_slopes = function(
       guide = "none"
     ) +
     scale_x_continuous(labels = scales::label_number(scale_cut = scales::cut_si(""))) +
+    # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+    scale_y_continuous(breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01)) +
+    coord_cartesian(ylim = c(axis_min, 1)) +
     facet_wrap(~xtype, scales = "free_x") +
     theme_minimal(base_size = 14) +
     theme(panel.border = element_rect(fill = NA, color = "#373737"),
@@ -1469,7 +1563,7 @@ get_emissions_slopes = function(
           plot.title = element_text(hjust = 0.5),
           plot.caption = ggtext::element_markdown(hjust = 0, size = 10)) +
     labs(x = "Emissions (tons)",
-         y = "Relative Emissions Exposure Equity Index [0-1]",
+         y = paste0("Relative Emissions Exposure Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
          color = NULL, fill = "Index Type",
          title = "Relationships between Emissions and Equity",
          caption = message)
@@ -1544,75 +1638,67 @@ get_all = function(myregions,
 
 
 
-get_overall = function(myyear = 2022, pollutant = 98, dist = 1000){
+get_overall = function(myyear = 2022, pollutant = 98, dist = 1000,
+                       path_emissions = "test/emissions_all_pollutants.rds",
+                       outdir = "test",
+                       myregions = read_rds("data/regions_ny_data.rds"),
+                       race_vars = RACE_VARS){
   
   # Testing values
   # myyear = 2022; pollutant = 2; dist = 1000
   
   # Run this script!
   data1 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
     index = "age",
     myvars =  c("age_under_18", "age_18_34", "age_35_64", "age_65_and_over"))
   
   data1 %>%
-    saveRDS(paste0("test/stat_age_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_age_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   
   data2 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     index = "income",
     myvars =  c("income_0_24999", "income_25000_49999", "income_50000_74999", "income_75000_99999",
                 "income_100000_124999", "income_125000_149999", "income_150000_199999", "income_200000_or_more" ))
   
   data2 %>%
-    saveRDS(paste0("test/stat_income_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_income_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   data3 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     index = "edu",
     myvars =  c("edu_less_than_hs", "edu_hs_grad", "edu_some_college_or_more", "edu_postgrad")
   ) 
   
   data3 %>%
-    saveRDS(paste0("test/stat_edu_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_edu_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   data4 = get_all(
-    myregions = read_rds("data/regions_ny_data.rds"), 
+    myregions = myregions, 
     myyear = myyear,
     .pollutant = pollutant,
     path_area_roads = paste0("test/area_roads", dist, ".rds"),
-    path_emissions = "test/emissions_all_pollutants.rds",
+    path_emissions = path_emissions,
     index = "race",
-    myvars =  c(
-      "White_alone_Not_Hispanic_or_Latino_Population",
-      "Black_or_African_American_Not_Hispanic_or_Latino_Population",
-      "American_Indian_and_Alaska_Not_Native_Hispanic_or_Latino_Population",
-      "Asian_Not_Hispanic_or_Latino_Population",
-      "Native_Hawaiian_and_Other_Pacific_Islander_Not_Latino_Population",
-      
-      "Asian_Hispanic_or_Latino_Population",
-      "White_alone_Hispanic_or_Latino_Population",
-      "Black_or_African_American_Hispanic_or_Latino_Population",
-      "American_Indian_and_Alaska_Native_Hispanic_or_Latino_Population",
-      "Native_Hawaiian_and_Other_Pacific_Islander_Latino_Population"
-    )
+    myvars = race_vars
   )
   
   data4 %>%
-    saveRDS(paste0("test/stat_race_", myyear, "_", dist, "_", pollutant, ".rds"))
+    saveRDS(paste0(outdir, "/stat_race_", myyear, "_", dist, "_", pollutant, ".rds"))
   
   total = bind_rows(
     data1$indicators,
@@ -1621,7 +1707,10 @@ get_overall = function(myyear = 2022, pollutant = 98, dist = 1000){
     data4$indicators
   ) %>%
     group_by(region) %>%
-    summarize(indicator2 = mean(indicator2, na.rm = TRUE), .groups = "drop") %>%
+    summarize(indicator2 = mean(indicator2, na.rm = TRUE),
+              indicator_legacy = mean(indicator_legacy, na.rm = TRUE),
+              indicator_pw = mean(indicator_pw, na.rm = TRUE),
+              .groups = "drop") %>%
     mutate(type = "total")
   
   edu_vars = 
@@ -1636,6 +1725,22 @@ get_overall = function(myyear = 2022, pollutant = 98, dist = 1000){
            dist = dist,
            year = myyear) %>%
     tidyr::pivot_wider(id_cols = c(year, pollutant, dist, region), names_from = type, values_from = indicator2)
+  # Companion scores beside the paper's index: <type>_legacy (as published) and <type>_pw (population-weighted)
+  companions = bind_rows(
+      data1$indicators,
+      data2$indicators,
+      data3$indicators,
+      data4$indicators,
+      total
+    ) %>%
+    mutate(pollutant = pollutant,
+           dist = dist,
+           year = myyear) %>%
+    tidyr::pivot_wider(id_cols = c(year, pollutant, dist, region), names_from = type,
+                       values_from = c(indicator_legacy, indicator_pw),
+                       names_glue = "{type}_{sub('^indicator_', '', .value)}")
+  output = output %>%
+    left_join(by = c("year", "pollutant", "dist", "region"), y = companions)
   return(output)
 }
 
@@ -1645,23 +1750,24 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
                        data_equity = read_rds("test/stat_overall.rds"),
                        myyear = 2022,
                        .pollutant = 110,
-                       xmin = 0
+                       xmin = NULL
 ){
-  data  = data_regions %>%
-    left_join(by = c("geoid"),
-              y = data_emissions %>% 
-                filter(pollutant == .pollutant) %>%
-                mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0"))) %>%
-    group_by(region, pollutant, year) %>%
-    summarize(emissions = sum(emissions, na.rm = TRUE)) %>%
-    ungroup() %>%
+  data  = data_emissions %>% 
+    filter(pollutant == .pollutant) %>%
+    mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0")) %>%
+    get_emissions_interpolated(year = myyear) %>%
+    left_join(by = "geoid", y = data_regions %>% select(geoid, region)) %>%
+    filter(!is.na(region)) %>%
     group_by(region, pollutant) %>%
-    summarize(emissions = lm(formula = emissions ~ year) %>% predict(newdata = tibble(year = myyear))) %>%
+    summarize(emissions = sum(emissions, na.rm = TRUE), .groups = "drop_last") %>%
     left_join(by = "region", y = data_equity)
   
   
   # ggplot() +
   #   geom_point(data = data, mapping = aes(x = emissions, y= total))
+  
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  if(is.null(xmin)){ xmin = floor(min(data$race, na.rm = TRUE) * 20) / 20 - 0.05 }
   
   emissionsrange = -range(data$emissions) %>% rev() %>% {c(.[1] - 10, .[2] + 5)}
   
@@ -1687,7 +1793,7 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
     scale_y_continuous(oob = scales::oob_squish,
                        limits = emissionsrange, 
                        expand = expansion(c(0.1,0))) +
-    labs(y = "Total PM2.5 Emissions (kilotons)")
+    labs(y = "Total PM2.5 Emissions (tons)")
   
   
   g2 = ggplot() +
@@ -1711,8 +1817,10 @@ get_twobars = function(data_regions = read_rds("data/regions_ny_data.rds"),
     ) +
     scale_y_continuous(
       oob = scales::oob_squish, limits = c(xmin, 1),
-      expand = expansion(c(0,0.02))) +
-    labs(y = "Race/Ethnicity Equity Index (0 to 1)")
+      breaks = seq(from = xmin, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01),
+      # wider right margin so left-aligned labels near 1 are not clipped (2026-11-19)
+      expand = expansion(mult = c(0, 0.14))) +
+    labs(y = paste0("Race Equity Index (axis from ", sprintf("%.2f", xmin), ")"))
   
   gg = ggpubr::ggarrange(
     plotlist = list(g1,g2), 
@@ -1730,22 +1838,22 @@ get_corr = function(data_regions = read_rds("data/regions_ny_data.rds"),
                        .pollutant = 110,
                        xmin = 0
 ){
-  data_regions %>%
-    left_join(by = c("geoid"),
-              y = data_emissions %>% 
-                filter(pollutant == .pollutant) %>%
-                mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0"))) %>%
-    group_by(region, pollutant, year) %>%
-    summarize(emissions = sum(emissions, na.rm = TRUE)) %>%
-    ungroup() %>%
+  data_emissions %>% 
+    filter(pollutant == .pollutant) %>%
+    mutate(geoid = stringr::str_pad(geoid, width = 5, side = "left", pad = "0")) %>%
+    get_emissions_interpolated(year = myyear) %>%
+    left_join(by = "geoid", y = data_regions %>% select(geoid, region)) %>%
+    filter(!is.na(region)) %>%
     group_by(region, pollutant) %>%
-    summarize(emissions = lm(formula = emissions ~ year) %>% predict(newdata = tibble(year = myyear))) %>%
+    summarize(emissions = sum(emissions, na.rm = TRUE), .groups = "drop_last") %>%
     left_join(by = "region", y = data_equity) %>%
     ungroup()
 }
 
-get_corr(.pollutant = 110) %>%
-  summarize(r = cor(emissions, race, use = "pairwise.complete.obs"))
+if (interactive()) {
+  get_corr(.pollutant = 110) %>%
+    summarize(r = cor(emissions, race, use = "pairwise.complete.obs"))
+}
 
 get_sensitivity_distance1 = function(
     sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"),
@@ -1757,6 +1865,8 @@ get_sensitivity_distance1 = function(
     filter(year == .year) %>% 
     group_by(region) %>%
     mutate(ymin = min(total, na.rm = TRUE))
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
   
   #.pollutant = 110
   gg = ggplot() +
@@ -1766,6 +1876,7 @@ get_sensitivity_distance1 = function(
     geom_line(
       data = data,
       mapping = aes(x = reorder(region, -ymin), y = total, color = factor(dist/1000), group = factor(dist)), linewidth = 1.2) +
+    scale_y_continuous(limits = c(axis_min, 1), breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01), oob = scales::squish) +
     coord_flip() +
     theme_bw(base_size = 14) +
     theme(axis.ticks = element_blank()) +
@@ -1773,7 +1884,7 @@ get_sensitivity_distance1 = function(
     theme(panel.grid.minor.y = element_blank(), 
           panel.grid.major.y = element_blank()) +
     viridis::scale_color_viridis(option = "plasma", begin = 0.2, end = 0.8, discrete = TRUE, direction = 1) +
-    labs(color = 'Exposure Zone\nRadius (km)', x = NULL, y = "Overall Equity Index (1 = perfectly even exposure)",
+    labs(color = 'Exposure Zone\nRadius (km)', x = NULL, y = paste0("Overall Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
          title = "Sensitivity of Regional Equity Patterns",
          subtitle = "to changes in Exposure Zone Radius")
   return(gg)
@@ -1793,6 +1904,8 @@ get_sensitivity_distance2 = function(
   
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::tidy()
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::glance()
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
   
   gg = ggplot() +
     geom_line(data = data, mapping = aes(x = dist/1000, y = total, group = region),
@@ -1803,9 +1916,10 @@ get_sensitivity_distance2 = function(
     theme_bw(base_size = 14) +
     theme(axis.ticks = element_blank(),
           panel.grid.minor = element_blank()) +
-    scale_y_continuous(n.breaks = 9) +
+    scale_y_continuous(breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01)) +
+    coord_cartesian(ylim = c(axis_min, 1)) +
     labs(x = "Exposure Zone Buffer Radius (km)",
-         y = "Overall Equity Index (0-1)")
+         y = paste0("Overall Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"))
   return(gg)
   
 }
@@ -1828,6 +1942,8 @@ get_sensitivity_distance3 = function(
     summarize(ymin = min(y, na.rm = TRUE),
               ymax = max(y, na.rm = TRUE),
               ymain = y[pollutant == 110])
+  # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
+  axis_min = floor(min(data$ymin, na.rm = TRUE) * 20) / 20 - 0.05
   
   # How much do things change by distance?
   # data = sensitivity_data %>%
@@ -1850,6 +1966,7 @@ get_sensitivity_distance3 = function(
     geom_line(
       data = data,
       mapping = aes(x = reorder(region, -ymin), y = ymain, color = factor(dist/1000), group = factor(dist)), linewidth = 1.2) +
+    scale_y_continuous(limits = c(axis_min, 1), breaks = seq(from = axis_min, to = 1, by = 0.05), labels = scales::label_number(accuracy = 0.01), oob = scales::squish) +
     coord_flip() +
     theme_bw(base_size = 14) +
     theme(axis.ticks = element_blank()) +
@@ -1858,7 +1975,7 @@ get_sensitivity_distance3 = function(
           panel.grid.major.y = element_blank()) +
     viridis::scale_fill_viridis(option = "plasma", begin = 0.2, end = 0.8, discrete = TRUE, direction = 1) +
     viridis::scale_color_viridis(option = "plasma", begin = 0.2, end = 0.8, discrete = TRUE, direction = 1, guide = "none") +
-    labs(fill = 'Exposure Zone\nRadius (km)', x = NULL, y = "Overall Equity Index (1 = perfectly even exposure)",
+    labs(fill = 'Exposure Zone\nRadius (km)', x = NULL, y = paste0("Overall Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
          color = NULL,
          title = "Sensitivity of Regional Equity Patterns",
          subtitle = "to changes in Exposure Zone Radius")

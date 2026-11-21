@@ -1,0 +1,319 @@
+{
+  "mpo_id": "72200200",
+  "mpo_name": "Puerto Rico Metropolitan Planning Organization",
+  "status": "blocked_cat",
+  "n_counties": 76,
+  "n_states": 1,
+  "n_tracts_in": 936,
+  "blocking": [
+    {
+      "geoid": "72001",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72003",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72005",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72007",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72009",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72011",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72013",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72015",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72017",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72019",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72021",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72023",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72025",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72027",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72029",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72031",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72033",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72035",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72037",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72039",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72041",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72043",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72045",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72047",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72051",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72053",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72054",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72055",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72057",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72059",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72061",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72063",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72065",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72067",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72069",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72071",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72073",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72075",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72077",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72079",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72081",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72083",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72085",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72087",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72089",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72091",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72093",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72095",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72097",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72099",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72101",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72103",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72105",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72107",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72109",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72111",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72113",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72115",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72117",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72119",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72121",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72123",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72125",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72127",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72129",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72131",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72133",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72135",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72137",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72139",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72141",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72143",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72145",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72149",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72151",
+      "reason": "no_cat_data"
+    },
+    {
+      "geoid": "72153",
+      "reason": "no_cat_data"
+    }
+  ],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:12:44",
+  "seconds": 0.8
+}

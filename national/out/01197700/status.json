@@ -1,0 +1,14 @@
+{
+  "mpo_id": "01197700",
+  "mpo_name": "Birmingham MPO",
+  "status": "done",
+  "n_counties": 4,
+  "n_states": 1,
+  "n_tracts_in": 258,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-59ea1fac.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 22:08:18",
+  "seconds": 1.8
+}

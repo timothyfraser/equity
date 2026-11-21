@@ -1,0 +1,6 @@
+region,diff_max,indicator1,indicator2,indicator_legacy,indicator_pw,type,n_groups,eshare_sum,pshare_sum,mpo_id,mpo_name,race_groups_lt_1000,pop_in_mpo,emissions_mpo,emissions_rate_mpo
+Gulf Regional Planning Commission,2,0.9997171862206276,0.9673423576950237,0.9673423576950237,0.981213060684886,age,4,1,1,28197300,Gulf Regional Planning Commission,6,398479,79,1.9825386030380523e-4
+Gulf Regional Planning Commission,2,0.9996614608315353,0.9535658244628304,0.8374803856199067,0.9690684504509215,income,8,1,1,28197300,Gulf Regional Planning Commission,6,398479,79,1.9825386030380523e-4
+Gulf Regional Planning Commission,2,0.9999008313915262,0.9756006195387663,0.9756006195387663,0.9864586769358815,edu,4,1,1,28197300,Gulf Regional Planning Commission,6,398479,79,1.9825386030380523e-4
+Gulf Regional Planning Commission,2,0.9997156313295277,0.828729882650055,-0.2722923003138775,0.9738995530671403,race,14,0.9999999999999999,1,28197300,Gulf Regional Planning Commission,6,398479,79,1.9825386030380523e-4
+Gulf Regional Planning Commission,NA,NA,0.9313096710866688,0.6270327656349548,0.9776599352847073,overall,NA,NA,NA,28197300,Gulf Regional Planning Commission,6,398479,79,1.9825386030380523e-4

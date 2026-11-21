@@ -1,0 +1,14 @@
+{
+  "mpo_id": "42196800",
+  "mpo_name": "Williamsport Area Transportation Study",
+  "status": "single_county",
+  "n_counties": 1,
+  "n_states": 1,
+  "n_tracts_in": 32,
+  "blocking": [],
+  "dropped": [],
+  "manifest": "MANIFEST-e2ccfae4.tsv",
+  "message": null,
+  "finished_utc": "2026-11-20 14:27:24",
+  "seconds": 1.9
+}
