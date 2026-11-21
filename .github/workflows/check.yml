@@ -1,6 +1,6 @@
 # check.yml: repository checks and a New York replication on every push and pull request.
-# Job 1 (static) needs only base R and Python. Job 2 (replicate) installs the packages and runs the New York stages
-# from a clean checkout, the same way a reader would.
+# Job 1 (static) needs only base R and Python. Job 2 (replicate) installs R with setup.sh, exactly as the README says,
+# and runs the New York stages from a clean checkout, the same way a reader would.
 name: checks
 
 on:
@@ -16,7 +16,7 @@ jobs:
   static:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: "4.3"
@@ -27,39 +27,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: "4.3"
-          use-public-rspm: true
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          packages: |
-            any::sf
-            any::dplyr
-            any::tidyr
-            any::purrr
-            any::readr
-            any::stringr
-            any::ggplot2
-            any::viridis
-            any::jsonlite
-            any::httr
-            any::broom
-            any::ggpubr
-            any::scales
-            any::gtools
-            any::progress
-            any::nanoparquet
-            any::ggtext
-            any::shadowtext
-            any::ggspatial
-            any::censusapi
-            any::tigris
-            any::patchwork
-            any::ragg
-            any::clue
-            any::lmtest
-            any::sandwich
+      - uses: actions/checkout@v5
+      - name: Install R and packages the documented way (setup.sh)
+        run: bash setup.sh
       - name: Replicate the New York analysis (no API key)
         run: bash replicate.sh ny uncertainty results compare test

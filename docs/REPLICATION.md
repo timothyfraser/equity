@@ -19,7 +19,9 @@ got matches what we report. The short version is in the [README](../README.md#re
 - **R 4.3 or newer.** The results were built with R 4.3.3 on Ubuntu 24.04; every package version is in
   [`sessionInfo.txt`](sessionInfo.txt).
 - **Ubuntu 24.04:** `bash setup.sh` installs R, the system libraries, and every package.
-- **macOS:** install R from CRAN, then the spatial libraries and packages:
+- **macOS:** install a current R (4.5 or newer) from CRAN, then the spatial libraries and packages. Current CRAN
+  releases of some dependencies (`Deriv`, pulled in by `ggpubr`) no longer install on R 4.3; Ubuntu's `setup.sh`
+  avoids this by taking those packages from apt.
   ```bash
   brew install gdal geos proj udunits
   Rscript -e 'install.packages(c("sf", "dplyr", "tidyr", "purrr", "readr", "stringr", "ggplot2", "viridis",
