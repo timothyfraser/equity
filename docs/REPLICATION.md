@@ -46,8 +46,19 @@ bash replicate.sh                 # ny uncertainty results compare test
 bash scripts/check.sh             # optional: repository checks (parsing, links, JSON, secrets, tests)
 ```
 
-Run single stages by name, in any order that respects their inputs: `bash replicate.sh ny`,
-`bash replicate.sh results compare`, and so on. `bash replicate.sh all` adds the national stage.
+`replicate.sh` runs in stages. Run any of them by name (`bash replicate.sh ny`, `bash replicate.sh results compare`),
+in an order that respects their inputs. With no arguments it runs `ny uncertainty results compare test`;
+`bash replicate.sh all` adds `national`.
+
+| Stage | What it does | Key needed |
+|---|---|---|
+| `ny` | Pulls CAT emissions, computes the New York indices, draws the New York figures | no |
+| `uncertainty` | Permutation test and ACS margin-of-error intervals for New York | no |
+| `national` | Every MPO in the BTS layer (411: 224 computed, 186 single-county, 1 in Puerto Rico, excluded): ledger, indices, models, national figure, uncertainty | yes |
+| `results` | Writes [`results/results.json`](../results/results.json) | no |
+| `compare` | Compares your `results.json` with the paper's, number by number | no |
+| `test` | Unit tests for the index and the uncertainty code | no |
+| `census` | Optional: rebuilds the New York ACS caches | yes |
 
 `replicate.sh` overwrites the paper's tracked outputs (figures in `index/test/`, `results/results.json`) with yours,
 so `git diff` shows exactly what changed. Your `results.json` will also lack the author-only audit (the `published`

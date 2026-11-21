@@ -6,12 +6,19 @@ Communities* (Fraser, Park, Li, Tang, Gao; submitted to the *Journal of Transpor
 
 ## What this repo is
 
-- `index/`: the New York analysis (62 counties, 10 regions, 2022) and the index library `index/functions.R`.
-- `national/`: the same index for every multi-county MPO in the United States (224 computed).
-- `results/results.json`: every number the paper prints, written by `index/make_results.R`.
-- `replicate.sh`: the one entry point. Stages: `census ny uncertainty national results compare test`.
-- `.contract/`: the decision log (ND1-ND45), plans, and receipts. Read `.contract/national/CONTRACT.yaml` before you
-  change a method.
+| Path | What it is |
+|---|---|
+| `replicate.sh` | The one entry point. Stages: `census ny uncertainty national results compare test`. |
+| `setup.sh` | Installs R and the packages (Ubuntu 24.04). |
+| `index/` | The New York analysis (62 counties, 10 regions, 2022) and the index library `index/functions.R`. Script table: `index/README.md`. |
+| `index/test/` | Cached inputs (Census, shapes) and derived outputs (indices, figures). |
+| `index/runs/` | Results per emissions variant; `index/runs/uncertainty/` holds the New York uncertainty scripts and outputs. |
+| `index/tests/` | Unit tests (`Rscript index/tests/run_all.R`) and the 2025 fixture. |
+| `national/` | The same index for every multi-county MPO (224 computed): ledger, per-MPO outputs, models, figure. |
+| `results/results.json` | Every number the paper prints, written by `index/make_results.R`. |
+| `docs/` | Replication guide, figure map, method, session info, images, a road-type weighting spec (not used). |
+| `scripts/` | `check.sh` (repository checks) and `compare_results.R` (rerun vs paper). |
+| `.contract/` | The decision log (ND1-ND45), plans, and receipts. Read `.contract/national/CONTRACT.yaml` before you change a method. |
 
 ## Rules
 
