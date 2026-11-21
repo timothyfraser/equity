@@ -23,6 +23,8 @@ new_path = if (length(args) >= 2) args[2] else "results/results.json"
 leaves = function(x, path = character()){
   if (is.list(x) && !is.null(x$value) && length(x$value) == 1 && is.numeric(x$value))
     return(setNames(x$value, paste(path, collapse = ".")))
+  if (is.list(x) && is.numeric(x$mean_pct) && is.numeric(x$sd_pct) && !is.null(x$variable))   # Table A2 rows
+    return(setNames(c(x$mean_pct, x$sd_pct), paste(c(path, x$variable), collapse = ".") |> paste0(c(".mean_pct", ".sd_pct"))))
   if (is.list(x)) {
     nm = names(x); if (is.null(nm)) nm = as.character(seq_along(x))   # JSON arrays have no names
     return(unlist(unname(Map(function(v, k) leaves(v, c(path, k)), x, nm))))

@@ -1,4 +1,4 @@
-# equity: who lives next to the road, and who breathes its emissions?
+# equity: who lives next to the road, and who carries its emissions burden?
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![R 4.3+](https://img.shields.io/badge/R-4.3%2B-276DC3?logo=r&logoColor=white)
@@ -13,7 +13,8 @@ This repository builds a **population-adjusted equity index** that answers that 
 It scores how evenly the near-road burden of transportation PM<sub>2.5</sub> falls across race and ethnicity
 (14 groups), household income, educational attainment, and age, from 0 (all burden on one group) to 1 (perfectly even).
 The paper applies it to all 62 counties of New York State in 2022, grouped into 10 economic development regions, and
-then to 224 multi-county metropolitan planning organizations (MPOs) across the United States.
+then to the 224 multi-county metropolitan planning organizations (MPOs) in the United States that CAT covers. The
+index allocates each county's emissions to the people living near its roads; it does not model dispersion.
 
 Everything runs on public data. No raw emissions are stored here: the code pulls them from the Cornell CAT public
 object store at run time, and every number the paper prints is written by code to
@@ -45,12 +46,12 @@ bash replicate.sh      # New York analysis, uncertainty checks, results.json, an
 
 | Stage | Command | What it does | Time |
 |---|---|---|---|
-| `ny` | `bash replicate.sh ny` | Pulls CAT emissions, computes the New York indices, draws the New York figures | see [REPLICATION.md](docs/REPLICATION.md#runtimes) |
-| `uncertainty` | `bash replicate.sh uncertainty` | Permutation test and ACS margin-of-error intervals for New York | about 1 min |
-| `national` | `bash replicate.sh national` | All 411 MPOs: ledger, indices, models, national figure, uncertainty (needs a free [Census API key](https://api.census.gov/data/key_signup.html)) | hours on a first run; minutes after |
+| `ny` | `bash replicate.sh ny` | Pulls CAT emissions, computes the New York indices, draws the New York figures | about 65 s |
+| `uncertainty` | `bash replicate.sh uncertainty` | Permutation test and ACS margin-of-error intervals for New York | about 45 s |
+| `national` | `bash replicate.sh national` | Every MPO in the BTS layer (411: 224 computed, 186 single-county, 1 in Puerto Rico, excluded): ledger, indices, models, national figure, uncertainty. Needs a free [Census API key](https://api.census.gov/data/key_signup.html) | estimated 1-3 h on a first run; minutes after |
 | `results` | `bash replicate.sh results` | Writes [`results/results.json`](results/results.json) | about 10 s |
 | `compare` | `bash replicate.sh compare` | Compares your `results.json` with the paper's, number by number | seconds |
-| `test` | `bash replicate.sh test` | Unit tests for the index and the uncertainty code | about 30 s |
+| `test` | `bash replicate.sh test` | Unit tests for the index and the uncertainty code | about 5 s |
 | `census` | `bash replicate.sh census` | Optional: rebuilds the New York ACS caches (needs the key) | a few min |
 
 `bash replicate.sh` with no arguments runs `ny uncertainty results compare test`; `bash replicate.sh all` adds `national`.
@@ -61,6 +62,9 @@ The full guide, with expected outputs and how to check your numbers against ours
 serve slightly different emissions than the ones behind the paper. The manifest we used is recorded in
 [`index/test/emissions_provenance.txt`](index/test/emissions_provenance.txt) and in `results.json`, and the
 `compare` stage reports, number by number, how your rerun differs from the paper and which CAT release each came from.
+CAT does not keep the bytes of old releases, so a rerun today cannot recover the paper's exact New York inputs; the
+paper's New York numbers use `MANIFEST-e2ccfae4` and its national numbers `MANIFEST-59ea1fac`. The national results
+are rebuilt only when you run the `national` stage.
 
 ## What each figure and table comes from
 
@@ -79,26 +83,30 @@ serve slightly different emissions than the ones behind the paper. The manifest 
 | Table 1 and Table A1, literature review | written by hand | none | none |
 | Table 2, equity index scores by region | none (typeset from JSON) | `index/make_results.R` | `table2.rerun` |
 | Table A2, descriptive statistics | none (typeset from JSON) | `index/make_results.R` | `descriptives.rows` |
-| Uncertainty sentences (permutation, ACS intervals) | `index/runs/uncertainty/*.csv`, `national/tables/mpo_*.csv` | `index/runs/uncertainty/*.R`, `national/permutation.R`, `national/acs_intervals.R` | `robustness.*`, `national.permutation`, `national.acs` |
+| Uncertainty results (permutation, ACS intervals) | `index/runs/uncertainty/*.csv`, `national/tables/mpo_*.csv` | `index/runs/uncertainty/*.R`, `national/permutation.R`, `national/acs_intervals.R` | `robustness.*`, `national.permutation`, `national.acs` |
 
-Every leaf in `results.json` has the form `{"value": ..., "status": ..., "evidence": ...}`, where `evidence` names the
-file and script that produced it.
+Each number in `results.json` is stored as `{"value": ..., "status": ..., "evidence": ...}`, where `evidence` names
+the file and script that produced it. Table A2's rows (`descriptives.rows`) hold `mean_pct` and `sd_pct` with one
+status and evidence per row.
 
 ## The method in one page
 
 1. **Exposure zone.** Buffer every primary and secondary road (TIGER/Line, 2022) by 0.3 km.
-2. **Who lives there.** Intersect census tracts with the zone and apportion each tract's ACS group counts by the share
-   of its land area inside the zone (area weighting).
+2. **Who lives there.** Intersect census tracts (Census cartographic boundary polygons, 2022) with the zone and
+   apportion each tract's ACS group counts by the share of the tract's area inside the zone (area weighting).
 3. **Emissions per exposed resident.** Divide each county's on-road PM<sub>2.5</sub> (CAT, 2022) by the number of
    people living in its zones, so each exposed resident in a county carries the same share of that county's emissions.
-4. **Relative burden.** Within a region, divide each group's share of the emissions burden by its share of the
-   population, then rescale these ratios to sum to 1 across groups. Call the result *s<sub>g</sub>*.
+4. **Relative burden.** Within a region, take each group's share of the emissions burden (*e<sub>g</sub>*, from its
+   residents inside the zones) and its share of the region's population (*p<sub>g</sub>*, from county ACS totals).
+   Divide *e<sub>g</sub>* by *p<sub>g</sub>* and rescale these ratios to sum to 1 across groups. Call the result
+   *s<sub>g</sub>*. A group with no members in the region is left out, not scored zero.
 5. **Index.** The equal-group index for *n* groups is
    *I* = 1 − *n* / (2(*n* − 1)) × Σ<sub>g</sub> |*s<sub>g</sub>* − 1/*n*|.
    It is 1 when every group carries the same relative burden and 0 when one group carries all of it
    (`get_index()` in [`index/functions.R`](index/functions.R)). A population-weighted companion,
    1 − ½ Σ<sub>g</sub> |*e<sub>g</sub>* − *p<sub>g</sub>*| over each group's emissions and population shares, is also
-   computed for reviewers; the paper reports the equal-group index.
+   computed for reviewers; the paper reports the equal-group index. The overall score in Table 2 is the unweighted
+   mean of the four dimension scores.
 6. **Is it more than chance?** An exact permutation test shuffles group labels among residents while holding every
    tract's population and every group's total fixed (1,000 draws), and reports how often chance alone is as uneven as
    what we observe.
@@ -144,19 +152,21 @@ URLs: [`index/test/EMISSIONS_SOURCES.md`](index/test/EMISSIONS_SOURCES.md).
 
 The original New York pipeline (`index/`) was written by the authors in 2025. The 2026 revision corrected the index
 normaliser, moved emissions to the CAT public object store, added four race groups, and added the national MPO
-extension and the uncertainty checks. Much of that revision was written with Claude Code (Anthropic) working under
-Tim Fraser's direction, so we built in safeguards that do not depend on trusting the code's author:
+extension and the uncertainty checks. Much of the revision was written with Claude Code (Anthropic) under Tim
+Fraser's direction, working to a written plan with decisions reserved for him. What that left behind, for anyone who
+wants to check it:
 
-- **Every decision is logged.** [`.contract/national/CONTRACT.yaml`](.contract/national/CONTRACT.yaml) records each
-  analytic decision (ND1-ND45) with who made it and why; [`STATE.md`](.contract/national/STATE.md) is the running log.
-- **Every number is generated.** Nothing in the paper is typed by hand. `index/make_results.R` writes
-  `results/results.json`, and the manuscript is filled from it.
-- **Every step leaves a receipt.** [`.contract/national/receipts/`](.contract/national/receipts/) records what each
-  step did, the checks it ran, and their results.
-- **Tests guard the math.** `Rscript index/tests/run_all.R` checks the index against hand-computed cases, the
-  permutation test against its exact null, and the ACS draws against their distributions.
-- **The corrected index reproduces the old one.** With the legacy normaliser restored, the code reproduces the values
-  printed in the 2025 version of the paper (`_meta.checks` in `results.json`).
+- [`.contract/national/CONTRACT.yaml`](.contract/national/CONTRACT.yaml): decisions ND1-ND45, each with who made it
+  and why. [`STATE.md`](.contract/national/STATE.md) is the running log, and
+  [`receipts/`](.contract/national/receipts/) holds one receipt per finished step with the checks it ran.
+- [`results/results.json`](results/results.json): written by `index/make_results.R`; the manuscript's numbers are
+  filled from it.
+- [`index/tests/`](index/tests/): the index on hand-computed cases; the matrix version of the index against the
+  paper's values; the permutation test's margins and its two extreme cases (a fully mixed unit and a fully
+  segregated one); the ACS draws with zero margins, zero cells, and fixed seeds. The 2025 paper's region-level
+  results ship as a fixture, and the tests confirm that the 2025 (legacy) formula reproduces them.
+- An author-only audit in `make_results.R` (it needs the private manuscript repository) compares the rerun with the
+  values printed in the 2025 version of the paper and records the result in `_meta.checks`.
 
 ## How to cite
 

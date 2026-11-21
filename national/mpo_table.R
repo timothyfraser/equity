@@ -4,7 +4,7 @@ library(tidyr)
 library(readr)
 
 ledger = read_csv("national/LEDGER.csv", col_types = cols(.default = col_character())) |>
-  filter(status == "done") |>
+  filter(status == "done", state != "PR") |>   # Puerto Rico is excluded (Tim), even once CAT covers it
   transmute(mpo_id, mpo_name, state,
             n_counties = as.integer(n_counties), n_states = as.integer(n_states))
 

@@ -5,7 +5,7 @@ see why each analytic choice was made, who made it, and what evidence each step 
 
 The national extension and the uncertainty checks were written with Claude Code (Anthropic) under Tim Fraser's
 direction. We worked to a written contract: a plan, a list of decisions only Tim could make, and a receipt for every
-finished step. That way the analysis does not depend on trusting whoever, or whatever, typed the code.
+finished step, so each choice can be checked against its reason and its evidence.
 
 | File | What it holds |
 |---|---|

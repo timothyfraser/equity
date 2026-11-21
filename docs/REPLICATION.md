@@ -48,11 +48,14 @@ Run single stages by name, in any order that respects their inputs: `bash replic
 `bash replicate.sh results compare`, and so on. `bash replicate.sh all` adds the national stage.
 
 `replicate.sh` overwrites the paper's tracked outputs (figures in `index/test/`, `results/results.json`) with yours,
-so `git diff` shows exactly what changed. To restore the paper's copies: `git checkout -- index/test index/runs results`.
+so `git diff` shows exactly what changed. Your `results.json` will also lack the author-only audit (the `published`
+and `fix_only` variants and `_meta.checks`), because it needs the private manuscript repository; that shows up in
+`git diff` as deletions and in `compare` as numbers "only in the paper's file". To restore the paper's copies:
+`git checkout -- index/test index/runs results national`.
 
 ## Runtimes
 
-Measured on a fresh clone, 4 vCPU cloud machine, November 2026:
+Measured on a fresh clone, 4 vCPU cloud machine, November 2026, except the national first run, which is an estimate:
 
 | Stage | Time |
 |---|---|
@@ -61,7 +64,7 @@ Measured on a fresh clone, 4 vCPU cloud machine, November 2026:
 | `results` | about 7 s |
 | `compare` | under 1 s |
 | `test` | about 6 s |
-| `national`, first run | 1 to 3 hours of downloads and geometry (the pilot measured 4-12 s per member county; the 224 MPOs have 804 member counties), then about 6 minutes for the two uncertainty checks with 3 workers |
+| `national`, first run | estimated 1 to 3 hours of downloads and geometry (the pilot measured 4-12 s per member county; the 224 MPOs have 804 member counties), then about 6 minutes, measured, for the two uncertainty checks with 3 workers |
 | `national`, rerun | minutes: only MPOs that changed are recomputed |
 
 ## Check your numbers against ours
@@ -78,11 +81,18 @@ publishing new 2022 runs for New York counties, two fresh-clone runs pulled `MAN
 runs and so now covers more counties. In the headline variant (`rerun`), 5 and 7 of the 50 index values in Table 2
 changed in the third decimal; the largest change was 0.0015.
 
-If your manifest matches ours and a number still differs, that is a real discrepancy. Please open an issue with the
-`compare` output.
+Because the old bytes are gone, no rerun can now pull `MANIFEST-e2ccfae4` again. On the paper's own inputs the code is
+exact: rerunning the `results` stage on the cached `MANIFEST-e2ccfae4` emissions reproduced every number in
+`results.json` (checked 21 November 2026). If you find a difference that the CAT release does not explain, please
+open an issue with the `compare` output.
+
+`compare` is a report, not a test: it always exits 0. The CI badge on the README therefore means "the code runs from
+a clean checkout and the unit tests pass", not "the numbers equal the paper's".
 
 The national results (`national.*`) are not recomputed by the default stages. They come from the committed per-MPO
-outputs in `national/out/`, built on `MANIFEST-59ea1fac`. They match exactly unless you run the national stage.
+outputs in `national/out/`, built on `MANIFEST-59ea1fac`. They match exactly unless you run the national stage. The
+MPO boundaries come from a live BTS service; the 411 MPO IDs and names we used are in `national/mpo_list.csv`, but the
+boundary polygons are not archived.
 
 ## What each stage reads and writes
 
@@ -118,6 +128,7 @@ for a county that blocked an MPO, the next rerun picks it up. Details: [`nationa
 | National Census and geometry caches (`index/cache/`) | About 1 GB, and fully reproducible | Rebuilt by the national stage |
 | The 2025 paper's full outputs (`index/published/`) | They hold raw emissions | Region-level copies used by the tests are in `index/tests/fixtures/published_2025/` |
 | The manuscript | Under review | The paper's numbers are in `results/results.json` |
+| The exact CAT inputs behind the paper | Raw emissions are not stored (ND21), and CAT serves only its latest release | Not recoverable from CAT; see [Check your numbers](#check-your-numbers-against-ours) |
 
 Tests that need a cache a fresh clone does not have print `SKIP` with the stage that creates it, rather than failing.
 After `bash replicate.sh`, only the national-cache checks are skipped.

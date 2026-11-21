@@ -183,17 +183,20 @@ if (interactive()) { browseURL("test/map.png") }
 
 # Sensitivity grid and figures (last) ############
 # Measure sensitivity across distance and pollutant
-tidyr::expand_grid(
+sens_grid = tidyr::expand_grid(
   pollutant = c(98, 2, 3, 31, 33, 100, 106, 107, 110, 116, 117),
   dist = c(100, 300, 500, 1000, 2000),
   year = 2022
 ) %>%
-  mutate(id = 1:n()) %>%
+  mutate(id = 1:n())
+sens = sens_grid %>%
   split(.$id) %>%
   purrr::map_dfr(
     .f = possibly(.f = ~get_overall(myyear = .$year, pollutant = .$pollutant, dist = .$dist), otherwise = NULL), 
-    .id = "id") %>% 
-  saveRDS("test/stat_overall_sensitivity.rds")
+    .id = "id")
+# A cell whose emissions cannot be computed (for example, a pollutant with too few CAT years) is dropped; say how many
+message("sensitivity grid: ", dplyr::n_distinct(sens$id), " of ", nrow(sens_grid), " pollutant x distance cells computed")
+saveRDS(sens, "test/stat_overall_sensitivity.rds")
 
 ## DISTANCE #################################
 # Review data

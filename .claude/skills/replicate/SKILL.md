@@ -35,5 +35,5 @@ against the committed copy.
 
 - Edit anything in `index/test/`, `index/runs/`, `national/out/` or `results/` by hand.
 - Commit a rerun's `results/results.json` or figures unless Tim asked for the paper's numbers to be updated.
-  `git checkout -- index/test results national` restores the paper's copies.
+  `git checkout -- index/test index/runs results national` restores the paper's copies.
 - Commit raw CAT emissions (`index/test/emissions_*` are gitignored for that reason).

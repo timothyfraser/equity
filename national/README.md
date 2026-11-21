@@ -42,6 +42,7 @@ Rscript national/models.R            # index ~ log(emissions rate) across MPOs
 Rscript national/tile_grid.R         # tile map layout
 Rscript national/figures.R           # four-panel national figure
 Rscript national/permutation.R       # permutation test
+Rscript index/make_census_moe.R      # ACS margin-of-error cache for every state an MPO touches (needs CENSUS_API_KEY)
 Rscript national/acs_intervals.R     # ACS intervals
 ```
 
