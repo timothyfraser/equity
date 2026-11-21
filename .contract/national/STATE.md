@@ -73,3 +73,10 @@ Blocked:
 - Open for Tim: archive the paper's New York CAT inputs (a frozen copy, e.g. Zenodo with a DOI; conflicts with ND21 as
   worded); tag a release and mint a DOI for CITATION.cff; renv lockfile.
 - PRs: paper_equity #1 and revisions #7 merged; equity #1 merges when CI is green.
+
+## 2026-11-21: New York emissions frozen (ND46)
+
+- Tim: freeze the paper's New York CAT emissions in GitHub; no Zenodo; national MPO emissions stay out.
+- index/data/cat_MANIFEST-e2ccfae4/ (5 extracts + provenance + SHA256SUMS, 85 KB). replicate.sh's ny stage verifies the
+  checksums and loads them; EMISSIONS=live pulls the latest CAT release.
+- Fresh clone, default run: 2,383 of 2,383 numbers match the paper; every figure and intermediate file byte-identical.

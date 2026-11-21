@@ -37,16 +37,16 @@ bash setup.sh        # Ubuntu 24.04; macOS and Windows: see the replication guid
 bash replicate.sh    # about 2 minutes, no API key
 ```
 
-This reruns the New York analysis, writes `results/results.json`, compares it with the paper's numbers, and runs the
-tests. CAT is a live database, so a rerun may pull newer emissions than the paper used; the `compare` step shows any
-difference and the CAT release behind it. The national stage (`bash replicate.sh all`) needs a free
+This reruns the New York analysis on the paper's own emissions (frozen in the repo), writes `results/results.json`,
+compares it with the paper's numbers (they match exactly), and runs the tests. `EMISSIONS=live bash replicate.sh`
+uses the latest CAT release instead. The national stage (`bash replicate.sh all`) needs a free
 [Census API key](https://api.census.gov/data/key_signup.html) and a few hours on a first run.
 
 ## Data sources
 
 | Data | Source |
 |---|---|
-| On-road emissions by county, 2020-2025 | [CAT public objects](https://api.cat-apps.com/objects/LATEST), pulled at run time and never stored here ([URLs](index/test/EMISSIONS_SOURCES.md)) |
+| On-road emissions by county, 2020-2025 | [CAT public objects](https://api.cat-apps.com/objects/LATEST) ([URLs](index/test/EMISSIONS_SOURCES.md)); New York's copy is [frozen here](index/data/cat_MANIFEST-e2ccfae4/), national ones are pulled at run time |
 | Race and ethnicity, income, education, age | [ACS 5-year 2022](https://www.census.gov/data/developers/data-sets/acs-5year.html), via [`censusapi`](https://cran.r-project.org/package=censusapi) |
 | Roads, tracts, counties | [TIGER/Line](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html), via [`tigris`](https://cran.r-project.org/package=tigris) |
 | MPO boundaries | [BTS National Transportation Atlas Database](https://geodata.bts.gov/) |

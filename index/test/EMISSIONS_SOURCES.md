@@ -1,7 +1,11 @@
 # Emissions sources
 
 We do not store raw CAT emissions in GitHub, because anyone can pull them from CAT public without a key.
-The analysis outputs (indices, MPO totals) are stored; the raw county emissions are not.
+The analysis outputs (indices, MPO totals) are stored; the national county emissions are not.
+
+One exception (ND46): the New York emissions the paper used (CAT `MANIFEST-e2ccfae4`, 85 KB) are frozen in
+[`../data/cat_MANIFEST-e2ccfae4/`](../data/cat_MANIFEST-e2ccfae4/) with checksums, because CAT keeps only its latest
+release. `bash replicate.sh` loads them; `EMISSIONS=live bash replicate.sh` pulls the latest release from the URLs below.
 
 ## Exact URLs
 

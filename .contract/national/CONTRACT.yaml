@@ -87,6 +87,10 @@ decisions:
     crosswalk stays in the code); chance-adjusted index explained in words with the formula in parentheses (Tim, 2026-11-21).'
   ND45: 'New York stays on interpolated 2022 emissions (piecewise between available CAT years); no New York rerun needed (Tim,
     2026-11-21: "We can just interpolate from what''s already there, so no need to rerun New York").'
+  ND46: 'Amends ND21 for New York only: the paper''s New York CAT emissions (MANIFEST-e2ccfae4, 85 KB) are frozen in
+    index/data/cat_MANIFEST-e2ccfae4/ with SHA256SUMS, and replicate.sh uses them by default (EMISSIONS=live pulls the
+    latest). National MPO emissions stay out of GitHub (Tim, 2026-11-21: "freeze the paper''s New York emissions
+    inputs on GitHub ... I just don''t want to put all of the MPOs'' stuff"). No Zenodo deposit.'
 gates:
   G1: Removed by ND11 (no road-type variant).
 open_questions: {}
