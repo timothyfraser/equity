@@ -42,25 +42,37 @@ tile_map = function(v, sub = NULL){
   pal = scales::col_numeric(c(hue[[v]], pale[[v]]), domain = c(lo, 1))
   t = tl |> filter(!is.na(.data[[v]])) |> mutate(fill = pal(.data[[v]]), tcol = text_col(fill)) |>
     left_join(wide |> select(mpo_id, state), by = "mpo_id")
-  # Extremes: label ABOVE the block if the tile is above the median row, else BELOW.
+  # Extremes + the on-the-line case (ND33): label ABOVE the block if the tile is above the median row, else BELOW.
   hw = 3.6   # half label width in columns at this panel size (labels about 7 columns wide); clamps labels inside the panel
-  e = ext_tbl(v) |> left_join(tiles, by = "mpo_id") |>
-    mutate(above = row > med_row, ly = if_else(above, rr[2] + 2.3, rr[1] - 2.3),
-           lab = paste0(wrap_name(paste0(name, ", ", state)), "\n(", sprintf("%.3f", val), ")"), lx = pmin(pmax(col, xr[1] - 0.5 + hw), xr[2] + 0.5 - hw))
-  # if both labels go to the same side and would overlap, push them apart horizontally (toward their own tiles' columns)
-  if (nrow(e) == 2 && e$above[1] == e$above[2] && abs(e$lx[1] - e$lx[2]) < 2 * hw + 0.3){
-    o = order(e$col); gap = 2 * hw + 0.3; mid = mean(e$lx)
-    e$lx[o[1]] = mid - gap / 2; e$lx[o[2]] = mid + gap / 2
-    sh = max(0, xr[1] - 0.5 + hw - min(e$lx)) - max(0, max(e$lx) - (xr[2] + 0.5 - hw)); e$lx = e$lx + sh
+  ty = js$typical[[v]]
+  tp = tibble(mpo_id = ty$mpo_id$value, name = ty$mpo_name$value, state = ty$state$value, val = ty$value$value)
+  e = bind_rows(ext_tbl(v) |> mutate(kind = "extreme"), tp |> mutate(kind = "typical")) |> left_join(tiles, by = "mpo_id") |>
+    mutate(above = row > med_row, lab = paste0(wrap_name(paste0(name, ", ", state)), "\n(", sprintf("%.3f", val), ")"),
+           lx = pmin(pmax(col, xr[1] - 0.5 + hw), xr[2] + 0.5 - hw), gap = 2 * hw + 0.3)
+  # the typical case goes to the other side if its side would collide with an extreme's label there
+  ti = which(e$kind == "typical"); ex = e[e$kind == "extreme", ]
+  if (any(ex$above == e$above[ti] & abs(ex$lx - e$lx[ti]) < e$gap[ti])) e$above[ti] = !e$above[ti]
+  # on each side, spread labels apart (sorted by column), then shift the group back inside the panel
+  spread = function(x, gap, lo_b, hi_b){
+    o = order(x); y = x[o]
+    for (i in seq_along(y)[-1]) y[i] = max(y[i], y[i - 1] + gap)
+    if (max(y) > hi_b) y = y - (max(y) - hi_b)
+    if (min(y) < lo_b) y = y + (lo_b - min(y))
+    x[o] = y; x
   }
-  e = e |> mutate(y0 = if_else(above, row + 0.5, row - 0.5), y1 = if_else(above, ly - 0.9, ly + 0.9))
+  for (sd in c(TRUE, FALSE)){ i = which(e$above == sd); if (length(i) > 1) e$lx[i] = spread(e$lx[i], e$gap[i][1], xr[1] - 0.5 + hw, xr[2] + 0.5 - hw) }
+  e = e |> group_by(above) |> mutate(stag = (rank(col, ties.method = "first") - 1) * 0.35) |> ungroup() |>
+    mutate(ly = if_else(above, rr[2] + 1.6, rr[1] - 1.6), y0 = if_else(above, row + 0.5, row - 0.5),
+           y1 = if_else(above, ly - 0.8 - stag, ly + 0.8 + stag))
+  ee = e |> filter(kind == "extreme"); et = e |> filter(kind == "typical")
   # reserve the same label bands above and below on every map, so the two maps come out the same size
-  y_lo = rr[1] - 3.5; y_hi = rr[2] + 3.5   # leader ends just short of the text
+  y_lo = rr[1] - 2.5; y_hi = rr[2] + 2.5   # leader ends just short of the text
   ggplot() +
     geom_tile(data = t, aes(col, row, fill = .data[[v]]), color = "white", linewidth = 0.3, width = 1, height = 1) +
     geom_text(data = t, aes(col, row, label = state, color = I(tcol)), size = 1.25, lineheight = 0.9) +   # 1.25 mm = about 3.6 pt: fits two letters in a square tile with the maps side by side
     geom_tile(data = blocked, aes(col, row), fill = "white", color = "#8b949e", linewidth = 0.35, width = 0.82, height = 0.82) +
-    geom_tile(data = e, aes(col, row), fill = NA, color = "black", linewidth = 0.6, width = 1, height = 1) +
+    geom_tile(data = ee, aes(col, row), fill = NA, color = "black", linewidth = 0.6, width = 1, height = 1) +
+    geom_tile(data = et, aes(col, row), fill = NA, color = "black", linewidth = 0.6, linetype = "22", width = 1, height = 1) +   # on-the-line case: dashed outline
     # leader runs along the white gap at the tile's right edge (x = col + 0.5), so it never covers a state label,
     # then turns to the label; no halo needed
     geom_segment(data = e, aes(x = col + 0.5, xend = col + 0.5, y = y0, yend = y1), linewidth = 0.3, color = "black") +
@@ -84,10 +96,12 @@ scatter = function(v){
   f3 = function(x) if (x != 0 && abs(x) < 0.0005) sprintf("%.4f", x) else sprintf("%.3f", x)   # a bound that rounds to 0 at 3 dp shows 4 dp
   lab = paste0(beta, " = ", f3(b), " (95% CI ", f3(lo95), " to ", f3(hi95), "), ", pfmt(p))   # paste0 keeps the UTF-8 mark; sprintf drops it in a C locale
   e = ext_tbl(v) |> left_join(d |> select(mpo_id, kg, y = all_of(v)), by = "mpo_id")
+  ty = js$typical[[v]]; et = d |> filter(mpo_id == ty$mpo_id$value) |> mutate(y = .data[[v]])
   ggplot(d, aes(lkg, .data[[v]])) +
     geom_smooth(method = "lm", formula = y ~ x, se = TRUE, color = ink, fill = "#c9ced4", linewidth = 0.6) +
     geom_point(shape = 21, fill = hue[[v]], color = "white", size = 1.7, stroke = 0.3, alpha = 0.8) +
     geom_point(data = e, aes(log10(kg), y), shape = 21, fill = NA, color = "black", size = 2.6, stroke = 0.6) +
+    geom_point(data = et, aes(log10(kg), y), shape = 23, fill = NA, color = "black", size = 3.4, stroke = 0.6) +   # on-the-line case: open diamond
     scale_x_continuous(breaks = log10(c(0.1, 0.2, 0.5, 1, 2)), labels = c("0.1", "0.2", "0.5", "1", "2")) +
     scale_y_continuous(expand = expansion(mult = c(0.04, 0.12)), breaks = scales::breaks_pretty(6)) +   # data extent, headroom for the annotation
     annotate("text", x = max(d$lkg), y = Inf, label = lab, hjust = 1, vjust = 1.4, size = 2.0, family = "DejaVu Sans", color = muted) +
@@ -99,7 +113,8 @@ scatter = function(v){
 }
 sub = "One tile per MPO, arranged nearest its location."
 # maps side by side on top, scatters side by side below (Tim, 2026-11-20)
-gg = (tile_map("race", sub) | tile_map("income", sub)) / (scatter("race") | scatter("income")) + plot_layout(heights = c(1.1, 1))
+# ND34: map column (race above income) on the left, about 62% of the width; scatter column on the right
+gg = (tile_map("race", sub) / tile_map("income", sub) | scatter("race") / scatter("income")) + plot_layout(widths = c(0.62, 0.38))
 dir.create("national/fig", showWarnings = FALSE)
-ggsave("national/fig/mpo_national.png", gg, device = ragg::agg_png, width = 7.5, height = 7.2, dpi = 500, bg = "white")
+ggsave("national/fig/mpo_national.png", gg, device = ragg::agg_png, width = 7.5, height = 8.8, dpi = 500, bg = "white")
 message("wrote national/fig/mpo_national.png; lower limit ", lo, "; blocked tiles: ", nrow(blocked))
