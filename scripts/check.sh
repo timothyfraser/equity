@@ -5,7 +5,7 @@
 #   bash scripts/check.sh --static     # skip the unit tests (base R and Python only; what CI's first job runs)
 #
 # Checks
-#   1. every R file outside demo/ parses
+#   1. every R file parses
 #   2. every shell script parses (bash -n)
 #   3. results/results.json and national/results_*.json are valid JSON, and every results.json leaf has
 #      value, status, and evidence
@@ -20,7 +20,7 @@ ok()   { printf "OK    %s\n" "$1"; }
 bad()  { printf "FAIL  %s\n" "$1"; fail=1; }
 
 # 1. R parses
-r_files=$(git ls-files '*.R' | grep -v '^demo/')
+r_files=$(git ls-files '*.R')
 if Rscript -e 'f = commandArgs(TRUE); bad = character(); for (x in f) tryCatch(invisible(parse(file = x)), error = function(e) bad <<- c(bad, paste0(x, ": ", conditionMessage(e)))); if (length(bad)) { writeLines(bad); quit(status = 1) }' $r_files; then
   ok "R parses ($(echo "$r_files" | wc -l) files)"
 else bad "R parse errors above"; fi
@@ -55,7 +55,7 @@ for f in ["results/results.json"] + sorted(p for p in os.listdir("national") if 
 tracked = subprocess.run(["git", "ls-files"], capture_output=True, text=True).stdout.split()
 docs = [f for f in tracked if f.endswith(".md") and (
     f.count("/") == 0 or f.startswith(("docs/", ".claude/", "results/")) or
-    f in ("index/README.md", "national/README.md", "demo/README.md", ".contract/README.md",
+    f in ("index/README.md", "national/README.md", ".contract/README.md",
           "index/test/EMISSIONS_SOURCES.md"))]
 link = re.compile(r"\]\(([^)\s]+)\)")
 for f in docs:
@@ -68,7 +68,7 @@ for f in docs:
         if not os.path.exists(full):
             bad.append(f"broken link in {f}: {target}")
 # 5. machine paths in code and top-level docs
-code = [f for f in tracked if f.endswith((".R", ".sh", ".py")) and not f.startswith("demo/") and f != "scripts/check.sh"] + docs
+code = [f for f in tracked if f.endswith((".R", ".sh", ".py")) and f != "scripts/check.sh"] + docs
 for f in code:
     for n, line in enumerate(open(f, errors="replace"), 1):
         if "/home/user" in line or "C:\\Users" in line:
@@ -83,8 +83,8 @@ else bad "JSON, link, or path problems above"; fi
 # 6. secrets and login-gated links
 sec=0
 if git ls-files | grep -E '(^|/)\.env$|secret/\.env' >/dev/null; then echo "  tracked .env file"; sec=1; fi
-if git grep -nIE '(brk_[A-Za-z0-9]{16,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|CENSUS_API_KEY=[0-9a-f]{40})' -- . ':!demo' >/dev/null; then
-  git grep -nIE '(brk_[A-Za-z0-9]{16,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|CENSUS_API_KEY=[0-9a-f]{40})' -- . ':!demo' | cut -c1-80; sec=1; fi
+if git grep -nIE '(brk_[A-Za-z0-9]{16,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|CENSUS_API_KEY=[0-9a-f]{40})' -- . >/dev/null; then
+  git grep -nIE '(brk_[A-Za-z0-9]{16,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|CENSUS_API_KEY=[0-9a-f]{40})' -- . | cut -c1-80; sec=1; fi
 if git grep -nI 'github.coecis.cornell.edu' -- . ':!CLAUDE.md' ':!.contract' ':!scripts/check.sh' >/dev/null; then
   git grep -nI 'github.coecis.cornell.edu' -- . ':!CLAUDE.md' ':!.contract' ':!scripts/check.sh' | cut -c1-120; sec=1; fi
 [ $sec -eq 0 ] && ok "no secrets or login-gated links" || bad "secret or login-gated link above"

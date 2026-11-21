@@ -17,6 +17,17 @@ finished step, so each choice can be checked against its reason and its evidence
 | [`national/scouts/`](national/scouts/) | Short investigations done before a decision (data availability, method options). |
 | [`national/CAT_2022_RUN_REQUEST_37.md`](national/CAT_2022_RUN_REQUEST_37.md), [`national/CAT_ORDERS_HANDOFF.md`](national/CAT_ORDERS_HANDOFF.md) | The CAT model runs ordered to fill counties that had no 2022 data. |
 
+Beyond this folder, the checks a reader can rerun are:
+
+- [`../results/results.json`](../results/results.json), written by `index/make_results.R`; the manuscript's numbers
+  are filled from it.
+- [`../index/tests/`](../index/tests/): the index on hand-computed cases; the matrix version of the index against the
+  paper's values; the permutation test's margins and its two extreme cases; the ACS draws with zero margins, zero
+  cells, and fixed seeds. The 2025 paper's region-level results ship as a fixture, and the tests confirm that the
+  2025 (legacy) formula reproduces them.
+- An author-only audit in `index/make_results.R` (it needs the private manuscript repository) compares the rerun
+  with the values printed in the 2025 version of the paper and records the result in `_meta.checks`.
+
 The pilot report for the MPO extension, with its pass/fail checks, is
 [`../national/pilot/PILOT_REPORT.md`](../national/pilot/PILOT_REPORT.md).
 
