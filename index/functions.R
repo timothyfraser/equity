@@ -1469,7 +1469,8 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
 
 get_emissions_slopes = function(
     stat_overall = read_rds("test/stat_overall.rds") ,
-    stat_income = read_rds("test/stat_income.rds")
+    stat_income = read_rds("test/stat_income.rds"),
+    axis_min = NULL   # lower limit of the index axis; NULL = computed from the plotted scores
 ){
   # Other statistics ###################################
   data = stat_overall %>%
@@ -1510,7 +1511,7 @@ get_emissions_slopes = function(
   # As emissions increases, overall equity increases by +0.02 (p = 0.001)
   
   
-  axis_min = floor(min(data$y, na.rm = TRUE) * 20) / 20 - 0.05
+  if (is.null(axis_min)) axis_min = floor(min(data$y, na.rm = TRUE) * 20) / 20 - 0.05
   
   # How does emissions trend with burden? 
   gg = ggplot() +
@@ -1893,7 +1894,8 @@ get_sensitivity_distance1 = function(
 get_sensitivity_distance2 = function(
     sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"),
     .pollutant = 110,
-    .year = 2022){
+    .year = 2022,
+    axis_min = NULL){   # lower limit of the index axis; NULL = computed from the plotted scores
   
   # Testing values
   # sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"); .pollutant = 110; .year = 2022
@@ -1905,7 +1907,7 @@ get_sensitivity_distance2 = function(
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::tidy()
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::glance()
   # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
-  axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
+  if (is.null(axis_min)) axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
   
   gg = ggplot() +
     geom_line(data = data, mapping = aes(x = dist/1000, y = total, group = region),
@@ -1930,7 +1932,8 @@ get_sensitivity_distance3 = function(
     .metric = "total",
     pollutants = c(pm = 110, pm10 = 100, co2 = 98,  so2 = 31, nox = 3),
     .pollutant = 110,
-    .year = 2022){
+    .year = 2022,
+    axis_min = NULL){   # lower limit of the index axis; NULL = computed from the plotted scores
   
   # Show bands of variation
   data = sensitivity_data %>% 
@@ -1943,7 +1946,9 @@ get_sensitivity_distance3 = function(
               ymax = max(y, na.rm = TRUE),
               ymain = y[pollutant == 110])
   # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
-  axis_min = floor(min(data$ymin, na.rm = TRUE) * 20) / 20 - 0.05
+  if (is.null(axis_min)) axis_min = floor(min(data$ymin, na.rm = TRUE) * 20) / 20 - 0.05
+  # The axis squishes values below its lower limit, so a limit above the data would misdraw them: refuse it
+  stopifnot("axis_min is above the lowest plotted score" = axis_min <= min(data$ymin, na.rm = TRUE))
   
   # How much do things change by distance?
   # data = sensitivity_data %>%
