@@ -137,9 +137,11 @@ if (interactive()) { browseURL("test/lines_overall.png") }
 
 # Slopes ###########################
 
+# Axis limits (Tim, 2026-11-23): crop to the extent of the data. C3 starts at 0.85; C1 and C2 at 0.90.
 gg = get_emissions_slopes(
   stat_overall = read_rds("test/stat_overall.rds"),
-  stat_income = read_rds("test/stat_income.rds"))
+  stat_income = read_rds("test/stat_income.rds"),
+  axis_min = 0.85)
 ggsave(plot = gg, filename = "test/slopes_by_type.png", dpi = 500, width = 8.5, height = 6)
 if (interactive()) { browseURL("test/slopes_by_type.png") }
 
@@ -207,11 +209,11 @@ ggsave(plot = gg, filename = "test/sensitivity_distance.png", dpi = 500, width =
 if (interactive()) { browseURL("test/sensitivity_distance.png") }
 
 
-gg = get_sensitivity_distance2(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
+gg = get_sensitivity_distance2(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear, axis_min = 0.90)
 ggsave(gg, filename = "test/sensitivity_scatterplot.png", dpi = 500, width= 6, height =6)
 if (interactive()) { browseURL("test/sensitivity_scatterplot.png") }
 
-gg = get_sensitivity_distance3(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear)
+gg = get_sensitivity_distance3(sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"), .pollutant = mypollutant, .year = myyear, axis_min = 0.90)
 ggsave(plot = gg, filename = "test/sensitivity_distance_pollutant.png", dpi = 500, width = 6, height = 6)
 if (interactive()) { browseURL("test/sensitivity_distance_pollutant.png") }
 

@@ -1469,7 +1469,8 @@ get_lines = function(stat_overall = read_rds("test/stat_overall.rds"), .dist = 3
 
 get_emissions_slopes = function(
     stat_overall = read_rds("test/stat_overall.rds") ,
-    stat_income = read_rds("test/stat_income.rds")
+    stat_income = read_rds("test/stat_income.rds"),
+    axis_min = NULL   # lower limit of the index axis; NULL = computed from the plotted scores
 ){
   # Other statistics ###################################
   data = stat_overall %>%
@@ -1489,28 +1490,23 @@ get_emissions_slopes = function(
       mutate(xtype = "Emissions Rate (per capita)")
   )
   
-  # Find significant statistics
-  data %>%
-    group_by(xtype, ytype) %>%
-    reframe(
-      lm(formula = y ~ log(x) )%>%
-        broom::tidy() %>%
-        filter(term == "log(x)")
-    ) %>%
-    filter(p.value < 0.10)
-  
+  # Findings caption, computed from the fits the plot draws: lm(index ~ log(emissions)) per index type, on the
+  # "Emissions" panel (the same model as emissions_slopes in results.json). Nothing here is typed by hand.
+  fits = data %>%
+    filter(xtype == "Emissions", ytype %in% c("total", "income", "race")) %>%
+    group_by(ytype) %>%
+    reframe(lm(formula = y ~ log(x)) %>% broom::tidy() %>% filter(term == "log(x)")) %>%
+    mutate(ytype = factor(ytype, levels = c("total", "income", "race"))) %>%
+    arrange(ytype)
+  type_label = c(total = "overall", income = "income", race = "race/ethnicity")
+  fmt_p = function(p) if_else(p < 0.001, "p < 0.001", sprintf("p = %.3f", p))
+  parts = with(fits, paste0("<b>", type_label[as.character(ytype)], "</b> (&beta; = ", sprintf("%+.3f", estimate), ", ", fmt_p(p.value), ")"))
+  sig = with(fits, type_label[as.character(ytype)][p.value < 0.05])
   message = paste0(
-    "<i>Significant Findings</i>: As the natural log of emissions increases by 1, regions see...",
-    "<br>",
-    "increased equity <b>overall</b> (&beta; = +0.11, p < 0.001), by <b>income</b> (&beta; = +0.06, p = 0.077),",
-    "<br>",
-    "and by <b>race/ethnicity</b> (&beta; = +0.36, p = 0.002)."
-  )
-  # As emissions increases, racial/ethnicity equity increases by +0.07 (p = 0.002)
-  # As emissions increases, overall equity increases by +0.02 (p = 0.001)
-  
-  
-  axis_min = floor(min(data$y, na.rm = TRUE) * 20) / 20 - 0.05
+    "<i>Findings</i>: as the natural log of regional emissions rises by 1, equity changes<br>",
+    paste(parts, collapse = ", "), ";<br>",
+    if (length(sig) == 0) "none is statistically significant at p < 0.05." else paste0("significant at p < 0.05: ", paste(sig, collapse = ", "), "."))
+  if (is.null(axis_min)) axis_min = floor(min(data$y, na.rm = TRUE) * 20) / 20 - 0.05
   
   # How does emissions trend with burden? 
   gg = ggplot() +
@@ -1563,7 +1559,7 @@ get_emissions_slopes = function(
           plot.title = element_text(hjust = 0.5),
           plot.caption = ggtext::element_markdown(hjust = 0, size = 10)) +
     labs(x = "Emissions (tons)",
-         y = paste0("Relative Emissions Exposure Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
+         y = paste0("Relative Emissions Exposure Equity Index\n(axis starts at ", sprintf("%.2f", axis_min), ")"),
          color = NULL, fill = "Index Type",
          title = "Relationships between Emissions and Equity",
          caption = message)
@@ -1893,7 +1889,8 @@ get_sensitivity_distance1 = function(
 get_sensitivity_distance2 = function(
     sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"),
     .pollutant = 110,
-    .year = 2022){
+    .year = 2022,
+    axis_min = NULL){   # lower limit of the index axis; NULL = computed from the plotted scores
   
   # Testing values
   # sensitivity_data = read_rds("test/stat_overall_sensitivity.rds"); .pollutant = 110; .year = 2022
@@ -1905,7 +1902,7 @@ get_sensitivity_distance2 = function(
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::tidy()
   lm(formula = total ~ log(dist/1000), data = data) %>% broom::glance()
   # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
-  axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
+  if (is.null(axis_min)) axis_min = floor(min(data$total, na.rm = TRUE) * 20) / 20 - 0.05
   
   gg = ggplot() +
     geom_line(data = data, mapping = aes(x = dist/1000, y = total, group = region),
@@ -1930,7 +1927,8 @@ get_sensitivity_distance3 = function(
     .metric = "total",
     pollutants = c(pm = 110, pm10 = 100, co2 = 98,  so2 = 31, nox = 3),
     .pollutant = 110,
-    .year = 2022){
+    .year = 2022,
+    axis_min = NULL){   # lower limit of the index axis; NULL = computed from the plotted scores
   
   # Show bands of variation
   data = sensitivity_data %>% 
@@ -1943,7 +1941,9 @@ get_sensitivity_distance3 = function(
               ymax = max(y, na.rm = TRUE),
               ymain = y[pollutant == 110])
   # Zoomed index axis (D13, 2026-11-19): lower limit computed from the plotted scores
-  axis_min = floor(min(data$ymin, na.rm = TRUE) * 20) / 20 - 0.05
+  if (is.null(axis_min)) axis_min = floor(min(data$ymin, na.rm = TRUE) * 20) / 20 - 0.05
+  # The axis squishes values below its lower limit, so a limit above the data would misdraw them: refuse it
+  stopifnot("axis_min is above the lowest plotted score" = axis_min <= min(data$ymin, na.rm = TRUE))
   
   # How much do things change by distance?
   # data = sensitivity_data %>%
