@@ -1490,27 +1490,22 @@ get_emissions_slopes = function(
       mutate(xtype = "Emissions Rate (per capita)")
   )
   
-  # Find significant statistics
-  data %>%
-    group_by(xtype, ytype) %>%
-    reframe(
-      lm(formula = y ~ log(x) )%>%
-        broom::tidy() %>%
-        filter(term == "log(x)")
-    ) %>%
-    filter(p.value < 0.10)
-  
+  # Findings caption, computed from the fits the plot draws: lm(index ~ log(emissions)) per index type, on the
+  # "Emissions" panel (the same model as emissions_slopes in results.json). Nothing here is typed by hand.
+  fits = data %>%
+    filter(xtype == "Emissions", ytype %in% c("total", "income", "race")) %>%
+    group_by(ytype) %>%
+    reframe(lm(formula = y ~ log(x)) %>% broom::tidy() %>% filter(term == "log(x)")) %>%
+    mutate(ytype = factor(ytype, levels = c("total", "income", "race"))) %>%
+    arrange(ytype)
+  type_label = c(total = "overall", income = "income", race = "race/ethnicity")
+  fmt_p = function(p) if_else(p < 0.001, "p < 0.001", sprintf("p = %.3f", p))
+  parts = with(fits, paste0("<b>", type_label[as.character(ytype)], "</b> (&beta; = ", sprintf("%+.3f", estimate), ", ", fmt_p(p.value), ")"))
+  sig = with(fits, type_label[as.character(ytype)][p.value < 0.05])
   message = paste0(
-    "<i>Significant Findings</i>: As the natural log of emissions increases by 1, regions see...",
-    "<br>",
-    "increased equity <b>overall</b> (&beta; = +0.11, p < 0.001), by <b>income</b> (&beta; = +0.06, p = 0.077),",
-    "<br>",
-    "and by <b>race/ethnicity</b> (&beta; = +0.36, p = 0.002)."
-  )
-  # As emissions increases, racial/ethnicity equity increases by +0.07 (p = 0.002)
-  # As emissions increases, overall equity increases by +0.02 (p = 0.001)
-  
-  
+    "<i>Findings</i>: as the natural log of regional emissions rises by 1, equity changes<br>",
+    paste(parts, collapse = ", "), ";<br>",
+    if (length(sig) == 0) "none is statistically significant at p < 0.05." else paste0("significant at p < 0.05: ", paste(sig, collapse = ", "), "."))
   if (is.null(axis_min)) axis_min = floor(min(data$y, na.rm = TRUE) * 20) / 20 - 0.05
   
   # How does emissions trend with burden? 
@@ -1564,7 +1559,7 @@ get_emissions_slopes = function(
           plot.title = element_text(hjust = 0.5),
           plot.caption = ggtext::element_markdown(hjust = 0, size = 10)) +
     labs(x = "Emissions (tons)",
-         y = paste0("Relative Emissions Exposure Equity Index (axis starts at ", sprintf("%.2f", axis_min), ")"),
+         y = paste0("Relative Emissions Exposure Equity Index\n(axis starts at ", sprintf("%.2f", axis_min), ")"),
          color = NULL, fill = "Index Type",
          title = "Relationships between Emissions and Equity",
          caption = message)
